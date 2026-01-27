@@ -1,24 +1,24 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import heroBanner from "@/assets/hero-banner.jpg";
-import product1 from "@/assets/product-1.jpg";
-import product3 from "@/assets/product-3.jpg";
+import slide1 from "@/assets/slide-1.png";
+import slide2 from "@/assets/slide-2.png";
+import slide3 from "@/assets/slide-3.png";
 
 const slides = [
   {
-    image: heroBanner,
-    title: "Cơ Sở Mây Tre Lá Dạ Lý Hương",
-    subtitle: "Chuyên sỉ & lẻ sản phẩm mây tre lá các loại",
-  },
-  {
-    image: product1,
-    title: "Giỏ Tre Gói Quà Tết",
+    image: slide1,
+    title: "Mây Tre Lá Kiều Sâm",
     subtitle: "Sản phẩm thủ công truyền thống Việt Nam",
   },
   {
-    image: product3,
-    title: "Túi Cỏ Bàng Thêu Hoa",
+    image: slide2,
+    title: "Túi Lục Bình Thêu Hoa",
     subtitle: "Thiết kế độc đáo, thân thiện môi trường",
+  },
+  {
+    image: slide3,
+    title: "Túi Cỏ Bàng Đeo Chéo",
+    subtitle: "Sản phẩm thủ công cao cấp",
   },
 ];
 
