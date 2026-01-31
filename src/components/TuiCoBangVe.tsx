@@ -1,15 +1,35 @@
 import CategorySectionHeader from "./CategorySectionHeader";
 import ProductCard from "./ProductCard";
-import product2 from "@/assets/product-2.jpg";
-import product5 from "@/assets/product-5.jpg";
-import product7 from "@/assets/product-7.jpg";
-import product8 from "@/assets/product-8.jpg";
 
 const products = [
-  { id: "13", image: product2, title: "Túi Sờ Bàng Thêu Hoa 02", price: 0, showContact: true },
-  { id: "14", image: product5, title: "Túi Sờ Bàng Thêu Hoa 01", price: 0, showContact: true },
-  { id: "15", image: product8, title: "Túi Cỏ Bàng Vẽ 07", price: 0, showContact: true },
-  { id: "16", image: product7, title: "Túi Cỏ Bàng Vẽ 06", price: 0, showContact: true },
+  {
+    id: "13",
+    image: "/product-2.jpg",
+    title: "Túi Sờ Bàng Thêu Hoa 02",
+    price: 0,
+    showContact: true,
+  },
+  {
+    id: "14",
+    image: "/product-5.jpg",
+    title: "Túi Sờ Bàng Thêu Hoa 01",
+    price: 0,
+    showContact: true,
+  },
+  {
+    id: "15",
+    image: "/product-8.jpg",
+    title: "Túi Cỏ Bàng Vẽ 07",
+    price: 0,
+    showContact: true,
+  },
+  {
+    id: "16",
+    image: "/product-7.jpg",
+    title: "Túi Cỏ Bàng Vẽ 06",
+    price: 0,
+    showContact: true,
+  },
 ];
 
 const TuiCoBangVe = () => {

@@ -1,14 +1,32 @@
 import CategorySectionHeader from "./CategorySectionHeader";
 import ProductCard from "./ProductCard";
-import product1 from "@/assets/product-1.jpg";
-import product3 from "@/assets/product-3.jpg";
-import product4 from "@/assets/product-4.jpg";
 
 const products = [
-  { id: "9", image: product1, title: "Giỏ Tre Chùm Gói Quà Tết", price: 15000 },
-  { id: "10", image: product3, title: "Giỏ Chữ Nhật Quai Trúc", price: 75000 },
-  { id: "11", image: product4, title: "Hộp Tre Gói Quà Màu", price: 140000, oldPrice: 150000 },
-  { id: "12", image: product1, title: "Hộp Tre Úp Gói Quà", price: 25000 },
+  {
+    id: "9",
+    image: "/product-1.jpg",
+    title: "Giỏ Tre Chùm Gói Quà Tết",
+    price: 15000,
+  },
+  {
+    id: "10",
+    image: "/product-3.jpg",
+    title: "Giỏ Chữ Nhật Quai Trúc",
+    price: 75000,
+  },
+  {
+    id: "11",
+    image: "/product-4.jpg",
+    title: "Hộp Tre Gói Quà Màu",
+    price: 140000,
+    oldPrice: 150000,
+  },
+  {
+    id: "12",
+    image: "/product-1.jpg",
+    title: "Hộp Tre Úp Gói Quà",
+    price: 25000,
+  },
 ];
 
 const HopVaGioQuaTet = () => {

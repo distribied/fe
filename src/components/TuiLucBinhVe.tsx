@@ -1,11 +1,21 @@
 import CategorySectionHeader from "./CategorySectionHeader";
 import ProductCard from "./ProductCard";
-import product6 from "@/assets/product-6.jpg";
-import product7 from "@/assets/product-7.jpg";
 
 const products = [
-  { id: "17", image: product6, title: "Túi Lục Bình Vẽ 03", price: 0, showContact: true },
-  { id: "18", image: product7, title: "Túi Lục Bình Vẽ 02", price: 0, showContact: true },
+  {
+    id: "17",
+    image: "/product-6.jpg",
+    title: "Túi Lục Bình Vẽ 03",
+    price: 0,
+    showContact: true,
+  },
+  {
+    id: "18",
+    image: "/product-7.jpg",
+    title: "Túi Lục Bình Vẽ 02",
+    price: 0,
+    showContact: true,
+  },
 ];
 
 const TuiLucBinhVe = () => {

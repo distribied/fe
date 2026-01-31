@@ -1,5 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 interface ProductCardProps {
   id: string;
@@ -10,7 +12,14 @@ interface ProductCardProps {
   showContact?: boolean;
 }
 
-const ProductCard = ({ id, image, title, price, oldPrice, showContact = false }: ProductCardProps) => {
+const ProductCard = ({
+  id,
+  image,
+  title,
+  price,
+  oldPrice,
+  showContact = false,
+}: ProductCardProps) => {
   const formatPrice = (value: number) => {
     return new Intl.NumberFormat("vi-VN").format(value) + "Đ";
   };
@@ -18,7 +27,10 @@ const ProductCard = ({ id, image, title, price, oldPrice, showContact = false }:
   return (
     <div className="bg-card rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-md transition-shadow group">
       {/* Image */}
-      <Link to={`/product/${id}`} className="block relative overflow-hidden aspect-square">
+      <Link
+        href={`/product/${id}`}
+        className="block relative overflow-hidden aspect-square"
+      >
         <img
           src={image}
           alt={title}
@@ -28,7 +40,7 @@ const ProductCard = ({ id, image, title, price, oldPrice, showContact = false }:
 
       {/* Content */}
       <div className="p-4">
-        <Link to={`/product/${id}`}>
+        <Link href={`/product/${id}`}>
           <h3 className="text-sm font-medium text-foreground mb-2 line-clamp-2 min-h-[2.5rem] hover:text-primary transition-colors">
             {title}
           </h3>
@@ -37,10 +49,14 @@ const ProductCard = ({ id, image, title, price, oldPrice, showContact = false }:
         {/* Price */}
         <div className="mb-3">
           {showContact ? (
-            <span className="text-destructive font-bold uppercase">Liên Hệ</span>
+            <span className="text-destructive font-bold uppercase">
+              Liên Hệ
+            </span>
           ) : (
             <div className="flex items-center gap-2">
-              {oldPrice && <span className="price-old">{formatPrice(oldPrice)}</span>}
+              {oldPrice && (
+                <span className="price-old">{formatPrice(oldPrice)}</span>
+              )}
               <span className="price-current">{formatPrice(price)}</span>
             </div>
           )}
@@ -54,7 +70,7 @@ const ProductCard = ({ id, image, title, price, oldPrice, showContact = false }:
             className="flex-1 text-xs border-primary text-primary hover:bg-primary hover:text-primary-foreground"
             asChild
           >
-            <Link to={`/product/${id}`}>Xem chi tiết</Link>
+            <Link href={`/product/${id}`}>Xem chi tiết</Link>
           </Button>
           <Button
             size="sm"

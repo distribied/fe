@@ -1,5 +1,11 @@
-import { MapPin, Phone, Mail, Clock, Facebook, MessageCircle } from "lucide-react";
-import logo from "@/assets/logo.png";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Facebook,
+  MessageCircle,
+} from "lucide-react";
 
 const Footer = () => {
   return (
@@ -9,18 +15,24 @@ const Footer = () => {
           {/* About */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="Kiều Sâm" className="h-12 w-12 object-contain bg-background rounded-full p-1" />
+              <img
+                src="/logo.png"
+                alt="Kiều Sâm"
+                className="h-36 w-36 object-contain bg-background rounded-full p-1"
+              />
               <h3 className="font-bold text-lg">Kiều Sâm</h3>
             </div>
             <p className="text-sm opacity-90 mb-4">
-              Chuyên sản xuất và cung cấp các sản phẩm mây tre lá thủ công truyền thống Việt Nam. 
-              Cam kết chất lượng, giá cả hợp lý.
+              Chuyên sản xuất và cung cấp các sản phẩm mây tre lá thủ công
+              truyền thống Việt Nam. Cam kết chất lượng, giá cả hợp lý.
             </p>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h3 className="font-bold text-lg mb-4 uppercase">Thông Tin Liên Hệ</h3>
+            <h3 className="font-bold text-lg mb-4 uppercase">
+              Thông Tin Liên Hệ
+            </h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
@@ -32,7 +44,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 flex-shrink-0" />
-                <span>dalyhuong@gmail.com</span>
+                <span>kieusam@gmail.com</span>
               </li>
               <li className="flex items-center gap-2">
                 <Clock className="h-4 w-4 flex-shrink-0" />
@@ -43,14 +55,40 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-lg mb-4 uppercase">Danh Mục Sản Phẩm</h3>
+            <h3 className="font-bold text-lg mb-4 uppercase">
+              Danh Mục Sản Phẩm
+            </h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:underline">Hộp Và Giỏ Quà Tết</a></li>
-              <li><a href="#" className="hover:underline">Túi Cỏ Bàng Vẽ</a></li>
-              <li><a href="#" className="hover:underline">Túi Lá Buông Vẽ</a></li>
-              <li><a href="#" className="hover:underline">Túi Lục Bình Vẽ</a></li>
-              <li><a href="#" className="hover:underline">Sản Phẩm Tre</a></li>
-              <li><a href="#" className="hover:underline">Giỏ Lục Bình</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Hộp Và Giỏ Quà Tết
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Túi Cỏ Bàng Vẽ
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Túi Lá Buông Vẽ
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Túi Lục Bình Vẽ
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Sản Phẩm Tre
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Giỏ Lục Bình
+                </a>
+              </li>
             </ul>
           </div>
 

@@ -1,25 +1,86 @@
-import Product3DPreview from "./Product3DPreview";
-import previewImage from "@/assets/preview-image.png";
-import product3d1 from "@/assets/product-3d-1.png";
-import product3d2 from "@/assets/product-3d-2.png";
+import Link from "next/link";
+
+const sideProducts = [
+  {
+    id: "1",
+    image: "/product-1.jpg",
+    title: "Giỏ Tre Gói Quà Tết",
+    price: 350000,
+    oldPrice: 450000,
+  },
+  {
+    id: "5",
+    image: "/product-5.jpg",
+    title: "Túi Bàng Quai Gỗ Vẽ",
+    price: 299000,
+  },
+  {
+    id: "6",
+    image: "/product-6.jpg",
+    title: "Ví Bàng Đeo Vai",
+    price: 270000,
+    oldPrice: 299000,
+  },
+];
+
+const formatPrice = (value: number) => {
+  return new Intl.NumberFormat("vi-VN").format(value) + "Đ";
+};
 
 const SideBanners = () => {
   return (
-    <div className="flex flex-col gap-2 h-full">
-      {/* 3D Product Preview 1 - 33% */}
-      <div className="flex-1 min-h-[120px]">
-        <Product3DPreview textureUrl={previewImage} />
+    <div className="flex flex-col gap-3 h-full">
+      {/* Section Title */}
+      <div className="bg-primary rounded-lg px-4 py-2">
+        <h3 className="text-primary-foreground font-bold text-sm text-center uppercase tracking-wide">
+          Sản Phẩm Bán Chạy
+        </h3>
       </div>
 
-      {/* 3D Product Preview 2 - 33% */}
-      <div className="flex-1 min-h-[120px]">
-        <Product3DPreview textureUrl={product3d1} />
-      </div>
+      {/* Product Cards */}
+      {sideProducts.map((product) => (
+        <Link
+          key={product.id}
+          href={`/product/${product.id}`}
+          className="group bg-card rounded-lg border border-border hover:border-primary hover:shadow-md transition-all overflow-hidden flex-1"
+        >
+          <div className="flex gap-3 p-3 h-full">
+            {/* Product Image */}
+            <div className="w-20 h-20 flex-shrink-0 rounded-md overflow-hidden bg-muted">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
 
-      {/* 3D Product Preview 3 - 33% */}
-      <div className="flex-1 min-h-[120px]">
-        <Product3DPreview textureUrl={product3d2} />
-      </div>
+            {/* Product Info */}
+            <div className="flex flex-col justify-center min-w-0">
+              <h4 className="text-sm font-medium text-foreground line-clamp-2 group-hover:text-primary transition-colors">
+                {product.title}
+              </h4>
+              <div className="mt-1 flex items-center gap-2">
+                {product.oldPrice && (
+                  <span className="text-xs text-muted-foreground line-through">
+                    {formatPrice(product.oldPrice)}
+                  </span>
+                )}
+                <span className="text-sm font-bold text-destructive">
+                  {formatPrice(product.price)}
+                </span>
+              </div>
+            </div>
+          </div>
+        </Link>
+      ))}
+
+      {/* View All Button */}
+      <Link
+        href="#"
+        className="text-center text-sm font-medium text-primary hover:text-primary/80 py-2 border border-dashed border-primary rounded-lg hover:bg-primary/5 transition-colors"
+      >
+        Xem tất cả →
+      </Link>
     </div>
   );
 };

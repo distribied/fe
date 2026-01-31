@@ -1,22 +1,21 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import slide1 from "@/assets/slide-1.png";
-import slide2 from "@/assets/slide-2.png";
-import slide3 from "@/assets/slide-3.png";
 
 const slides = [
   {
-    image: slide1,
+    image: "/slide-1.png",
     title: "Mây Tre Lá Kiều Sâm",
     subtitle: "Sản phẩm thủ công truyền thống Việt Nam",
   },
   {
-    image: slide2,
+    image: "/slide-2.png",
     title: "Túi Lục Bình Thêu Hoa",
     subtitle: "Thiết kế độc đáo, thân thiện môi trường",
   },
   {
-    image: slide3,
+    image: "/slide-3.png",
     title: "Túi Cỏ Bàng Đeo Chéo",
     subtitle: "Sản phẩm thủ công cao cấp",
   },
@@ -52,7 +51,10 @@ const HeroCarousel = () => {
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {slides.map((slide, index) => (
-          <div key={index} className="w-full flex-shrink-0 relative aspect-[16/9]">
+          <div
+            key={index}
+            className="w-full flex-shrink-0 relative aspect-[16/9]"
+          >
             <img
               src={slide.image}
               alt={slide.title}
@@ -60,7 +62,9 @@ const HeroCarousel = () => {
             />
             <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center">
               <div className="text-center text-primary-foreground">
-                <h2 className="text-2xl md:text-4xl font-bold mb-2">{slide.title}</h2>
+                <h2 className="text-2xl md:text-4xl font-bold mb-2">
+                  {slide.title}
+                </h2>
                 <p className="text-lg md:text-xl">{slide.subtitle}</p>
               </div>
             </div>
