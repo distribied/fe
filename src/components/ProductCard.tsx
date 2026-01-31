@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface ProductCardProps {
+  id: string;
   image: string;
   title: string;
   price: number;
@@ -8,7 +10,7 @@ interface ProductCardProps {
   showContact?: boolean;
 }
 
-const ProductCard = ({ image, title, price, oldPrice, showContact = false }: ProductCardProps) => {
+const ProductCard = ({ id, image, title, price, oldPrice, showContact = false }: ProductCardProps) => {
   const formatPrice = (value: number) => {
     return new Intl.NumberFormat("vi-VN").format(value) + "Đ";
   };
@@ -16,19 +18,21 @@ const ProductCard = ({ image, title, price, oldPrice, showContact = false }: Pro
   return (
     <div className="bg-card rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-md transition-shadow group">
       {/* Image */}
-      <div className="relative overflow-hidden aspect-square">
+      <Link to={`/product/${id}`} className="block relative overflow-hidden aspect-square">
         <img
           src={image}
           alt={title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-      </div>
+      </Link>
 
       {/* Content */}
       <div className="p-4">
-        <h3 className="text-sm font-medium text-foreground mb-2 line-clamp-2 min-h-[2.5rem]">
-          {title}
-        </h3>
+        <Link to={`/product/${id}`}>
+          <h3 className="text-sm font-medium text-foreground mb-2 line-clamp-2 min-h-[2.5rem] hover:text-primary transition-colors">
+            {title}
+          </h3>
+        </Link>
 
         {/* Price */}
         <div className="mb-3">
@@ -48,8 +52,9 @@ const ProductCard = ({ image, title, price, oldPrice, showContact = false }: Pro
             variant="outline"
             size="sm"
             className="flex-1 text-xs border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            asChild
           >
-            Xem chi tiết
+            <Link to={`/product/${id}`}>Xem chi tiết</Link>
           </Button>
           <Button
             size="sm"

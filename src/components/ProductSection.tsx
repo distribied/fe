@@ -2,6 +2,7 @@ import { ChevronRight } from "lucide-react";
 import ProductCard from "./ProductCard";
 
 interface Product {
+  id: string;
   image: string;
   title: string;
   price: number;
