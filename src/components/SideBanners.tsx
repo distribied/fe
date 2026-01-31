@@ -1,37 +1,45 @@
-import product1 from "@/assets/product-1.jpg";
-import product4 from "@/assets/product-4.jpg";
-import previewImage from "@/assets/preview-image.png";
+import Product3DPreview from "./Product3DPreview";
+import { Truck, Flame, Sparkles, Star } from "lucide-react";
 
 const SideBanners = () => {
   return (
-    <div className="space-y-4">
-      {/* Banner 1 - Preview Image */}
-      <div className="relative rounded-lg overflow-hidden shadow-sm border border-border">
-        <img
-          src={previewImage}
-          alt="Túi Cỏ Bàng Thêu Hoa"
-          className="w-full aspect-[4/3] object-cover"
-        />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-foreground/80 to-transparent p-4">
-          <p className="text-primary-foreground font-bold text-sm">
-            GIAO HÀNG TOÀN QUỐC
-          </p>
-        </div>
+    <div className="flex flex-col gap-2 h-full">
+      {/* 3D Product Preview - 50% */}
+      <div className="h-[50%] min-h-[200px]">
+        <Product3DPreview />
       </div>
 
-      {/* Banner 2 - Hot Sale */}
-      <div className="relative rounded-lg overflow-hidden shadow-sm border-2 border-destructive">
-        <div className="bg-destructive text-primary-foreground py-2 px-4 text-center">
-          <span className="font-bold">Hot Sale</span>
+      {/* Promotional Banners - 4 x 12.5% each = 50% */}
+      <div className="h-[50%] grid grid-cols-2 gap-2">
+        {/* GIAO HÀNG TOÀN QUỐC */}
+        <div className="bg-primary rounded-lg flex flex-col items-center justify-center p-3 text-center">
+          <Truck className="w-6 h-6 text-primary-foreground mb-1" />
+          <p className="text-primary-foreground font-bold text-xs leading-tight">
+            GIAO HÀNG<br />TOÀN QUỐC
+          </p>
         </div>
-        <img
-          src={product4}
-          alt="Nhà Mèo"
-          className="w-full aspect-square object-cover"
-        />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-foreground/80 to-transparent p-4">
-          <p className="text-primary-foreground font-bold text-lg text-center">
-            NHÀ MÈO
+
+        {/* Sản phẩm bán chạy */}
+        <div className="bg-destructive rounded-lg flex flex-col items-center justify-center p-3 text-center">
+          <Flame className="w-6 h-6 text-destructive-foreground mb-1" />
+          <p className="text-destructive-foreground font-bold text-xs leading-tight">
+            SẢN PHẨM<br />BÁN CHẠY
+          </p>
+        </div>
+
+        {/* Hàng mới về */}
+        <div className="bg-accent rounded-lg flex flex-col items-center justify-center p-3 text-center">
+          <Sparkles className="w-6 h-6 text-accent-foreground mb-1" />
+          <p className="text-accent-foreground font-bold text-xs leading-tight">
+            HÀNG MỚI<br />VỀ
+          </p>
+        </div>
+
+        {/* Sản phẩm giới hạn */}
+        <div className="bg-secondary border-2 border-primary rounded-lg flex flex-col items-center justify-center p-3 text-center">
+          <Star className="w-6 h-6 text-primary mb-1" />
+          <p className="text-secondary-foreground font-bold text-xs leading-tight">
+            SẢN PHẨM<br />GIỚI HẠN
           </p>
         </div>
       </div>
