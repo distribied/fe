@@ -2,11 +2,14 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useTexture, RoundedBox } from "@react-three/drei";
 import { useRef, Suspense } from "react";
 import * as THREE from "three";
-import previewImage from "@/assets/preview-image.png";
 
-const ProductBox = () => {
+interface ProductBoxProps {
+  textureUrl: string;
+}
+
+const ProductBox = ({ textureUrl }: ProductBoxProps) => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const texture = useTexture(previewImage);
+  const texture = useTexture(textureUrl);
 
   useFrame((state) => {
     if (meshRef.current) {
@@ -27,7 +30,11 @@ const ProductBox = () => {
   );
 };
 
-const Product3DPreview = () => {
+interface Product3DPreviewProps {
+  textureUrl: string;
+}
+
+const Product3DPreview = ({ textureUrl }: Product3DPreviewProps) => {
   return (
     <div className="w-full h-full bg-gradient-to-br from-secondary to-muted rounded-lg overflow-hidden">
       <Canvas camera={{ position: [0, 0, 4], fov: 45 }}>
@@ -35,7 +42,7 @@ const Product3DPreview = () => {
         <directionalLight position={[5, 5, 5]} intensity={0.8} />
         <pointLight position={[-5, -5, -5]} intensity={0.3} />
         <Suspense fallback={null}>
-          <ProductBox />
+          <ProductBox textureUrl={textureUrl} />
         </Suspense>
         <OrbitControls
           enableZoom={false}
