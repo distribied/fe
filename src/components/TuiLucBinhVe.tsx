@@ -4,8 +4,8 @@ import product6 from "@/assets/product-6.jpg";
 import product7 from "@/assets/product-7.jpg";
 
 const products = [
-  { image: product6, title: "Túi Lục Bình Vẽ 03", price: 0, showContact: true },
-  { image: product7, title: "Túi Lục Bình Vẽ 02", price: 0, showContact: true },
+  { id: "17", image: product6, title: "Túi Lục Bình Vẽ 03", price: 0, showContact: true },
+  { id: "18", image: product7, title: "Túi Lục Bình Vẽ 02", price: 0, showContact: true },
 ];
 
 const TuiLucBinhVe = () => {

@@ -9,8 +9,8 @@ const Footer = () => {
           {/* About */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="Dạ Lý Hương" className="h-12 w-12 object-contain bg-background rounded-full p-1" />
-              <h3 className="font-bold text-lg">Dạ Lý Hương</h3>
+              <img src={logo} alt="Kiều Sâm" className="h-12 w-12 object-contain bg-background rounded-full p-1" />
+              <h3 className="font-bold text-lg">Kiều Sâm</h3>
             </div>
             <p className="text-sm opacity-90 mb-4">
               Chuyên sản xuất và cung cấp các sản phẩm mây tre lá thủ công truyền thống Việt Nam. 
@@ -81,7 +81,7 @@ const Footer = () => {
       {/* Copyright */}
       <div className="border-t border-primary-foreground/20 py-4">
         <div className="container mx-auto px-4 text-center text-sm opacity-80">
-          © 2024 Cơ Sở Mây Tre Lá Dạ Lý Hương. Tất cả quyền được bảo lưu.
+          © 2024 Cơ Sở Mây Tre Lá Kiều Sâm. Tất cả quyền được bảo lưu.
         </div>
       </div>
     </footer>

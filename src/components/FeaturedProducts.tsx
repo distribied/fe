@@ -9,14 +9,14 @@ import product7 from "@/assets/product-7.jpg";
 import product8 from "@/assets/product-8.jpg";
 
 const featuredProducts = [
-  { image: product1, title: "Giỏ Tre Chùm Gói Quà Tết", price: 15000 },
-  { image: product3, title: "Giỏ Chữ Nhật Quai Trúc", price: 75000 },
-  { image: product4, title: "Hộp Tre Gói Quà Màu", price: 140000, oldPrice: 150000 },
-  { image: product2, title: "Túi Cỏ Bàng Hoa", price: 265000 },
-  { image: product5, title: "Túi Bàng Quai Gỗ Vẽ", price: 299000, oldPrice: 330000 },
-  { image: product6, title: "Ví Bàng Vầng Trăng Đeo Vai", price: 270000, oldPrice: 299000 },
-  { image: product7, title: "Ví Bàng Cầm Tay Thêu Hoa", price: 265000, oldPrice: 285000 },
-  { image: product8, title: "Túi Cỏ Bàng Vẽ Biển", price: 285000 },
+  { id: "1", image: product1, title: "Giỏ Tre Chùm Gói Quà Tết", price: 15000 },
+  { id: "2", image: product3, title: "Giỏ Chữ Nhật Quai Trúc", price: 75000 },
+  { id: "3", image: product4, title: "Hộp Tre Gói Quà Màu", price: 140000, oldPrice: 150000 },
+  { id: "4", image: product2, title: "Túi Cỏ Bàng Hoa", price: 265000 },
+  { id: "5", image: product5, title: "Túi Bàng Quai Gỗ Vẽ", price: 299000, oldPrice: 330000 },
+  { id: "6", image: product6, title: "Ví Bàng Vầng Trăng Đeo Vai", price: 270000, oldPrice: 299000 },
+  { id: "7", image: product7, title: "Ví Bàng Cầm Tay Thêu Hoa", price: 265000, oldPrice: 285000 },
+  { id: "8", image: product8, title: "Túi Cỏ Bàng Vẽ Biển", price: 285000 },
 ];
 
 const FeaturedProducts = () => {
