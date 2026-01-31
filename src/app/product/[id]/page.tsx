@@ -189,14 +189,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {/* Contact Info */}
                 <div className="mt-6 p-4 bg-muted rounded-lg">
                   <p className="text-sm text-muted-foreground">
-                    <strong>Hotline:</strong> 0905.584.119 - 0984.702.701
+                    <strong>Hotline:</strong> 0907.882.878
                   </p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    <strong>Địa chỉ:</strong> 42 Hồ Bá Phấn - P.Phước Long A -
-                    Quận 9 - TPHCM
+                    <strong>Địa chỉ:</strong> 500/3 Đường Đoàn Văn Bơ, Phường 15,
+                    Quận 4, TP.HCM
                   </p>
                 </div>
-              </div>
+              </div>  
             </div>
           </div>
 

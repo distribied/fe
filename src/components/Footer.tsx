@@ -36,11 +36,11 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <span>42 Hồ Bá Phấn - P.Phước Long A - Quận 9 - TPHCM</span>
+                <span>500/3 Đường Đoàn Văn Bơ, Phường 15, Quận 4, TP.HCM</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 flex-shrink-0" />
-                <span>0905.584.119 - 0984.702.701</span>
+                <span>0907.882.878</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 flex-shrink-0" />

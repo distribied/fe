@@ -131,3 +131,37 @@
     @apply line-through text-sm;
   }
 }
+
+/* Wave animations for FeaturedProducts */
+@keyframes wave-slow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes wave-medium {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes wave-fast {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-wave-slow {
+  animation: wave-slow 8s linear infinite;
+}
+
+.animate-wave-medium {
+  animation: wave-medium 6s linear infinite;
+}
+
+.animate-wave-fast {
+  animation: wave-fast 4s linear infinite;
+}
+
+/* Shimmer animation for header */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

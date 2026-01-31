@@ -39,42 +39,46 @@ const ProductCard = ({
       </Link>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-2 sm:p-3 md:p-4">
         <Link href={`/product/${id}`}>
-          <h3 className="text-sm font-medium text-foreground mb-2 line-clamp-2 min-h-[2.5rem] hover:text-primary transition-colors">
+          <h3 className="text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-2 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] hover:text-primary transition-colors">
             {title}
           </h3>
         </Link>
 
         {/* Price */}
-        <div className="mb-3">
+        <div className="mb-2 sm:mb-3">
           {showContact ? (
-            <span className="text-destructive font-bold uppercase">
+            <span className="text-destructive font-bold uppercase text-xs sm:text-sm">
               Liên Hệ
             </span>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
               {oldPrice && (
-                <span className="price-old">{formatPrice(oldPrice)}</span>
+                <span className="price-old text-xs">
+                  {formatPrice(oldPrice)}
+                </span>
               )}
-              <span className="price-current">{formatPrice(price)}</span>
+              <span className="price-current text-xs sm:text-sm">
+                {formatPrice(price)}
+              </span>
             </div>
           )}
         </div>
 
         {/* Buttons */}
-        <div className="flex gap-2">
+        <div className="flex gap-1 sm:gap-2">
           <Button
             variant="outline"
             size="sm"
-            className="flex-1 text-xs border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            className="flex-1 text-[10px] sm:text-xs px-1 sm:px-2 h-7 sm:h-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
             asChild
           >
-            <Link href={`/product/${id}`}>Xem chi tiết</Link>
+            <Link href={`/product/${id}`}>Chi tiết</Link>
           </Button>
           <Button
             size="sm"
-            className="flex-1 text-xs bg-accent text-accent-foreground hover:opacity-90"
+            className="flex-1 text-[10px] sm:text-xs px-1 sm:px-2 h-7 sm:h-8 bg-accent text-accent-foreground hover:opacity-90"
           >
             Mua ngay
           </Button>

@@ -43,9 +43,9 @@ const Header = () => {
   const navItems = [
     { name: "Trang Chủ", href: "/", icon: Home },
     { name: "Giới Thiệu", href: "#gioi-thieu", icon: Info },
-    { name: "Album Hoạt Động", href: "#album", icon: Image },
     { name: "Tin Tức & Video", href: "#tin-tuc", icon: Newspaper },
-    { name: "Liên Hệ", href: "#lien-he", icon: Mail },
+    { name: "Liên Hệ & Tư Vấn", href: "#lien-he", icon: Mail },
+    { name: "Album Hoạt Động", href: "#album", icon: Image },
   ];
 
   // Scroll handler with hysteresis to prevent jittering
@@ -103,7 +103,7 @@ const Header = () => {
         style={{ transition: "height 150ms ease-out" }}
       >
         <span className="whitespace-nowrap leading-8 md:leading-10 block">
-          Địa chỉ: 42 Hồ Bá Phấn - P.Phước Long A - Quận 9 - TPHCM
+          Địa chỉ: 500/3 Đường Đoàn Văn Bơ, Phường 15, Quận 4, TP.HCM
         </span>
       </div>
 
@@ -137,7 +137,7 @@ const Header = () => {
                   className={`font-serif text-primary italic font-bold ${
                     isScrolled
                       ? "text-base md:text-lg"
-                      : "text-lg md:text-xl lg:text-2xl"
+                      : "text-lg md:text-xl lg:text-2xl ml-10"
                   }`}
                   style={{ transition: "font-size 150ms ease-out" }}
                 >
@@ -145,7 +145,7 @@ const Header = () => {
                 </h1>
                 <p
                   className={`text-muted-foreground italic ${
-                    isScrolled ? "text-xs" : "text-xs md:text-sm"
+                    isScrolled ? "text-xs" : "text-xs md:text-sm ml-10"
                   }`}
                   style={{ transition: "font-size 150ms ease-out" }}
                 >
@@ -175,9 +175,7 @@ const Header = () => {
                 <Phone className="h-5 w-5 text-primary" />
                 <div className="text-sm">
                   <span className="text-muted-foreground">Hotline: </span>
-                  <span className="font-bold">0905.584.119</span>
-                  <span className="mx-1">|</span>
-                  <span className="font-bold">0984.702.701</span>
+                  <span className="font-bold">0907.882.878</span>
                 </div>
               </div>
             </div>
