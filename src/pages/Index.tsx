@@ -7,10 +7,8 @@ import FeaturedProducts from "@/components/FeaturedProducts";
 import HopVaGioQuaTet from "@/components/HopVaGioQuaTet";
 import TuiCoBangVe from "@/components/TuiCoBangVe";
 import TuiLucBinhVe from "@/components/TuiLucBinhVe";
-
 const Index = () => {
-  return (
-    <div className="min-h-screen flex flex-col bg-muted">
+  return <div className="min-h-screen flex flex-col bg-muted">
       <Header />
 
       <main className="flex-1">
@@ -18,9 +16,7 @@ const Index = () => {
           {/* Hero section with sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
             {/* Category sidebar */}
-            <aside className="lg:col-span-3 hidden lg:block">
-              <CategorySidebar />
-            </aside>
+            
 
             {/* Main carousel */}
             <div className="lg:col-span-6">
@@ -44,8 +40,6 @@ const Index = () => {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
