@@ -1,0 +1,47 @@
+{
+  "common": {
+    "home": "홈",
+    "products": "제품",
+    "about": "소개",
+    "contact": "연락처",
+    "search": "검색",
+    "cart": "장바구니",
+    "login": "로그인",
+    "register": "회원가입",
+    "logout": "로그아웃",
+    "language": "언어"
+  },
+  "footer": {
+    "about_description": "베트남 전통 수공예 등나무 및 대나무 제품을 전문으로 생산 및 공급합니다. 품질 보증, 합리적인 가격.",
+    "contact_info": "연락처 정보",
+    "product_categories": "제품 카테고리",
+    "connect": "팔로우",
+    "follow_us": "새 제품과 특별 할인 정보를 받아보세요!",
+    "copyright": "© 2024 키에우삼 등나무 & 대나무 공예. 모든 권리 보유.",
+    "hours": "8:00 - 20:00 (월~일)"
+  },
+  "products": {
+    "featured": "추천 제품",
+    "new_arrivals": "신상품",
+    "best_sellers": "베스트셀러",
+    "add_to_cart": "장바구니에 추가",
+    "buy_now": "바로 구매",
+    "view_details": "상세 보기",
+    "price": "가격",
+    "in_stock": "재고 있음",
+    "out_of_stock": "품절"
+  },
+  "categories": {
+    "gift_boxes": "선물 상자 & 설날 바구니",
+    "grass_bags_painted": "페인팅 풀 가방",
+    "palm_bags_painted": "페인팅 야자잎 가방",
+    "hyacinth_bags_painted": "페인팅 워터 히아신스 가방",
+    "bamboo_products": "대나무 제품",
+    "hyacinth_baskets": "워터 히아신스 바구니"
+  },
+  "not_found": {
+    "title": "페이지를 찾을 수 없습니다",
+    "description": "찾으시는 페이지가 존재하지 않거나 이동되었습니다.",
+    "back_home": "홈으로 돌아가기"
+  }
+}

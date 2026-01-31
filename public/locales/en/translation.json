@@ -1,0 +1,47 @@
+{
+  "common": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About",
+    "contact": "Contact",
+    "search": "Search",
+    "cart": "Cart",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "language": "Language"
+  },
+  "footer": {
+    "about_description": "Specializing in producing and supplying traditional Vietnamese handcrafted rattan and bamboo products. Committed to quality and reasonable prices.",
+    "contact_info": "Contact Information",
+    "product_categories": "Product Categories",
+    "connect": "Connect",
+    "follow_us": "Follow us for new products and attractive offers!",
+    "copyright": "© 2024 Kieu Sam Rattan & Bamboo Craft. All rights reserved.",
+    "hours": "8:00 - 20:00 (Mon - Sun)"
+  },
+  "products": {
+    "featured": "Featured Products",
+    "new_arrivals": "New Arrivals",
+    "best_sellers": "Best Sellers",
+    "add_to_cart": "Add to Cart",
+    "buy_now": "Buy Now",
+    "view_details": "View Details",
+    "price": "Price",
+    "in_stock": "In Stock",
+    "out_of_stock": "Out of Stock"
+  },
+  "categories": {
+    "gift_boxes": "Gift Boxes & Tet Baskets",
+    "grass_bags_painted": "Painted Grass Bags",
+    "palm_bags_painted": "Painted Palm Leaf Bags",
+    "hyacinth_bags_painted": "Painted Water Hyacinth Bags",
+    "bamboo_products": "Bamboo Products",
+    "hyacinth_baskets": "Water Hyacinth Baskets"
+  },
+  "not_found": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "back_home": "Back to Home"
+  }
+}

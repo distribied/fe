@@ -192,11 +192,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     <strong>Hotline:</strong> 0907.882.878
                   </p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    <strong>Địa chỉ:</strong> 500/3 Đường Đoàn Văn Bơ, Phường 15,
-                    Quận 4, TP.HCM
+                    <strong>Địa chỉ:</strong> 500/3 Đường Đoàn Văn Bơ, Phường
+                    15, Quận 4, TP.HCM
                   </p>
                 </div>
-              </div>  
+              </div>
             </div>
           </div>
 
@@ -214,7 +214,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );

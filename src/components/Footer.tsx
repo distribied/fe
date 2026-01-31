@@ -1,3 +1,5 @@
+"use client";
+
 import {
   MapPin,
   Phone,
@@ -6,8 +8,12 @@ import {
   Facebook,
   MessageCircle,
 } from "lucide-react";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-primary text-primary-foreground mt-12">
       <div className="container mx-auto px-4 py-12">
@@ -23,15 +29,14 @@ const Footer = () => {
               <h3 className="font-bold text-lg">Kiều Sâm</h3>
             </div>
             <p className="text-sm opacity-90 mb-4">
-              Chuyên sản xuất và cung cấp các sản phẩm mây tre lá thủ công
-              truyền thống Việt Nam. Cam kết chất lượng, giá cả hợp lý.
+              {t("footer.about_description")}
             </p>
           </div>
 
           {/* Contact Info */}
           <div>
             <h3 className="font-bold text-lg mb-4 uppercase">
-              Thông Tin Liên Hệ
+              {t("footer.contact_info")}
             </h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
@@ -48,7 +53,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Clock className="h-4 w-4 flex-shrink-0" />
-                <span>8:00 - 20:00 (Thứ 2 - Chủ Nhật)</span>
+                <span>{t("footer.hours")}</span>
               </li>
             </ul>
           </div>
@@ -56,37 +61,37 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h3 className="font-bold text-lg mb-4 uppercase">
-              Danh Mục Sản Phẩm
+              {t("footer.product_categories")}
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="#" className="hover:underline">
-                  Hộp Và Giỏ Quà Tết
+                  {t("categories.gift_boxes")}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Túi Cỏ Bàng Vẽ
+                  {t("categories.grass_bags_painted")}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Túi Lá Buông Vẽ
+                  {t("categories.palm_bags_painted")}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Túi Lục Bình Vẽ
+                  {t("categories.hyacinth_bags_painted")}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Sản Phẩm Tre
+                  {t("categories.bamboo_products")}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Giỏ Lục Bình
+                  {t("categories.hyacinth_baskets")}
                 </a>
               </li>
             </ul>
@@ -94,7 +99,9 @@ const Footer = () => {
 
           {/* Social & Support */}
           <div>
-            <h3 className="font-bold text-lg mb-4 uppercase">Kết Nối</h3>
+            <h3 className="font-bold text-lg mb-4 uppercase">
+              {t("footer.connect")}
+            </h3>
             <div className="flex gap-3 mb-4">
               <a
                 href="#"
@@ -109,9 +116,15 @@ const Footer = () => {
                 <MessageCircle className="h-5 w-5" />
               </a>
             </div>
-            <p className="text-sm opacity-90">
-              Theo dõi chúng tôi để cập nhật sản phẩm mới và ưu đãi hấp dẫn!
-            </p>
+            <p className="text-sm opacity-90 mb-4">{t("footer.follow_us")}</p>
+
+            {/* Language Switcher */}
+            <div className="mt-4">
+              <h4 className="font-medium text-sm mb-2 opacity-80">
+                {t("common.language")}
+              </h4>
+              <LanguageSwitcher />
+            </div>
           </div>
         </div>
       </div>
@@ -119,7 +132,7 @@ const Footer = () => {
       {/* Copyright */}
       <div className="border-t border-primary-foreground/20 py-4">
         <div className="container mx-auto px-4 text-center text-sm opacity-80">
-          © 2024 Cơ Sở Mây Tre Lá Kiều Sâm. Tất cả quyền được bảo lưu.
+          {t("footer.copyright")}
         </div>
       </div>
     </footer>

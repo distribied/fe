@@ -1,0 +1,47 @@
+{
+  "common": {
+    "home": "Trang chủ",
+    "products": "Sản phẩm",
+    "about": "Giới thiệu",
+    "contact": "Liên hệ",
+    "search": "Tìm kiếm",
+    "cart": "Giỏ hàng",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "logout": "Đăng xuất",
+    "language": "Ngôn ngữ"
+  },
+  "footer": {
+    "about_description": "Chuyên sản xuất và cung cấp các sản phẩm mây tre lá thủ công truyền thống Việt Nam. Cam kết chất lượng, giá cả hợp lý.",
+    "contact_info": "Thông Tin Liên Hệ",
+    "product_categories": "Danh Mục Sản Phẩm",
+    "connect": "Kết Nối",
+    "follow_us": "Theo dõi chúng tôi để cập nhật sản phẩm mới và ưu đãi hấp dẫn!",
+    "copyright": "© 2024 Cơ Sở Mây Tre Lá Kiều Sâm. Tất cả quyền được bảo lưu.",
+    "hours": "8:00 - 20:00 (Thứ 2 - Chủ Nhật)"
+  },
+  "products": {
+    "featured": "Sản Phẩm Nổi Bật",
+    "new_arrivals": "Hàng Mới Về",
+    "best_sellers": "Bán Chạy Nhất",
+    "add_to_cart": "Thêm vào giỏ",
+    "buy_now": "Mua ngay",
+    "view_details": "Xem chi tiết",
+    "price": "Giá",
+    "in_stock": "Còn hàng",
+    "out_of_stock": "Hết hàng"
+  },
+  "categories": {
+    "gift_boxes": "Hộp Và Giỏ Quà Tết",
+    "grass_bags_painted": "Túi Cỏ Bàng Vẽ",
+    "palm_bags_painted": "Túi Lá Buông Vẽ",
+    "hyacinth_bags_painted": "Túi Lục Bình Vẽ",
+    "bamboo_products": "Sản Phẩm Tre",
+    "hyacinth_baskets": "Giỏ Lục Bình"
+  },
+  "not_found": {
+    "title": "Không tìm thấy trang",
+    "description": "Có vẻ như trang bạn đang tìm kiếm không tồn tại hoặc đã được chuyển đi.",
+    "back_home": "Về trang chủ"
+  }
+}
