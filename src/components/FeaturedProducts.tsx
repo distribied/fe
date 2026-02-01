@@ -1,6 +1,7 @@
 "use client";
 
 import ProductCard from "./ProductCard";
+import { useTranslation } from "react-i18next";
 
 const featuredProducts = [
   {
@@ -53,6 +54,8 @@ const featuredProducts = [
 ];
 
 const FeaturedProducts = () => {
+  const { t } = useTranslation();
+  
   return (
     <section className="mb-8">
       {/* Section header with decorative background */}
@@ -76,7 +79,7 @@ const FeaturedProducts = () => {
           />
 
           <h3 className="relative text-xl sm:text-2xl md:text-3xl font-bold text-primary-foreground text-center uppercase tracking-wider">
-            ✨ Sản Phẩm Nổi Bật ✨
+            ✨ {t("products.featured")} ✨
           </h3>
         </div>
 

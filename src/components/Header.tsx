@@ -14,39 +14,42 @@ import {
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-
-const categories = [
-  "Hộp Và Giỏ Quà Tết",
-  "Ví Cỏ Bàng",
-  "Túi Lá Buông Vẽ",
-  "Túi Cỏ Bàng Vẽ",
-  "Túi Lục Bình Vẽ",
-  "Sản Phẩm Tổng Hợp",
-  "Khay Mây Có Vải",
-  "Túi Cỏ Bàng",
-  "Sản Phẩm Tre",
-  "Giỏ Lục Bình",
-  "Giỏ Cói",
-  "Giỏ Lá Buông",
-  "Nhà Mèo Bằng Rơm, Cói",
-  "Sọt Mây, Tre, Sọt Đựng Áo Quần",
-  "Thảm Cói, Thảm Lục Bình",
-];
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
+  const { t } = useTranslation();
+  
+  const categories = [
+    t("header.categories.gift_boxes"),
+    t("header.categories.grass_wallet"),
+    t("header.categories.palm_bags_painted"),
+    t("header.categories.grass_bags_painted"),
+    t("header.categories.hyacinth_bags_painted"),
+    t("header.categories.mixed_products"),
+    t("header.categories.wicker_trays"),
+    t("header.categories.grass_bags"),
+    t("header.categories.bamboo_products"),
+    t("header.categories.hyacinth_baskets"),
+    t("header.categories.straw_baskets"),
+    t("header.categories.palm_baskets"),
+    t("header.categories.cat_houses"),
+    t("header.categories.storage_baskets"),
+    t("header.categories.mats"),
+  ];
+
+  const navItems = [
+    { name: t("header.nav.home"), href: "/", icon: Home },
+    { name: t("header.nav.about"), href: "#gioi-thieu", icon: Info },
+    { name: t("header.nav.news"), href: "#tin-tuc", icon: Newspaper },
+    { name: t("header.nav.contact"), href: "#lien-he", icon: Mail },
+    { name: t("header.nav.album"), href: "#album", icon: Image },
+  ];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const categoryRef = useRef<HTMLDivElement>(null);
-
-  const navItems = [
-    { name: "Trang Chủ", href: "/", icon: Home },
-    { name: "Giới Thiệu", href: "#gioi-thieu", icon: Info },
-    { name: "Tin Tức & Video", href: "#tin-tuc", icon: Newspaper },
-    { name: "Liên Hệ & Tư Vấn", href: "#lien-he", icon: Mail },
-    { name: "Album Hoạt Động", href: "#album", icon: Image },
-  ];
 
   // Scroll handler with hysteresis to prevent jittering
   useEffect(() => {
@@ -103,7 +106,7 @@ const Header = () => {
         style={{ transition: "height 150ms ease-out" }}
       >
         <span className="whitespace-nowrap leading-8 md:leading-10 block">
-          Địa chỉ: 500/3 Đường Đoàn Văn Bơ, Phường 15, Quận 4, TP.HCM
+          {t("header.address")}
         </span>
       </div>
 
@@ -160,7 +163,7 @@ const Header = () => {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Bạn cần tìm gì?"
+                  placeholder={t("header.search_placeholder")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="border border-input rounded-full py-2 px-4 pr-10 w-64 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background transition-shadow duration-150"
@@ -174,10 +177,13 @@ const Header = () => {
               <div className="flex items-center gap-2 text-foreground">
                 <Phone className="h-5 w-5 text-primary" />
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Hotline: </span>
+                  <span className="text-muted-foreground">{t("header.hotline")}: </span>
                   <span className="font-bold">0907.882.878</span>
                 </div>
               </div>
+
+              {/* Language Switcher */}
+              <LanguageSwitcher />
             </div>
           </div>
         </div>
@@ -194,7 +200,7 @@ const Header = () => {
                 className="bg-primary text-primary-foreground py-3 px-4 flex items-center gap-2 font-semibold border-r border-primary-foreground/20 hover:bg-primary-foreground/10 transition-colors duration-150"
               >
                 <Menu className="h-5 w-5" />
-                <span className="hidden md:inline">DANH MỤC SẢN PHẨM</span>
+                <span className="hidden md:inline">{t("header.category_menu")}</span>
                 <ChevronDown
                   className="h-4 w-4 transition-transform duration-200 ease-out"
                   style={{
@@ -276,7 +282,7 @@ const Header = () => {
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Bạn cần tìm gì?"
+                    placeholder={t("header.search_placeholder")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="border border-input rounded-full py-2 px-4 pr-10 w-full text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background transition-shadow duration-150"
@@ -302,6 +308,11 @@ const Header = () => {
                   </Link>
                 );
               })}
+
+              {/* Mobile Language Switcher */}
+              <div className="px-4 py-3 border-t border-primary-foreground/20">
+                <LanguageSwitcher />
+              </div>
             </div>
           </div>
         </div>

@@ -1,5 +1,8 @@
+"use client";
+
 import { ChevronRight } from "lucide-react";
 import ProductCard from "./ProductCard";
+import { useTranslation } from "react-i18next";
 
 interface Product {
   id: string;
@@ -17,6 +20,8 @@ interface ProductSectionProps {
 }
 
 const ProductSection = ({ title, products, icon }: ProductSectionProps) => {
+  const { t } = useTranslation();
+  
   return (
     <section className="mb-8">
       {/* Section header */}
@@ -33,7 +38,7 @@ const ProductSection = ({ title, products, icon }: ProductSectionProps) => {
           href="#"
           className="flex items-center gap-1 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity"
         >
-          Xem Tất Cả
+          {t("products.view_all")}
           <ChevronRight className="h-4 w-4" />
         </a>
       </div>

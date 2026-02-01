@@ -20,7 +20,7 @@ export function TranslationProvider({ children }: TranslationProviderProps) {
       const savedLang = localStorage.getItem(
         "i18nextLng",
       ) as SupportedLanguage | null;
-      if (savedLang && ["vi", "en", "zh", "ja", "ko"].includes(savedLang)) {
+      if (savedLang && ["vi", "en"].includes(savedLang)) {
         setDefaultLanguage(savedLang);
       }
       setIsInitialized(true);

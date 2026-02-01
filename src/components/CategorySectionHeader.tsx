@@ -1,4 +1,7 @@
+"use client";
+
 import { ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface CategorySectionHeaderProps {
   title: string;
@@ -9,6 +12,8 @@ const CategorySectionHeader = ({
   title,
   href = "#",
 }: CategorySectionHeaderProps) => {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex items-center justify-between mb-4 md:mb-6 gap-2">
       {/* Left side with icon and title */}
@@ -44,8 +49,8 @@ const CategorySectionHeader = ({
         href={href}
         className="flex items-center gap-0.5 md:gap-1 bg-primary text-primary-foreground px-2 md:px-4 py-1.5 md:py-2 rounded text-xs md:text-sm font-medium hover:opacity-90 transition-opacity flex-shrink-0"
       >
-        <span className="hidden sm:inline">Xem Tất Cả</span>
-        <span className="sm:hidden">Xem</span>
+        <span className="hidden sm:inline">{t("products.view_all")}</span>
+        <span className="sm:hidden">{t("products.view_all").split(" ")[0]}</span>
         <ChevronRight className="h-3 w-3 md:h-4 md:w-4" />
       </a>
     </div>

@@ -11,6 +11,36 @@
     "logout": "Đăng xuất",
     "language": "Ngôn ngữ"
   },
+  "header": {
+    "address": "Địa chỉ: 500/3 Đường Đoàn Văn Bơ, Phường 15, Quận 4, TP.HCM",
+    "hotline": "Hotline",
+    "search_placeholder": "Bạn cần tìm gì?",
+    "category_menu": "DANH MỤC SẢN PHẨM",
+    "nav": {
+      "home": "Trang Chủ",
+      "about": "Giới Thiệu",
+      "news": "Tin Tức & Video",
+      "contact": "Liên Hệ & Tư Vấn",
+      "album": "Album Hoạt Động"
+    },
+    "categories": {
+      "gift_boxes": "Hộp Và Giỏ Quà Tết",
+      "grass_wallet": "Ví Cỏ Bàng",
+      "palm_bags_painted": "Túi Lá Buông Vẽ",
+      "grass_bags_painted": "Túi Cỏ Bàng Vẽ",
+      "hyacinth_bags_painted": "Túi Lục Bình Vẽ",
+      "mixed_products": "Sản Phẩm Tổng Hợp",
+      "wicker_trays": "Khay Mây Có Vải",
+      "grass_bags": "Túi Cỏ Bàng",
+      "bamboo_products": "Sản Phẩm Tre",
+      "hyacinth_baskets": "Giỏ Lục Bình",
+      "straw_baskets": "Giỏ Cói",
+      "palm_baskets": "Giỏ Lá Buông",
+      "cat_houses": "Nhà Mèo Bằng Rơm, Cói",
+      "storage_baskets": "Sọt Mây, Tre, Sọt Đựng Áo Quần",
+      "mats": "Thảm Cói, Thảm Lục Bình"
+    }
+  },
   "footer": {
     "about_description": "Chuyên sản xuất và cung cấp các sản phẩm mây tre lá thủ công truyền thống Việt Nam. Cam kết chất lượng, giá cả hợp lý.",
     "contact_info": "Thông Tin Liên Hệ",
@@ -26,10 +56,12 @@
     "best_sellers": "Bán Chạy Nhất",
     "add_to_cart": "Thêm vào giỏ",
     "buy_now": "Mua ngay",
-    "view_details": "Xem chi tiết",
+    "view_details": "Chi tiết",
     "price": "Giá",
     "in_stock": "Còn hàng",
-    "out_of_stock": "Hết hàng"
+    "out_of_stock": "Hết hàng",
+    "contact": "Liên Hệ",
+    "view_all": "Xem Tất Cả"
   },
   "categories": {
     "gift_boxes": "Hộp Và Giỏ Quà Tết",
