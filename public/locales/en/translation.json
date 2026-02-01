@@ -15,7 +15,7 @@
     "address": "Address: 500/3 Doan Van Bo Street, Ward 15, District 4, HCMC",
     "hotline": "Hotline",
     "search_placeholder": "What are you looking for?",
-    "category_menu": "PRODUCT CATEGORIES",
+    "category_menu": "CATEGORIES",
     "nav": {
       "home": "Home",
       "about": "About",
@@ -61,7 +61,12 @@
     "in_stock": "In Stock",
     "out_of_stock": "Out of Stock",
     "contact": "Contact",
-    "view_all": "View All"
+    "view_all": "View All",
+    "description": "Product Description",
+    "consult": "Contact for Consultation",
+    "save": "Save",
+    "hotline_label": "Hotline",
+    "address_label": "Address"
   },
   "categories": {
     "gift_boxes": "Gift Boxes & Tet Baskets",

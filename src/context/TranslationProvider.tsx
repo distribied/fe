@@ -22,15 +22,13 @@ export function TranslationProvider({ children }: TranslationProviderProps) {
       ) as SupportedLanguage | null;
       if (savedLang && ["vi", "en"].includes(savedLang)) {
         setDefaultLanguage(savedLang);
+        i18n.changeLanguage(savedLang);
       }
       setIsInitialized(true);
     }
   }, []);
 
-  if (!isInitialized) {
-    return null; // Prevent flash of wrong language
-  }
-
+  // Return children immediately to avoid hydration issues
   return (
     <I18nextProvider i18n={i18n}>
       <LanguageProvider defaultLanguage={defaultLanguage}>
