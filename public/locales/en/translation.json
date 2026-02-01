@@ -11,6 +11,36 @@
     "logout": "Logout",
     "language": "Language"
   },
+  "header": {
+    "address": "Address: 500/3 Doan Van Bo Street, Ward 15, District 4, HCMC",
+    "hotline": "Hotline",
+    "search_placeholder": "What are you looking for?",
+    "category_menu": "PRODUCT CATEGORIES",
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "news": "News & Videos",
+      "contact": "Contact & Consultation",
+      "album": "Activity Album"
+    },
+    "categories": {
+      "gift_boxes": "Gift Boxes & Tet Baskets",
+      "grass_wallet": "Grass Wallets",
+      "palm_bags_painted": "Painted Palm Leaf Bags",
+      "grass_bags_painted": "Painted Grass Bags",
+      "hyacinth_bags_painted": "Painted Water Hyacinth Bags",
+      "mixed_products": "Mixed Products",
+      "wicker_trays": "Wicker Trays with Fabric",
+      "grass_bags": "Grass Bags",
+      "bamboo_products": "Bamboo Products",
+      "hyacinth_baskets": "Water Hyacinth Baskets",
+      "straw_baskets": "Straw Baskets",
+      "palm_baskets": "Palm Leaf Baskets",
+      "cat_houses": "Straw & Coir Cat Houses",
+      "storage_baskets": "Wicker & Bamboo Storage Baskets",
+      "mats": "Straw & Water Hyacinth Mats"
+    }
+  },
   "footer": {
     "about_description": "Specializing in producing and supplying traditional Vietnamese handcrafted rattan and bamboo products. Committed to quality and reasonable prices.",
     "contact_info": "Contact Information",
@@ -26,10 +56,12 @@
     "best_sellers": "Best Sellers",
     "add_to_cart": "Add to Cart",
     "buy_now": "Buy Now",
-    "view_details": "View Details",
+    "view_details": "Details",
     "price": "Price",
     "in_stock": "In Stock",
-    "out_of_stock": "Out of Stock"
+    "out_of_stock": "Out of Stock",
+    "contact": "Contact",
+    "view_all": "View All"
   },
   "categories": {
     "gift_boxes": "Gift Boxes & Tet Baskets",

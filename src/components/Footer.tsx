@@ -8,7 +8,6 @@ import {
   Facebook,
   MessageCircle,
 } from "lucide-react";
-import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
 const Footer = () => {
@@ -117,14 +116,6 @@ const Footer = () => {
               </a>
             </div>
             <p className="text-sm opacity-90 mb-4">{t("footer.follow_us")}</p>
-
-            {/* Language Switcher */}
-            <div className="mt-4">
-              <h4 className="font-medium text-sm mb-2 opacity-80">
-                {t("common.language")}
-              </h4>
-              <LanguageSwitcher />
-            </div>
           </div>
         </div>
       </div>

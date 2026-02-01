@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 interface ProductCardProps {
   id: string;
@@ -20,8 +21,10 @@ const ProductCard = ({
   oldPrice,
   showContact = false,
 }: ProductCardProps) => {
+  const { t, i18n } = useTranslation();
+  
   const formatPrice = (value: number) => {
-    return new Intl.NumberFormat("vi-VN").format(value) + "Đ";
+    return new Intl.NumberFormat(i18n.language === "en" ? "en-US" : "vi-VN").format(value) + (i18n.language === "en" ? " VND" : "Đ");
   };
 
   return (
@@ -50,7 +53,7 @@ const ProductCard = ({
         <div className="mb-2 sm:mb-3">
           {showContact ? (
             <span className="text-destructive font-bold uppercase text-xs sm:text-sm">
-              Liên Hệ
+              {t("products.contact")}
             </span>
           ) : (
             <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
@@ -74,13 +77,13 @@ const ProductCard = ({
             className="flex-1 text-[10px] sm:text-xs px-1 sm:px-2 h-7 sm:h-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
             asChild
           >
-            <Link href={`/product/${id}`}>Chi tiết</Link>
+            <Link href={`/product/${id}`}>{t("products.view_details")}</Link>
           </Button>
           <Button
             size="sm"
             className="flex-1 text-[10px] sm:text-xs px-1 sm:px-2 h-7 sm:h-8 bg-accent text-accent-foreground hover:opacity-90"
           >
-            Mua ngay
+            {t("products.buy_now")}
           </Button>
         </div>
       </div>

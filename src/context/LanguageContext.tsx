@@ -3,7 +3,7 @@
 import { createContext, useState, useCallback, ReactNode } from "react";
 import { supportedLanguages } from "../common/languages";
 
-export type SupportedLanguage = "vi" | "en" | "zh" | "ja" | "ko";
+export type SupportedLanguage = "vi" | "en";
 
 export interface LanguageContextType {
   currentLanguage: SupportedLanguage;
