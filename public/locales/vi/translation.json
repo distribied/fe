@@ -61,7 +61,12 @@
     "in_stock": "Còn hàng",
     "out_of_stock": "Hết hàng",
     "contact": "Liên Hệ",
-    "view_all": "Xem Tất Cả"
+    "view_all": "Xem Tất Cả",
+    "description": "Mô Tả Sản Phẩm",
+    "consult": "Liên Hệ Tư Vấn",
+    "save": "Tiết kiệm",
+    "hotline_label": "Hotline",
+    "address_label": "Địa chỉ"
   },
   "categories": {
     "gift_boxes": "Hộp Và Giỏ Quà Tết",

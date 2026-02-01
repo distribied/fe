@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  MapPin,
-  Phone,
-  Mail,
-  Clock,
-  Facebook,
-  MessageCircle,
-} from "lucide-react";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const Footer = () => {
@@ -101,18 +94,65 @@ const Footer = () => {
             <h3 className="font-bold text-lg mb-4 uppercase">
               {t("footer.connect")}
             </h3>
-            <div className="flex gap-3 mb-4">
+            <div className="flex gap-4 mb-4 flex-wrap">
+              {/* Facebook */}
               <a
-                href="#"
-                className="w-10 h-10 bg-primary-foreground/20 rounded-full flex items-center justify-center hover:bg-primary-foreground/30 transition-colors"
+                href="https://www.facebook.com/maytrelakieusam"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-transform duration-200 hover:scale-110"
+                title="Facebook"
               >
-                <Facebook className="h-5 w-5" />
+                <img
+                  src="/images/facebook.png"
+                  alt="Facebook"
+                  className="w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+                />
               </a>
+
+              {/* TikTok */}
               <a
-                href="#"
-                className="w-10 h-10 bg-primary-foreground/20 rounded-full flex items-center justify-center hover:bg-primary-foreground/30 transition-colors"
+                href="https://www.tiktok.com/@kieuthisam_84"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-transform duration-200 hover:scale-110"
+                title="TikTok"
               >
-                <MessageCircle className="h-5 w-5" />
+                <img
+                  src="/images/tiktok.png"
+                  alt="TikTok"
+                  className="w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+                />
+              </a>
+
+              {/* Zalo */}
+              <a
+                href="https://zalo.me/0907882878"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-transform duration-200 hover:scale-110"
+                title="Zalo"
+              >
+                <img
+                  src="/images/zalo.png"
+                  alt="Zalo"
+                  className="w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+                />
+              </a>
+
+              {/* Google Maps */}
+              <a
+                href="https://maps.app.goo.gl/fGfUCVynvYnrahfn6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-transform duration-200 hover:scale-110"
+                title="Google Maps"
+              >
+                <img
+                  src="/images/google-maps.png"
+                  alt="Google Maps"
+                  className="w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+                />
               </a>
             </div>
             <p className="text-sm opacity-90 mb-4">{t("footer.follow_us")}</p>
