@@ -12,8 +12,6 @@ import {
   Newspaper,
   Mail,
   Sparkles,
-  Star,
-  Zap,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -53,8 +51,24 @@ const Header = () => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [headerContentHeight, setHeaderContentHeight] = useState(0);
   const categoryRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  const headerContentRef = useRef<HTMLDivElement>(null);
+
+  // Measure header content height dynamically
+  useEffect(() => {
+    const measureHeight = () => {
+      if (headerContentRef.current) {
+        const height = headerContentRef.current.getBoundingClientRect().height;
+        setHeaderContentHeight(height);
+      }
+    };
+
+    measureHeight();
+    window.addEventListener('resize', measureHeight);
+    return () => window.removeEventListener('resize', measureHeight);
+  }, []);
 
   // Scroll handler using requestAnimationFrame to avoid layout thrashing
   useEffect(() => {
@@ -99,18 +113,27 @@ const Header = () => {
 
   return (
     <>
-      {/* Fixed header sections - uses transform only, no layout changes */}
+      {/* Fixed header wrapper - slides up when scrolled */}
       <div
         ref={headerRef}
         className="fixed top-0 left-0 right-0 z-50"
         style={{
-          transform: isScrolled ? 'translateY(-100%)' : 'translateY(0)',
-          opacity: isScrolled ? 0 : 1,
-          transition: 'transform 400ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms ease-out',
-          willChange: 'transform, opacity',
-          pointerEvents: isScrolled ? 'none' : 'auto',
-        }}
+          transform: isScrolled ? `translateY(-${headerContentHeight}px)` : 'translateY(0)',
+          transition: 'transform 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          willChange: 'transform',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+        } as React.CSSProperties}
       >
+        {/* Scrollable header content */}
+        <div
+          ref={headerContentRef}
+          style={{
+            opacity: isScrolled ? 0 : 1,
+            transition: 'opacity 350ms cubic-bezier(0.4, 0, 0.2, 1)',
+            pointerEvents: isScrolled ? 'none' : 'auto',
+          } as React.CSSProperties}
+        >
         {/* Top bar */}
         <div className="bg-gradient-to-r from-emerald-600 via-green-500 to-emerald-600 text-white text-center text-xs">
           <div className="py-1.5 md:py-2 relative">
@@ -132,7 +155,7 @@ const Header = () => {
         </div>
 
         {/* Main header */}
-        <div className="bg-white border-b-2 border-primary/10">
+        <div className="bg-white">
           <div className="container mx-auto px-4 py-3 md:py-4 relative">
           <div className="flex items-center justify-between gap-4 flex-wrap">
             {/* Logo */}
@@ -187,20 +210,10 @@ const Header = () => {
           </div>
           </div>
         </div>
-      </div>
+        </div>
 
-      {/* Spacer - maintains layout space, prevents content jump */}
-      <div style={{ height: '160px' }} />
-
-      {/* Navigation - Fixed at top, always visible */}
-      <nav
-        className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-primary via-emerald-600 to-primary shadow-lg"
-        style={{
-          transform: isScrolled ? 'translateY(0)' : 'translateY(160px)',
-          transition: 'transform 400ms cubic-bezier(0.4, 0, 0.2, 1)',
-          willChange: 'transform',
-        }}
-      >
+        {/* Navigation - Always visible, part of the fixed header */}
+        <nav className="bg-gradient-to-r from-primary via-emerald-600 to-primary shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             {/* Category dropdown */}
@@ -323,7 +336,11 @@ const Header = () => {
             </div>
           </div>
         </div>
-      </nav>
+        </nav>
+      </div>
+
+      {/* Spacer - maintains layout space for the entire header */}
+      <div style={{ height: '210px' }} />
     </>
   );
 };
