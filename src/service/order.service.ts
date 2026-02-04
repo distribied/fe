@@ -13,25 +13,44 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Order, OrderDetail, OrderStatus } from "@/types/order.types";
+import {
+  OrderSchema,
+  CreateOrderSchema,
+  UpdateOrderSchema,
+  OrderDetailSchema,
+  CreateOrderDetailSchema,
+  OrderStatusEnum,
+  type Order,
+  type CreateOrder,
+  type OrderDetail,
+  type OrderStatus,
+} from "@/schemas";
 
 const ORDERS_COLLECTION = "orders";
 const ORDER_DETAILS_COLLECTION = "order_details";
 
-// Helper to convert Firestore doc to Order
-const docToOrder = (docData: DocumentData, docId: string): Order => ({
-  id: parseInt(docId) || 0,
-  name: docData.name,
-  phone: docData.phone,
-  email: docData.email,
-  address: docData.address,
-  note: docData.note,
-  totalAmount: docData.totalAmount,
-  createdAt:
-    docData.createdAt?.toDate?.()?.toISOString?.() ??
-    docData.createdAt ??
-    new Date().toISOString(),
-});
+// Helper to convert Firestore doc to Order with validation
+const docToOrder = (docData: DocumentData, docId: string): Order => {
+  const rawData = {
+    id: docId,
+    name: docData.name,
+    phone: docData.phone,
+    email: docData.email,
+    address: docData.address,
+    note: docData.note,
+    totalAmount: docData.totalAmount || docData.total_amount,
+    status: docData.status,
+    createdAt:
+      docData.createdAt?.toDate?.() ??
+      docData.created_at?.toDate?.() ??
+      (docData.createdAt || docData.created_at
+        ? new Date(docData.createdAt || docData.created_at)
+        : new Date()),
+  };
+
+  // Validate with Zod schema
+  return OrderSchema.parse(rawData);
+};
 
 // ==================== ORDERS ====================
 
@@ -68,7 +87,7 @@ export const getOrderById = async (id: string): Promise<Order | null> => {
 
 export const getOrderWithDetails = async (
   id: string,
-): Promise<Order | null> => {
+): Promise<(Order & { details?: OrderDetail[] }) | null> => {
   const order = await getOrderById(id);
   if (!order) return null;
 
@@ -76,45 +95,61 @@ export const getOrderWithDetails = async (
   return { ...order, details };
 };
 
-export interface CreateOrderInput {
-  name?: string;
-  phone?: string;
-  email?: string;
-  address?: string;
-  note?: string;
-  totalAmount?: number;
-  status?: OrderStatus;
+// Extended CreateOrder type with details
+export type CreateOrderWithDetails = Omit<CreateOrder, "createdAt"> & {
   details?: Omit<OrderDetail, "id" | "orderId">[];
-}
+};
 
 export const createOrder = async (
-  orderInput: CreateOrderInput,
+  orderInput: CreateOrderWithDetails,
 ): Promise<Order> => {
   const { details, ...orderData } = orderInput;
 
+  // Validate order data
+  const validatedOrder = CreateOrderSchema.parse(orderData);
+
+  // Prepare data for Firebase
+  const firebaseData = {
+    name: validatedOrder.name,
+    phone: validatedOrder.phone,
+    email: validatedOrder.email,
+    address: validatedOrder.address,
+    note: validatedOrder.note,
+    totalAmount: validatedOrder.totalAmount,
+    status: validatedOrder.status ?? "PENDING",
+    createdAt: new Date(),
+  };
+
   // Create order
-  const orderRef = await addDoc(collection(db, ORDERS_COLLECTION), {
-    ...orderData,
-    status: orderData.status ?? OrderStatus.PENDING,
-    createdAt: new Date().toISOString(),
-  });
+  const orderRef = await addDoc(
+    collection(db, ORDERS_COLLECTION),
+    firebaseData,
+  );
 
   // Create order details if provided
   if (details && details.length > 0) {
-    const detailPromises = details.map((detail) =>
-      addDoc(collection(db, ORDER_DETAILS_COLLECTION), {
+    const detailPromises = details.map((detail) => {
+      const validatedDetail = CreateOrderDetailSchema.parse({
         ...detail,
         orderId: orderRef.id,
-      }),
-    );
+      });
+
+      return addDoc(collection(db, ORDER_DETAILS_COLLECTION), {
+        orderId: validatedDetail.orderId,
+        productId: validatedDetail.productId,
+        unitPrice: validatedDetail.unitPrice,
+        quantity: validatedDetail.quantity,
+      });
+    });
     await Promise.all(detailPromises);
   }
 
-  return {
-    ...orderData,
-    id: parseInt(orderRef.id) || 0,
-    createdAt: new Date().toISOString(),
-  } as Order;
+  // Return validated order
+  return OrderSchema.parse({
+    id: orderRef.id,
+    ...validatedOrder,
+    createdAt: firebaseData.createdAt,
+  });
 };
 
 export const updateOrderStatus = async (
@@ -122,15 +157,21 @@ export const updateOrderStatus = async (
   status: OrderStatus,
 ): Promise<void> => {
   const docRef = doc(db, ORDERS_COLLECTION, id);
-  await updateDoc(docRef, { status, updatedAt: new Date().toISOString() });
+  await updateDoc(docRef, { status, updatedAt: new Date() });
 };
 
 export const updateOrder = async (
   id: string,
   updates: Partial<Order>,
 ): Promise<void> => {
+  // Validate updates with schema
+  const validatedUpdates = UpdateOrderSchema.parse(updates);
+
   const docRef = doc(db, ORDERS_COLLECTION, id);
-  await updateDoc(docRef, { ...updates, updatedAt: new Date().toISOString() });
+  await updateDoc(docRef, {
+    ...validatedUpdates,
+    updatedAt: new Date(),
+  });
 };
 
 // ==================== ORDER DETAILS ====================
@@ -143,24 +184,41 @@ export const getOrderDetails = async (
     where("orderId", "==", orderId),
   );
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((d) => ({
-    id: parseInt(d.id) || 0,
-    orderId: d.data().orderId,
-    unitPrice: d.data().unitPrice,
-    quantity: d.data().quantity,
-  }));
+
+  return snapshot.docs.map((d) => {
+    const data = d.data();
+    return OrderDetailSchema.parse({
+      id: d.id,
+      orderId: data.orderId || data.order_id,
+      productId: data.productId || data.product_id,
+      unitPrice: data.unitPrice || data.unit_price,
+      quantity: data.quantity,
+    });
+  });
 };
 
 export const addOrderDetail = async (
   detail: Omit<OrderDetail, "id">,
 ): Promise<OrderDetail> => {
-  const docRef = await addDoc(collection(db, ORDER_DETAILS_COLLECTION), detail);
-  return { ...detail, id: parseInt(docRef.id) || 0 } as OrderDetail;
+  // Validate input
+  const validatedDetail = CreateOrderDetailSchema.parse(detail);
+
+  const docRef = await addDoc(collection(db, ORDER_DETAILS_COLLECTION), {
+    orderId: validatedDetail.orderId,
+    productId: validatedDetail.productId,
+    unitPrice: validatedDetail.unitPrice,
+    quantity: validatedDetail.quantity,
+  });
+
+  return OrderDetailSchema.parse({
+    id: docRef.id,
+    ...validatedDetail,
+  });
 };
 
 // ==================== MOCK DATA SEEDING ====================
 
-const MOCK_ORDERS: CreateOrderInput[] = [
+const MOCK_ORDERS: CreateOrderWithDetails[] = [
   {
     name: "Nguyễn Văn A",
     phone: "0901234567",
@@ -168,10 +226,10 @@ const MOCK_ORDERS: CreateOrderInput[] = [
     address: "123 Nguyễn Huệ, Q1, TP.HCM",
     note: "Giao hàng buổi sáng",
     totalAmount: 1498000,
-    status: OrderStatus.PENDING,
+    status: "PENDING",
     details: [
-      { unitPrice: 599000, quantity: 2 },
-      { unitPrice: 150000, quantity: 2 },
+      { productId: "1", unitPrice: 599000, quantity: 2 },
+      { productId: "2", unitPrice: 150000, quantity: 2 },
     ],
   },
   {
@@ -181,8 +239,8 @@ const MOCK_ORDERS: CreateOrderInput[] = [
     address: "456 Lê Lợi, Q3, TP.HCM",
     note: "",
     totalAmount: 899000,
-    status: OrderStatus.SHIPPING,
-    details: [{ unitPrice: 899000, quantity: 1 }],
+    status: "SHIPPING",
+    details: [{ productId: "3", unitPrice: 899000, quantity: 1 }],
   },
   {
     name: "Lê Văn C",
@@ -191,11 +249,11 @@ const MOCK_ORDERS: CreateOrderInput[] = [
     address: "789 Hai Bà Trưng, Q1, TP.HCM",
     note: "Gọi trước khi giao",
     totalAmount: 455000,
-    status: OrderStatus.DELIVERED,
+    status: "DELIVERED",
     details: [
-      { unitPrice: 85000, quantity: 1 },
-      { unitPrice: 120000, quantity: 1 },
-      { unitPrice: 250000, quantity: 1 },
+      { productId: "4", unitPrice: 85000, quantity: 1 },
+      { productId: "5", unitPrice: 120000, quantity: 1 },
+      { productId: "6", unitPrice: 250000, quantity: 1 },
     ],
   },
 ];

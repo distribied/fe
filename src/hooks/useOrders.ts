@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Order, OrderStatus } from "@/types/order.types";
+import { type Order, type OrderStatus } from "@/schemas";
 import {
   getOrders,
   getOrderById,
@@ -7,8 +7,8 @@ import {
   createOrder,
   updateOrder,
   updateOrderStatus,
-  OrderFilters,
-  CreateOrderInput,
+  type OrderFilters,
+  type CreateOrderWithDetails,
 } from "@/service/order.service";
 
 // ==================== ORDERS ====================
@@ -39,7 +39,7 @@ export const useOrderWithDetails = (id: string) => {
 export const useCreateOrder = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (orderInput: CreateOrderInput) => createOrder(orderInput),
+    mutationFn: (orderInput: CreateOrderWithDetails) => createOrder(orderInput),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
     },

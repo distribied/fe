@@ -1,5 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Product, Category, ProductImage } from "@/types/product.types";
+import {
+  type Product,
+  type Category,
+  type ProductImage,
+  type CreateProduct,
+  type CreateProductImage,
+} from "@/schemas";
 import {
   getProducts,
   getProductById,
@@ -12,7 +18,7 @@ import {
   getProductImages,
   addProductImage,
   deleteProductImage,
-  ProductFilters,
+  type ProductFilters,
 } from "@/service/product.service";
 
 // ==================== PRODUCTS ====================
@@ -43,7 +49,7 @@ export const useProductBySlug = (slug: string) => {
 export const useCreateProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (product: Omit<Product, "id">) => createProduct(product),
+    mutationFn: (product: CreateProduct) => createProduct(product),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
@@ -102,7 +108,7 @@ export const useProductImages = (productId: string) => {
 export const useAddProductImage = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (image: Omit<ProductImage, "id">) => addProductImage(image),
+    mutationFn: (image: CreateProductImage) => addProductImage(image),
     onSuccess: (_, image) => {
       queryClient.invalidateQueries({
         queryKey: ["productImages", image.productId],
