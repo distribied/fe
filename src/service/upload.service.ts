@@ -1,6 +1,3 @@
-const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY || "";
-const IMGBB_UPLOAD_URL = "https://api.imgbb.com/1/upload";
-
 const MAX_FILE_SIZE = 32 * 1024 * 1024; // 32MB (ImgBB limit)
 const ALLOWED_IMAGE_TYPES = [
   "image/jpeg",
@@ -44,7 +41,8 @@ const fileToBase64 = (file: File): Promise<string> => {
 };
 
 /**
- * Upload product image to ImgBB
+ * Upload product image via backend API proxy
+ * This keeps the ImgBB API key secure on the server
  * @param file - Image file to upload
  * @param productId - Optional product ID (for naming/organization)
  * @param onProgress - Optional callback for upload progress
@@ -61,12 +59,6 @@ export const uploadProductImage = async (
     throw new Error(validationError);
   }
 
-  if (!IMGBB_API_KEY) {
-    throw new Error(
-      "ImgBB API key is not configured. Please add NEXT_PUBLIC_IMGBB_API_KEY to your .env file",
-    );
-  }
-
   try {
     // Simulate initial progress
     onProgress?.(10);
@@ -80,43 +72,39 @@ export const uploadProductImage = async (
       ? `product-${productId}-${Date.now()}`
       : `upload-${Date.now()}`;
 
-    // Create form data
-    const formData = new FormData();
-    formData.append("key", IMGBB_API_KEY);
-    formData.append("image", base64Image);
-    formData.append("name", imageName);
-
     onProgress?.(50);
 
-    // Upload to ImgBB
-    const response = await fetch(IMGBB_UPLOAD_URL, {
+    // Upload via backend API (keeps API key secure)
+    const response = await fetch("/api/image/upload", {
       method: "POST",
-      body: formData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        image: base64Image,
+        name: imageName,
+      }),
     });
 
     onProgress?.(80);
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(
-        errorData.error?.message || "Failed to upload image to ImgBB",
-      );
+      throw new Error(errorData.error || "Failed to upload image");
     }
 
     const data = await response.json();
 
     if (!data.success) {
-      throw new Error(
-        "Upload failed: " + (data.error?.message || "Unknown error"),
-      );
+      throw new Error(data.error || "Upload failed");
     }
 
     onProgress?.(100);
 
     // Return the image URL
-    return data.data.url;
+    return data.url;
   } catch (error) {
-    console.error("Error uploading to ImgBB:", error);
+    console.error("Error uploading image:", error);
     throw error;
   }
 };
