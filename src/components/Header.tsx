@@ -12,6 +12,7 @@ import {
   Newspaper,
   Mail,
   Sparkles,
+  MoreVertical,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -20,7 +21,7 @@ import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const { t } = useTranslation();
-  
+
   const categories = [
     t("header.categories.gift_boxes"),
     t("header.categories.grass_wallet"),
@@ -66,8 +67,8 @@ const Header = () => {
     };
 
     measureHeight();
-    window.addEventListener('resize', measureHeight);
-    return () => window.removeEventListener('resize', measureHeight);
+    window.addEventListener("resize", measureHeight);
+    return () => window.removeEventListener("resize", measureHeight);
   }, []);
 
   // Scroll handler using requestAnimationFrame to avoid layout thrashing
@@ -77,10 +78,10 @@ const Header = () => {
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       // Only update if scroll position actually changed
       if (currentScrollY === lastScrollY) return;
-      
+
       if (!ticking) {
         window.requestAnimationFrame(() => {
           // Simple threshold - hide header after scrolling past 80px
@@ -92,8 +93,8 @@ const Header = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Close dropdown when clicking outside
@@ -117,230 +118,229 @@ const Header = () => {
       <div
         ref={headerRef}
         className="fixed top-0 left-0 right-0 z-50"
-        style={{
-          transform: isScrolled ? `translateY(-${headerContentHeight}px)` : 'translateY(0)',
-          transition: 'transform 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          willChange: 'transform',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-        } as React.CSSProperties}
+        style={
+          {
+            transform: isScrolled
+              ? `translateY(-${headerContentHeight}px)`
+              : "translateY(0)",
+            transition: "transform 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            willChange: "transform",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+          } as React.CSSProperties
+        }
       >
         {/* Scrollable header content */}
         <div
           ref={headerContentRef}
-          style={{
-            opacity: isScrolled ? 0 : 1,
-            transition: 'opacity 350ms cubic-bezier(0.4, 0, 0.2, 1)',
-            pointerEvents: isScrolled ? 'none' : 'auto',
-          } as React.CSSProperties}
+          style={
+            {
+              opacity: isScrolled ? 0 : 1,
+              transition: "opacity 350ms cubic-bezier(0.4, 0, 0.2, 1)",
+              pointerEvents: isScrolled ? "none" : "auto",
+            } as React.CSSProperties
+          }
         >
-        {/* Top bar */}
-        <div className="bg-gradient-to-r from-emerald-600 via-green-500 to-emerald-600 text-white text-center text-xs">
-          <div className="py-1.5 md:py-2 relative">
-            <div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-              style={{
-                animation: "shimmer 2s ease-in-out infinite",
-              }}
-            />
-            
-            <div className="relative font-semibold tracking-wide drop-shadow-md flex items-center justify-center gap-1.5">
-              <Sparkles className="h-3 w-3" />
-              <span>
-                {t("header.address")}
-              </span>
-              <Sparkles className="h-3 w-3" />
+          {/* Top bar */}
+          <div className="bg-gradient-to-r from-emerald-600 via-green-500 to-emerald-600 text-white text-center text-xs">
+            <div className="py-1.5 md:py-2 relative">
+              <div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                style={{
+                  animation: "shimmer 2s ease-in-out infinite",
+                }}
+              />
+
+              <div className="relative font-semibold tracking-wide drop-shadow-md flex items-center justify-center gap-1.5">
+                <Sparkles className="h-3 w-3" />
+                <span>{t("header.address")}</span>
+                <Sparkles className="h-3 w-3" />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Main header */}
-        <div className="bg-white">
-          <div className="container mx-auto px-4 py-3 md:py-4 relative">
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 md:gap-3 group">
-              <div className="transform group-hover:scale-105 transition-transform duration-200">
-                <img
-                  src="/logo.png"
-                  alt="Kiều Sâm"
-                  className="h-14 w-14 md:h-20 md:w-20 object-contain"
-                />
-              </div>
-              <div>
-                <h1 className="font-serif text-primary italic font-bold text-lg md:text-xl lg:text-2xl ml-2 md:ml-4">
-                  <span className="group-hover:text-emerald-600 transition-colors duration-300">
-                    Cơ Sở Mây Tre Lá Kiều Sâm
-                  </span>
-                </h1>
-                <p className="text-muted-foreground italic text-xs md:text-sm ml-2 md:ml-4 group-hover:text-primary transition-colors duration-200">
-                  Chuyên sỉ & lẻ sản phẩm mây tre lá các loại
-                </p>
-              </div>
-            </Link>
+          {/* Main header */}
+          <div className="bg-white">
+            <div className="container mx-auto px-4 py-3 md:py-4 relative">
+              <div className="flex items-center justify-between gap-4 flex-wrap">
+                {/* Logo */}
+                <Link
+                  href="/"
+                  className="flex items-center gap-2 md:gap-3 group"
+                >
+                  <div className="transform group-hover:scale-105 transition-transform duration-200">
+                    <img
+                      src="/logo.png"
+                      alt="Kiều Sâm"
+                      className="h-14 w-14 md:h-20 md:w-20 object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h1 className="font-serif text-primary italic font-bold text-lg md:text-xl lg:text-2xl ml-2 md:ml-4">
+                      <span className="group-hover:text-emerald-600 transition-colors duration-300">
+                        Cơ Sở Mây Tre Lá Kiều Sâm
+                      </span>
+                    </h1>
+                    <p className="text-muted-foreground italic text-xs md:text-sm ml-2 md:ml-4 group-hover:text-primary transition-colors duration-200">
+                      Chuyên sỉ & lẻ sản phẩm mây tre lá các loại
+                    </p>
+                  </div>
+                </Link>
 
-            {/* Search and Contact - Desktop */}
-            <div className="hidden md:flex items-center gap-4 flex-wrap">
-              {/* Search */}
-              <div className="relative group">
-                <input
-                  type="text"
-                  placeholder={t("header.search_placeholder")}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="border-2 border-primary/20 rounded-full py-2.5 px-4 pr-10 w-64 text-sm focus:outline-none bg-white transition-all duration-200 hover:border-primary/40 focus:border-primary/60"
-                />
-                <button className="absolute right-3 top-1/2 -translate-y-1/2 text-primary/60 hover:text-primary transition-colors duration-200">
-                  <Search className="h-4 w-4" />
-                </button>
-              </div>
+                {/* Search and Contact - Desktop */}
+                <div className="hidden md:flex items-center gap-4 flex-wrap">
+                  {/* Search */}
+                  <div className="relative group">
+                    <input
+                      type="text"
+                      placeholder={t("header.search_placeholder")}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="border-2 border-primary/20 rounded-full py-2.5 px-4 pr-10 w-64 text-sm focus:outline-none bg-white transition-all duration-200 hover:border-primary/40 focus:border-primary/60"
+                    />
+                    <button className="absolute right-3 top-1/2 -translate-y-1/2 text-primary/60 hover:text-primary transition-colors duration-200">
+                      <Search className="h-4 w-4" />
+                    </button>
+                  </div>
 
-              {/* Hotline */}
-              <div className="flex items-center gap-2 text-foreground bg-primary/5 rounded-full px-4 py-2.5 border-2 border-primary/30 hover:border-primary/50 transition-all duration-200">
-                <Phone className="h-5 w-5 text-primary" />
-                <div className="text-sm">
-                  <span className="text-muted-foreground font-medium">{t("header.hotline")}: </span>
-                  <span className="font-bold text-primary">0907.882.878</span>
+                  {/* Hotline */}
+                  <div className="flex items-center gap-2 text-foreground bg-primary/5 rounded-full px-4 py-2.5 border-2 border-primary/30 hover:border-primary/50 transition-all duration-200">
+                    <Phone className="h-5 w-5 text-primary" />
+                    <div className="text-sm">
+                      <span className="text-muted-foreground font-medium">
+                        {t("header.hotline")}:{" "}
+                      </span>
+                      <span className="font-bold text-primary">
+                        0907.882.878
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Language Switcher */}
+                  <LanguageSwitcher />
                 </div>
               </div>
-
-              {/* Language Switcher */}
-              <LanguageSwitcher />
             </div>
           </div>
-          </div>
-        </div>
         </div>
 
         {/* Navigation - Always visible, part of the fixed header */}
         <nav className="bg-gradient-to-r from-primary via-emerald-600 to-primary shadow-lg">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            {/* Category dropdown */}
-            <div className="relative" ref={categoryRef}>
-              <button
-                onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-                className="bg-black/10 text-white py-3.5 px-4 md:px-6 flex items-center gap-2 font-bold border-r-2 border-white/20 hover:bg-white/20 transition-all duration-200"
-              >
-                <Menu className="h-5 w-5" />
-                <span className="hidden md:inline tracking-wide">
-                  {t("header.category_menu")}
-                </span>
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform duration-200 ${
-                    isCategoryOpen ? "rotate-180" : "rotate-0"
-                  }`}
-                />
-              </button>
-
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between">
               {/* Category dropdown */}
-              <div
-                className={`absolute top-full left-0 w-72 bg-white border-2 border-primary/30 rounded-b-2xl shadow-2xl z-50 max-h-96 overflow-y-auto transition-all duration-200 ${
-                  isCategoryOpen
-                    ? "opacity-100 translate-y-0 visible"
-                    : "opacity-0 -translate-y-2 invisible"
-                }`}
-              >
-                <ul className="py-2">
-                  {categories.map((category, index) => (
-                    <li key={index}>
-                      <a
-                        href="#"
-                        className="block px-5 py-3 text-sm font-semibold text-foreground hover:bg-primary/10 hover:text-primary transition-all duration-150 border-l-4 border-transparent hover:border-primary"
-                        onClick={() => setIsCategoryOpen(false)}
-                      >
-                        {category}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Desktop nav */}
-            <div className="hidden md:flex items-center">
-              {navItems.map((item, index) => (
-                <Link
-                  key={index}
-                  href={item.href}
-                  className="text-white py-3.5 px-6 font-semibold hover:bg-white/15 transition-all duration-200"
+              <div className="relative" ref={categoryRef}>
+                <button
+                  onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                  className="bg-black/10 text-white py-3.5 px-4 md:px-6 flex items-center gap-2 font-bold border-r-2 border-white/20 hover:bg-white/20 transition-all duration-200"
                 >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
+                  <Menu className="h-5 w-5" />
+                  <span className="hidden md:inline tracking-wide">
+                    {t("header.category_menu")}
+                  </span>
+                </button>
 
-            {/* Mobile menu toggle */}
-            <button
-              className="md:hidden text-white p-3 transition-all duration-200 active:scale-90 hover:bg-white/10 rounded-lg"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <div className="relative w-6 h-6">
-                <X 
-                  className={`absolute inset-0 transition-all duration-200 ${
-                    isMenuOpen ? "rotate-0 opacity-100 scale-100" : "rotate-90 opacity-0 scale-50"
-                  }`} 
-                />
-                <Menu 
-                  className={`absolute inset-0 transition-all duration-200 ${
-                    isMenuOpen ? "-rotate-90 opacity-0 scale-50" : "rotate-0 opacity-100 scale-100"
-                  }`} 
-                />
-              </div>
-            </button>
-          </div>
-
-          {/* Mobile nav */}
-          <div
-            className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
-              isMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="border-t border-white/20 pt-3 pb-3">
-              {/* Mobile Search */}
-              <div className="px-4 pb-3">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder={t("header.search_placeholder")}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="border-2 border-white/30 rounded-full py-2.5 px-4 pr-10 w-full text-sm focus:outline-none bg-white transition-all duration-200 hover:border-white/50"
-                  />
-                  <button className="absolute right-3 top-1/2 -translate-y-1/2 text-primary hover:text-emerald-600 transition-colors duration-150">
-                    <Search className="h-4 w-4" />
-                  </button>
+                {/* Category dropdown */}
+                <div
+                  className={`absolute top-full left-0 w-72 bg-white border-2 border-primary/30 rounded-b-2xl shadow-2xl z-50 max-h-96 overflow-y-auto transition-all duration-200 ${
+                    isCategoryOpen
+                      ? "opacity-100 translate-y-0 visible"
+                      : "opacity-0 -translate-y-2 invisible"
+                  }`}
+                >
+                  <ul className="py-2">
+                    {categories.map((category, index) => (
+                      <li key={index}>
+                        <a
+                          href="#"
+                          className="block px-5 py-3 text-sm font-semibold text-foreground hover:bg-primary/10 hover:text-primary transition-all duration-150 border-l-4 border-transparent hover:border-primary"
+                          onClick={() => setIsCategoryOpen(false)}
+                        >
+                          {category}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
 
-              {/* Mobile Nav Links */}
-              {navItems.map((item, index) => {
-                const Icon = item.icon;
-                return (
+              {/* Desktop nav */}
+              <div className="hidden md:flex items-center">
+                {navItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="flex items-center gap-3 text-white py-3 px-4 hover:bg-white/10 transition-all duration-200"
-                    onClick={() => setIsMenuOpen(false)}
+                    className="text-white py-3.5 px-6 font-semibold hover:bg-white/15 transition-all duration-200"
                   >
-                    <Icon className="h-5 w-5" />
-                    <span>{item.name}</span>
+                    {item.name}
                   </Link>
-                );
-              })}
+                ))}
+              </div>
 
-              {/* Mobile Language Switcher */}
-              <div className="px-4 py-3 border-t border-white/20 mt-2">
-                <LanguageSwitcher />
+              {/* Mobile menu toggle */}
+              <button
+                className="md:hidden text-white p-3 transition-all duration-200 active:scale-90 hover:bg-white/10 rounded-lg"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                <ChevronDown
+                  className={`h-6 w-6 transition-transform duration-200 ${
+                    isMenuOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {/* Mobile nav */}
+            <div
+              className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
+                isMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <div className="border-t border-white/20 pt-3 pb-3">
+                {/* Mobile Search */}
+                <div className="px-4 pb-3">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder={t("header.search_placeholder")}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="border-2 border-white/30 rounded-full py-2.5 px-4 pr-10 w-full text-sm focus:outline-none bg-white transition-all duration-200 hover:border-white/50"
+                    />
+                    <button className="absolute right-3 top-1/2 -translate-y-1/2 text-primary hover:text-emerald-600 transition-colors duration-150">
+                      <Search className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Mobile Nav Links */}
+                {navItems.map((item, index) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      className="flex items-center gap-3 text-white py-3 px-4 hover:bg-white/10 transition-all duration-200"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span>{item.name}</span>
+                    </Link>
+                  );
+                })}
+
+                {/* Mobile Language Switcher */}
+                <div className="px-4 py-3 border-t border-white/20 mt-2">
+                  <LanguageSwitcher />
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </nav>
       </div>
 
       {/* Spacer - maintains layout space for the entire header */}
-      <div style={{ height: '210px' }} />
+      <div style={{ height: "210px" }} />
     </>
   );
 };
