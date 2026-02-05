@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronRight } from "lucide-react";
-import ProductCard from "./ProductCard";
+import ProductCard from "../../shared/ProductCard";
 import { useTranslation } from "react-i18next";
 
 interface Product {

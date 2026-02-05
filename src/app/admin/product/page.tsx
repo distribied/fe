@@ -11,7 +11,7 @@ import {
 } from "@/hooks/useProducts";
 import { type CreateProduct } from "@/schemas";
 import { createProductWithImages } from "@/service/product.service";
-import { ProductForm } from "@/components/admin/ProductForm";
+import { ProductForm } from "@/components/features/admin/ProductForm";
 import { Button } from "@/components/ui/button";
 import {
   Card,

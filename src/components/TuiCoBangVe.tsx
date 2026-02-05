@@ -1,5 +1,5 @@
-import CategorySectionHeader from "./CategorySectionHeader";
-import ProductCard from "./ProductCard";
+import CategorySectionHeader from "./features/home/CategorySectionHeader";
+import ProductCard from "./shared/ProductCard";
 
 const products = [
   {
