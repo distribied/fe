@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const sideProducts = [
   {
@@ -28,12 +31,14 @@ const formatPrice = (value: number) => {
 };
 
 const SideBanners = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col gap-3 h-full">
       {/* Section Title */}
       <div className="bg-primary rounded-lg px-4 py-2">
         <h3 className="text-primary-foreground font-bold text-sm text-center uppercase tracking-wide">
-          Sản Phẩm Bán Chạy
+          {t("products.best_sellers")}
         </h3>
       </div>
 
@@ -77,7 +82,7 @@ const SideBanners = () => {
       {/* View All Button */}
       <Link
         href="#"
-        className="text-center text-sm font-medium text-primary hover:text-primary/80 py-2 border border-dashed border-primary rounded-lg hover:bg-primary/5 transition-colors"
+        className="text-center text-sm font-medium text-primary hover:text-white py-3 px-6 rounded-lg shadow-md hover:bg-primary transition-all transform origin-bottom bg-secondary hover:bg-primary hover:scale-105 animate-wiggle"
       >
         Xem tất cả →
       </Link>
