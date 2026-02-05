@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import FloatingContact from "@/components/FloatingContact";
+import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
+import FloatingContact from "@/components/features/home/FloatingContact";
 import ProductPageClient from "./ProductPageClient";
 
 // Sample product data - in a real app, this would come from an API

@@ -1,12 +1,12 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import FloatingContact from "@/components/FloatingContact";
-import HeroCarousel from "@/components/HeroCarousel";
-import SideBanners from "@/components/SideBanners";
-import FeaturedProducts from "@/components/FeaturedProducts";
+import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
+import FloatingContact from "@/components/features/home/FloatingContact";
+import HeroCarousel from "@/components/features/home/HeroCarousel";
+import SideBanners from "@/components/features/home/SideBanners";
 import HopVaGioQuaTet from "@/components/HopVaGioQuaTet";
 import TuiCoBangVe from "@/components/TuiCoBangVe";
 import TuiLucBinhVe from "@/components/TuiLucBinhVe";
+import FeaturedProducts from "@/components/features/home/FeaturedProducts";
 
 export default function HomePage() {
   return (

@@ -2,7 +2,7 @@
 
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import MapEmbed from "./MapEmbed";
+import MapEmbed from "../shared/MapEmbed";
 
 const Footer = () => {
   const { t } = useTranslation();

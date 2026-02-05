@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { LanguageSwitcher } from "./LanguageSwitcher";
+import { LanguageSwitcher } from "../features/languages/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
 const Header = () => {
