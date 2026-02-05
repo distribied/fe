@@ -3,12 +3,14 @@ import Footer from "@/components/layouts/Footer";
 import FloatingContact from "@/components/features/home/FloatingContact";
 import HeroCarousel from "@/components/features/home/HeroCarousel";
 import SideBanners from "@/components/features/home/SideBanners";
-import HopVaGioQuaTet from "@/components/HopVaGioQuaTet";
-import TuiCoBangVe from "@/components/TuiCoBangVe";
-import TuiLucBinhVe from "@/components/TuiLucBinhVe";
 import FeaturedProducts from "@/components/features/home/FeaturedProducts";
+import { mockCategoriesData } from "@/data/mock-data";
+import ProductSection from "@/components/features/home/ProductSection";
 
 export default function HomePage() {
+  // TODO: fetch data from firebase later
+  // const categoriesData = await fetchCategoriesWithProducts();
+
   return (
     <div className="min-h-screen flex flex-col bg-muted">
       <Header />
@@ -32,10 +34,16 @@ export default function HomePage() {
           {/* Featured Products */}
           <FeaturedProducts />
 
-          {/* Category sections */}
-          <HopVaGioQuaTet />
-          <TuiCoBangVe />
-          <TuiLucBinhVe />
+          {/* Dynamic Category sections */}
+          {mockCategoriesData.map((category, index) => (
+            <ProductSection
+              key={index}
+              title={category.title}
+              products={category.products}
+              totalCount={category.totalCount}
+              href={category.href}
+            />
+          ))}
         </div>
       </main>
 

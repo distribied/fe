@@ -15,7 +15,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img
-                src="/logo.png"
+                src="/ui/logo.png"
                 alt="Kiều Sâm"
                 className="h-36 w-36 object-contain bg-background rounded-full p-1"
               />
@@ -105,7 +105,7 @@ const Footer = () => {
                 title="Facebook"
               >
                 <img
-                  src="/images/facebook.png"
+                  src="/social-media/facebook.png"
                   alt="Facebook"
                   className="w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
                 />
@@ -120,7 +120,7 @@ const Footer = () => {
                 title="TikTok"
               >
                 <img
-                  src="/images/tiktok.png"
+                  src="/social-media/tiktok.png"
                   alt="TikTok"
                   className="w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
                 />
@@ -135,7 +135,7 @@ const Footer = () => {
                 title="Zalo"
               >
                 <img
-                  src="/images/zalo.png"
+                  src="/social-media/zalo.png"
                   alt="Zalo"
                   className="w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
                 />
@@ -150,7 +150,7 @@ const Footer = () => {
                 title="Google Maps"
               >
                 <img
-                  src="/images/google-maps.png"
+                  src="/social-media/google-maps.png"
                   alt="Google Maps"
                   className="w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
                 />

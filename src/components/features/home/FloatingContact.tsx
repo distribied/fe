@@ -13,7 +13,7 @@ const FloatingContact = () => {
       >
         <div className="w-14 h-14 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 animate-flicker flex items-center justify-center">
           <img
-            src="/images/facebook.png"
+            src="/social-media/facebook.png"
             alt="Facebook"
             className="w-11 h-11 rounded-full object-cover"
           />
@@ -32,7 +32,7 @@ const FloatingContact = () => {
       >
         <div className="w-14 h-14 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 animate-flicker" style={{ animationDelay: '0.5s' }}>
           <img
-            src="/images/zalo.png"
+            src="/social-media/zalo.png"
             alt="Zalo"
             className="w-full h-full rounded-full"
           />
