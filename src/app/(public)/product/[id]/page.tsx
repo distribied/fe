@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import FloatingContact from "@/components/features/home/FloatingContact";
-import ProductPageClient from "./ProductPageClient";
+import ProductPageClient from "../../../../components/features/home/ProductPageClient";
 import { mockCategoriesData, MockProductCard } from "@/data/mock-data";
 
 interface ProductPageProps {

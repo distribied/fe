@@ -9,7 +9,8 @@
     "login": "Đăng nhập",
     "register": "Đăng ký",
     "logout": "Đăng xuất",
-    "language": "Ngôn ngữ"
+    "language": "Ngôn ngữ",
+    "back_home": "Trở về"
   },
   "header": {
     "address": "Địa chỉ: 500/3 Đường Đoàn Văn Bơ, Phường 15, Quận 4, TP.HCM",

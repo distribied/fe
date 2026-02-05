@@ -10,7 +10,9 @@ interface ProductPageClientProps {
   product: MockProductCard & { category: string };
 }
 
-export default function ProductPageClient({ product }: ProductPageClientProps) {
+export default function ProductPageClient({
+  product,
+}: Readonly<ProductPageClientProps>) {
   const { t, i18n } = useTranslation();
 
   const formatPrice = (value: number) => {
