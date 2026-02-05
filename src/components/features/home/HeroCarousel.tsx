@@ -4,17 +4,17 @@ import { useState, useEffect, useRef } from "react";
 
 const slides = [
   {
-    image: "/slide-1.png",
+    image: "/slides/slide-1.png",
     title: "Mây Tre Lá Kiều Sâm",
     subtitle: "Sản phẩm thủ công truyền thống Việt Nam",
   },
   {
-    image: "/slide-2.png",
+    image: "/slides/slide-2.png",
     title: "Túi Lục Bình Thêu Hoa",
     subtitle: "Thiết kế độc đáo, thân thiện môi trường",
   },
   {
-    image: "/slide-3.png",
+    image: "/slides/slide-3.png",
     title: "Túi Cỏ Bàng Đeo Chéo",
     subtitle: "Sản phẩm thủ công cao cấp",
   },

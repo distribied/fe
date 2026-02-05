@@ -1,30 +1,8 @@
 "use client";
 
+import { mockSideProducts } from "@/data/mock-data";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-
-const sideProducts = [
-  {
-    id: "1",
-    image: "/product-1.jpg",
-    title: "Giỏ Tre Gói Quà Tết",
-    price: 350000,
-    oldPrice: 450000,
-  },
-  {
-    id: "5",
-    image: "/product-5.jpg",
-    title: "Túi Bàng Quai Gỗ Vẽ",
-    price: 299000,
-  },
-  {
-    id: "6",
-    image: "/product-6.jpg",
-    title: "Ví Bàng Đeo Vai",
-    price: 270000,
-    oldPrice: 299000,
-  },
-];
 
 const formatPrice = (value: number) => {
   return new Intl.NumberFormat("vi-VN").format(value) + "Đ";
@@ -43,7 +21,7 @@ const SideBanners = () => {
       </div>
 
       {/* Product Cards */}
-      {sideProducts.map((product) => (
+      {mockSideProducts.map((product) => (
         <Link
           key={product.id}
           href={`/product/${product.id}`}
@@ -84,7 +62,7 @@ const SideBanners = () => {
         href="#"
         className="text-center text-sm font-medium text-primary hover:text-white py-3 px-6 rounded-lg shadow-md hover:bg-primary transition-all transform origin-bottom bg-secondary hover:bg-primary hover:scale-105 animate-wiggle"
       >
-        Xem tất cả →
+        {t("products.view_all")} →
       </Link>
     </div>
   );

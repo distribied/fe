@@ -1,61 +1,12 @@
 "use client";
 
-import ProductCard from "./ProductCard";
+import ProductCard from "@/components/shared/ProductCard";
+import { mockFeaturedProducts } from "@/data/mock-data";
 import { useTranslation } from "react-i18next";
-
-const featuredProducts = [
-  {
-    id: "1",
-    image: "/product-1.jpg",
-    title: "Giỏ Tre Chùm Gói Quà Tết",
-    price: 15000,
-  },
-  {
-    id: "2",
-    image: "/product-3.jpg",
-    title: "Giỏ Chữ Nhật Quai Trúc",
-    price: 75000,
-  },
-  {
-    id: "3",
-    image: "/product-4.jpg",
-    title: "Hộp Tre Gói Quà Màu",
-    price: 140000,
-    oldPrice: 150000,
-  },
-  { id: "4", image: "/product-2.jpg", title: "Túi Cỏ Bàng Hoa", price: 265000 },
-  {
-    id: "5",
-    image: "/product-5.jpg",
-    title: "Túi Bàng Quai Gỗ Vẽ",
-    price: 299000,
-    oldPrice: 330000,
-  },
-  {
-    id: "6",
-    image: "/product-6.jpg",
-    title: "Ví Bàng Vầng Trăng Đeo Vai",
-    price: 270000,
-    oldPrice: 299000,
-  },
-  {
-    id: "7",
-    image: "/product-7.jpg",
-    title: "Ví Bàng Cầm Tay Thêu Hoa",
-    price: 265000,
-    oldPrice: 285000,
-  },
-  {
-    id: "8",
-    image: "/product-8.jpg",
-    title: "Túi Cỏ Bàng Vẽ Biển",
-    price: 285000,
-  },
-];
 
 const FeaturedProducts = () => {
   const { t } = useTranslation();
-  
+
   return (
     <section className="mb-8">
       {/* Section header with decorative background */}
@@ -123,7 +74,7 @@ const FeaturedProducts = () => {
 
       {/* Products grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {featuredProducts.map((product, index) => (
+        {mockFeaturedProducts.map((product, index) => (
           <ProductCard key={index} {...product} />
         ))}
       </div>

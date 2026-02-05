@@ -17,7 +17,7 @@ export default function NotFound() {
         <div className="mb-6 animate-bounce-slow">
           <div className="relative w-50 h-50 md:w-50 md:h-50 bg-white shadow-xl rounded-full flex items-center justify-center p-4 ring-4 ring-primary/10">
             <Image
-              src="/logo.png"
+              src="/ui/logo.png"
               alt="Mây Tre Lá Kiều Sâm"
               width={200}
               height={200}

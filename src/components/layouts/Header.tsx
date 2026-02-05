@@ -18,27 +18,29 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { LanguageSwitcher } from "../features/languages/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
+import {
+  getCategoryName,
+  MockCategoryInfo,
+  mockFetchCategoriesInfo,
+} from "@/data/mock-data";
 
 const Header = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [categories, setCategories] = useState<MockCategoryInfo[]>([]);
 
-  const categories = [
-    t("header.categories.gift_boxes"),
-    t("header.categories.grass_wallet"),
-    t("header.categories.palm_bags_painted"),
-    t("header.categories.grass_bags_painted"),
-    t("header.categories.hyacinth_bags_painted"),
-    t("header.categories.mixed_products"),
-    t("header.categories.wicker_trays"),
-    t("header.categories.grass_bags"),
-    t("header.categories.bamboo_products"),
-    t("header.categories.hyacinth_baskets"),
-    t("header.categories.straw_baskets"),
-    t("header.categories.palm_baskets"),
-    t("header.categories.cat_houses"),
-    t("header.categories.storage_baskets"),
-    t("header.categories.mats"),
-  ];
+  // Fetch categories on component mount
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categoriesData = await mockFetchCategoriesInfo();
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error("Failed to load categories:", error);
+      }
+    };
+
+    loadCategories();
+  }, []);
 
   const navItems = [
     { name: t("header.nav.home"), href: "/", icon: Home },
@@ -170,7 +172,7 @@ const Header = () => {
                 >
                   <div className="transform group-hover:scale-105 transition-transform duration-200">
                     <img
-                      src="/logo.png"
+                      src="/ui/logo.png"
                       alt="Kiều Sâm"
                       className="h-14 w-14 md:h-20 md:w-20 object-contain"
                     />
@@ -256,7 +258,7 @@ const Header = () => {
                           className="block px-5 py-3 text-sm font-semibold text-foreground hover:bg-primary/10 hover:text-primary transition-all duration-150 border-l-4 border-transparent hover:border-primary"
                           onClick={() => setIsCategoryOpen(false)}
                         >
-                          {category}
+                          {getCategoryName(category, i18n.language)}
                         </a>
                       </li>
                     ))}
