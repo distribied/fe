@@ -4,7 +4,6 @@ import {
   Phone,
   Search,
   Menu,
-  X,
   ChevronDown,
   Home,
   Info,
@@ -12,7 +11,6 @@ import {
   Newspaper,
   Mail,
   Sparkles,
-  MoreVertical,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -85,7 +83,7 @@ const Header = () => {
       if (currentScrollY === lastScrollY) return;
 
       if (!ticking) {
-        window.requestAnimationFrame(() => {
+        globalThis.requestAnimationFrame(() => {
           // Simple threshold - hide header after scrolling past 80px
           setIsScrolled(currentScrollY > 80);
           lastScrollY = currentScrollY;

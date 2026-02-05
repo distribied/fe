@@ -7,7 +7,6 @@ import {
   useUpdateProduct,
   useDeleteProduct,
   useCategories,
-  useProductImages,
 } from "@/hooks/useProducts";
 import { type CreateProduct } from "@/schemas";
 import { createProductWithImages } from "@/service/product.service";
