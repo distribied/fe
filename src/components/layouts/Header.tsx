@@ -11,6 +11,7 @@ import {
   Newspaper,
   Mail,
   Sparkles,
+  Package,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -42,10 +43,11 @@ const Header = () => {
 
   const navItems = [
     { name: t("header.nav.home"), href: "/", icon: Home },
-    { name: t("header.nav.about"), href: "#gioi-thieu", icon: Info },
-    { name: t("header.nav.news"), href: "#tin-tuc", icon: Newspaper },
-    { name: t("header.nav.contact"), href: "#lien-he", icon: Mail },
-    { name: t("header.nav.album"), href: "#album", icon: Image },
+    { name: "Sản Phẩm", href: "/products", icon: Package },
+    { name: t("header.nav.about"), href: "/about", icon: Info },
+    { name: t("header.nav.news"), href: "/news", icon: Newspaper },
+    { name: t("header.nav.contact"), href: "/contact", icon: Mail },
+    { name: t("header.nav.album"), href: "/gallery", icon: Image },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -249,15 +251,15 @@ const Header = () => {
                   }`}
                 >
                   <ul className="py-2">
-                    {categories.map((category, index) => (
-                      <li key={index}>
-                        <a
-                          href="#"
+                    {categories.map((category) => (
+                      <li key={category.id}>
+                        <Link
+                          href={`/products?category=${category.slug.vi}`}
                           className="block px-5 py-3 text-sm font-semibold text-foreground hover:bg-primary/10 hover:text-primary transition-all duration-150 border-l-4 border-transparent hover:border-primary"
                           onClick={() => setIsCategoryOpen(false)}
                         >
                           {getCategoryName(category, i18n.language)}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>

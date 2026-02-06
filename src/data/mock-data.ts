@@ -535,3 +535,20 @@ export const mockFetchSideProducts = async (): Promise<MockProductCard[]> => {
   await new Promise((resolve) => setTimeout(resolve, 100));
   return mockSideProducts;
 };
+
+export const getAllProducts = (): (MockProductCard & {
+  category: string;
+})[] => {
+  const allProducts: (MockProductCard & { category: string })[] = [];
+
+  mockCategoriesData.forEach((category) => {
+    category.products.forEach((product) => {
+      allProducts.push({
+        ...product,
+        category: category.title,
+      });
+    });
+  });
+
+  return allProducts;
+};

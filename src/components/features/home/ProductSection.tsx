@@ -18,6 +18,7 @@ interface ProductSectionProps {
   title: string;
   products: ProductCardData[];
   href?: string;
+  categorySlug?: string;
   totalCount?: number;
 }
 
@@ -37,8 +38,14 @@ const ProductSection = ({
   title,
   products,
   href = "#",
+  categorySlug,
   totalCount,
 }: ProductSectionProps) => {
+  // Always use /products with category param
+  const viewAllHref = categorySlug
+    ? `/products?category=${categorySlug}`
+    : "/products";
+
   // Show max 8 products
   const displayProducts = products.slice(0, 8);
 
@@ -47,10 +54,9 @@ const ProductSection = ({
 
   return (
     <section className="mb-8">
-      {/* Use CategorySectionHeader component */}
       <CategorySectionHeader
         title={title}
-        href={shouldShowViewAll ? href : undefined}
+        href={shouldShowViewAll ? viewAllHref : undefined}
       />
 
       {/* Products grid */}

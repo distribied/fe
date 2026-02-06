@@ -134,19 +134,19 @@ export default function ProductPageClient({
               </h3>
               <ul className="space-y-2 text-muted-foreground">
                 <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>{" "}
                   100% thủ công từ nguyên liệu tự nhiên
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>{" "}
                   Thân thiện với môi trường
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>{" "}
                   Thiết kế độc đáo, mang đậm bản sắc Việt Nam
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>{" "}
                   Bền đẹp, dễ sử dụng và bảo quản
                 </li>
               </ul>
