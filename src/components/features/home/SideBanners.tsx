@@ -2,6 +2,7 @@
 
 import { mockSideProducts } from "@/data/mock-data";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 const formatPrice = (value: number) => {
@@ -10,6 +11,8 @@ const formatPrice = (value: number) => {
 
 const SideBanners = () => {
   const { t } = useTranslation();
+  const params = useParams();
+  const lang = params.lang as "vi" | "en";
 
   return (
     <div className="flex flex-col gap-3 h-full">
@@ -24,7 +27,7 @@ const SideBanners = () => {
       {mockSideProducts.map((product) => (
         <Link
           key={product.id}
-          href={`/product/${product.id}`}
+          href={`${lang}/product/${product.id}`}
           className="group bg-card rounded-lg border border-border hover:border-primary hover:shadow-md transition-all overflow-hidden flex-1"
         >
           <div className="flex gap-3 p-3 h-full">

@@ -22,10 +22,13 @@ import {
   MockCategoryInfo,
   mockFetchCategoriesInfo,
 } from "@/data/mock-data";
+import { useParams } from "next/navigation";
 
 const Header = () => {
   const { t, i18n } = useTranslation();
   const [categories, setCategories] = useState<MockCategoryInfo[]>([]);
+  const params = useParams();
+  const lang = params.lang as "vi" | "en";
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -42,12 +45,16 @@ const Header = () => {
   }, []);
 
   const navItems = [
-    { name: t("header.nav.home"), href: "/", icon: Home },
-    { name: t("header.nav.products"), href: "/products", icon: Package },
-    { name: t("header.nav.about"), href: "/about", icon: Info },
-    { name: t("header.nav.news"), href: "/news", icon: Newspaper },
-    { name: t("header.nav.contact"), href: "/contact", icon: Mail },
-    { name: t("header.nav.album"), href: "/gallery", icon: Image },
+    { name: t("header.nav.home"), href: `/${lang}`, icon: Home },
+    {
+      name: t("header.nav.products"),
+      href: `/${lang}/products`,
+      icon: Package,
+    },
+    { name: t("header.nav.about"), href: `/${lang}/about`, icon: Info },
+    { name: t("header.nav.news"), href: `/${lang}/news`, icon: Newspaper },
+    { name: t("header.nav.contact"), href: `/${lang}/contact`, icon: Mail },
+    { name: t("header.nav.album"), href: `/${lang}/gallery`, icon: Image },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -254,7 +261,7 @@ const Header = () => {
                     {categories.map((category) => (
                       <li key={category.id}>
                         <Link
-                          href={`/products?category=${category.slug.vi}`}
+                          href={`/${lang}/products?category=${category.slug.vi}`}
                           className="block px-5 py-3 text-sm font-semibold text-foreground hover:bg-primary/10 hover:text-primary transition-all duration-150 border-l-4 border-transparent hover:border-primary"
                           onClick={() => setIsCategoryOpen(false)}
                         >

@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import Header from "@/components/layouts/Header";
-import Footer from "@/components/layouts/Footer";
-import FloatingContact from "@/components/features/home/FloatingContact";
 import ProductsHeader from "./ProductsHeader";
 import ProductsSidebar from "./ProductsSidebar";
 import ProductsGrid from "./ProductsGrid";
@@ -29,6 +26,7 @@ const PRODUCTS_PER_PAGE = 20;
 
 export default function ProductsPageClient() {
   const searchParams = useSearchParams();
+
   const [allProducts, setAllProducts] = useState<
     (MockProductCard & { category: string })[]
   >([]);
@@ -40,41 +38,37 @@ export default function ProductsPageClient() {
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Load data on component mount
+  // Load data on mount
   useEffect(() => {
     const products = getAllProducts();
     setAllProducts(products);
-
     setCategories(mockCategoriesInfo);
 
-    // Check for URL params
     const categoryParam = searchParams.get("category");
     if (categoryParam && categoryParam !== "featured") {
       setSelectedCategory(categoryParam);
     }
   }, [searchParams]);
 
-  // Filter and sort products
+  // Filter + sort
   useEffect(() => {
     let filtered = [...allProducts];
 
-    // Filter by category only (remove featured logic)
     if (selectedCategory !== "all") {
       const categoryInfo = categories.find(
         (cat) =>
           cat.slug.vi === selectedCategory || cat.slug.en === selectedCategory,
       );
+
       if (categoryInfo) {
-        const categoryTitle = categoryInfo.name.vi;
+        const keyword = categoryInfo.name.vi.split(" ")[0].toLowerCase();
+
         filtered = filtered.filter((product) =>
-          product.category
-            .toLowerCase()
-            .includes(categoryTitle.split(" ")[0].toLowerCase()),
+          product.category.toLowerCase().includes(keyword),
         );
       }
     }
 
-    // Sort products
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "newest":
@@ -95,63 +89,53 @@ export default function ProductsPageClient() {
     });
 
     setFilteredProducts(filtered);
-    setCurrentPage(1); // Reset to first page when filter/sort changes
+    setCurrentPage(1);
   }, [allProducts, selectedCategory, sortBy, categories]);
 
-  // Pagination logic
+  // Pagination
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-  const endIndex = startIndex + PRODUCTS_PER_PAGE;
-  const currentProducts = filteredProducts.slice(startIndex, endIndex);
+  const currentProducts = filteredProducts.slice(
+    startIndex,
+    startIndex + PRODUCTS_PER_PAGE,
+  );
 
   return (
-    <div className="min-h-screen flex flex-col bg-muted">
-      <Header />
-      <FloatingContact />
+    <div className="container mx-auto px-4 py-6">
+      <ProductsHeader />
 
-      <main className="flex-1">
-        <div className="container mx-auto px-4 py-6">
-          <ProductsHeader />
+      <div className="flex gap-6">
+        {/* Sidebar */}
+        <aside className="w-64 flex-shrink-0 hidden lg:block">
+          <ProductsSidebar
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
+        </aside>
 
-          <div className="flex gap-6">
-            {/* Left Sidebar - Category Filter */}
-            <div className="w-64 flex-shrink-0 hidden lg:block">
-              <ProductsSidebar
-                categories={categories}
-                selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory}
-              />
-            </div>
+        {/* Main */}
+        <section className="flex-1">
+          <ProductsToolbar
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            productCount={filteredProducts.length}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            productsPerPage={PRODUCTS_PER_PAGE}
+          />
 
-            {/* Main Content */}
-            <div className="flex-1">
-              {/* Top Toolbar - Sort only */}
-              <ProductsToolbar
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-                productCount={filteredProducts.length}
-                currentPage={currentPage}
-                totalPages={totalPages}
-                productsPerPage={PRODUCTS_PER_PAGE}
-              />
+          <ProductsGrid products={currentProducts} />
 
-              {/* Products Grid */}
-              <ProductsGrid products={currentProducts} />
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <ProductsPagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={setCurrentPage}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <Footer />
+          {totalPages > 1 && (
+            <ProductsPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
+        </section>
+      </div>
     </div>
   );
 }

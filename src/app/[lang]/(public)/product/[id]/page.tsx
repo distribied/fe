@@ -1,12 +1,9 @@
 import { notFound } from "next/navigation";
-import Header from "@/components/layouts/Header";
-import Footer from "@/components/layouts/Footer";
-import FloatingContact from "@/components/features/home/FloatingContact";
-import ProductPageClient from "../../../../components/features/home/ProductPageClient";
+import ProductPageClient from "@/components/features/home/ProductPageClient";
 import { mockCategoriesData, MockProductCard } from "@/data/mock-data";
 
 interface ProductPageProps {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
 // Helper function to get all products from categories
@@ -26,7 +23,7 @@ const getAllProducts = (): (MockProductCard & { category: string })[] => {
 };
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const { id } = await params;
+  const { id } = params;
 
   const allProducts = getAllProducts();
   const product = allProducts.find((p) => p.id === id);
@@ -35,18 +32,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  return (
-    <div className="min-h-screen flex flex-col bg-muted">
-      <Header />
-      <FloatingContact />
-
-      <main className="flex-1">
-        <ProductPageClient product={product} />
-      </main>
-
-      <Footer />
-    </div>
-  );
+  return <ProductPageClient product={product} />;
 }
 
 // Generate static params for all products (for build optimization)

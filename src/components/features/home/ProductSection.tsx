@@ -3,6 +3,7 @@
 import CategorySectionHeader from "./CategorySectionHeader";
 import ProductCard from "../../shared/ProductCard";
 import { Product } from "@/types/product.types";
+import { useParams } from "next/navigation";
 
 // UI-specific interface for ProductCard props
 interface ProductCardData {
@@ -37,14 +38,15 @@ const transformProductToCardData = (product: Product): ProductCardData => {
 const ProductSection = ({
   title,
   products,
-  href = "#",
   categorySlug,
   totalCount,
 }: ProductSectionProps) => {
+  const params = useParams();
+  const lang = params.lang as "vi" | "en";
   // Always use /products with category param
   const viewAllHref = categorySlug
-    ? `/products?category=${categorySlug}`
-    : "/products";
+    ? `${lang}/products?category=${categorySlug}`
+    : `${lang}/products`;
 
   // Show max 8 products
   const displayProducts = products.slice(0, 8);
