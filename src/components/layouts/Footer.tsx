@@ -2,7 +2,6 @@
 
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import MapEmbed from "../shared/MapEmbed";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -160,10 +159,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-
-      {/* Map Section */}
-      <MapEmbed />
-
       {/* Copyright */}
       <div className="border-t border-primary-foreground/20 py-4">
         <div className="container mx-auto px-4 text-center text-sm opacity-80">
