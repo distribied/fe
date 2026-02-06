@@ -19,7 +19,6 @@ import {
   UpdateOrderSchema,
   OrderDetailSchema,
   CreateOrderDetailSchema,
-  OrderStatusEnum,
   type Order,
   type CreateOrder,
   type OrderDetail,

@@ -1,4 +1,5 @@
-import { MockCategoryInfo } from "@/data/mock-data";
+import { MockCategoryInfo, getCategoryName } from "@/data/mock-data";
+import { useTranslation } from "react-i18next";
 
 interface ProductsSidebarProps {
   categories: MockCategoryInfo[];
@@ -11,10 +12,11 @@ export default function ProductsSidebar({
   selectedCategory,
   setSelectedCategory,
 }: Readonly<ProductsSidebarProps>) {
+  const { t, i18n } = useTranslation();
   return (
     <div className="bg-card rounded-lg p-6 shadow-sm border sticky top-6">
       <h3 className="text-lg font-semibold text-foreground mb-4">
-        Danh Mục Sản Phẩm
+        {t("header.category_menu")}
       </h3>
 
       <div className="space-y-2">
@@ -27,7 +29,7 @@ export default function ProductsSidebar({
               : "hover:bg-muted"
           }`}
         >
-          Tất cả danh mục
+          {t("header.categories.all")}
         </button>
 
         {/* Individual categories */}
@@ -41,7 +43,7 @@ export default function ProductsSidebar({
                 : "hover:bg-muted"
             }`}
           >
-            {category.name.vi}
+            {getCategoryName(category, i18n.language)}
           </button>
         ))}
       </div>

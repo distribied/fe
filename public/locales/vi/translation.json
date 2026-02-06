@@ -19,6 +19,7 @@
     "category_menu": "DANH MỤC SẢN PHẨM",
     "nav": {
       "home": "Trang Chủ",
+      "products": "Sản Phẩm",
       "about": "Giới Thiệu",
       "news": "Tin Tức & Video",
       "contact": "Liên Hệ & Tư Vấn",
@@ -39,7 +40,8 @@
       "palm_baskets": "Giỏ Lá Buông",
       "cat_houses": "Nhà Mèo Bằng Rơm, Cói",
       "storage_baskets": "Sọt Mây, Tre, Sọt Đựng Áo Quần",
-      "mats": "Thảm Cói, Thảm Lục Bình"
+      "mats": "Thảm Cói, Thảm Lục Bình",
+      "all": "Tất Cả Danh Mục"
     }
   },
   "footer": {
@@ -68,7 +70,16 @@
     "consult": "Liên Hệ Tư Vấn",
     "save": "Tiết kiệm",
     "hotline_label": "Hotline",
-    "address_label": "Địa chỉ"
+    "address_label": "Địa chỉ",
+    "page": {
+      "header_1": "Tất Cả Sản Phẩm",
+      "header_2": "Khám phá bộ sưu tập đầy đủ các sản phẩm thủ công của chúng tôi",
+      "toolbar_1": "Hiển thị",
+      "toolbar_2": "trong tổng số",
+      "toolbar_3": "sản phẩm",
+      "toolbar_4": "Sắp xếp theo:",
+      "toolbar_5": "Trang"
+    }
   },
   "categories": {
     "gift_boxes": "Hộp Và Giỏ Quà Tết",
@@ -77,6 +88,14 @@
     "hyacinth_bags_painted": "Túi Lục Bình Vẽ",
     "bamboo_products": "Sản Phẩm Tre",
     "hyacinth_baskets": "Giỏ Lục Bình"
+  },
+  "sort": {
+    "newest": "Mới nhất",
+    "oldest": "Cũ nhất",
+    "price-low": "Giá thấp → cao",
+    "price-high": "Giá cao → thấp",
+    "name-az": "Tên A → Z",
+    "name-za": "Tên Z → A"
   },
   "not_found": {
     "title": "Không tìm thấy trang",

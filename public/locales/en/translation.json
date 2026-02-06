@@ -19,6 +19,7 @@
     "category_menu": "CATEGORIES",
     "nav": {
       "home": "Home",
+      "products": "Products",
       "about": "About",
       "news": "News & Videos",
       "contact": "Contact & Consultation",
@@ -39,7 +40,8 @@
       "palm_baskets": "Palm Leaf Baskets",
       "cat_houses": "Straw & Coir Cat Houses",
       "storage_baskets": "Wicker & Bamboo Storage Baskets",
-      "mats": "Straw & Water Hyacinth Mats"
+      "mats": "Straw & Water Hyacinth Mats",
+      "all": "All Categories"
     }
   },
   "footer": {
@@ -68,7 +70,16 @@
     "consult": "Contact for Consultation",
     "save": "Save",
     "hotline_label": "Hotline",
-    "address_label": "Address"
+    "address_label": "Address",
+    "page": {
+      "header_1": "All Products",
+      "header_2": "Explore our full collection of handmade products",
+      "toolbar_1": "Display",
+      "toolbar_2": "of",
+      "toolbar_3": "products",
+      "toolbar_4": "Sort By:",
+      "toolbar_5": "Page"
+    }
   },
   "categories": {
     "gift_boxes": "Gift Boxes & Tet Baskets",
@@ -77,6 +88,14 @@
     "hyacinth_bags_painted": "Painted Water Hyacinth Bags",
     "bamboo_products": "Bamboo Products",
     "hyacinth_baskets": "Water Hyacinth Baskets"
+  },
+  "sort": {
+    "newest": "Newest",
+    "oldest": "Oldest",
+    "price-low": "Price low -> high",
+    "price-high": "Price high -> low",
+    "name-az": "Name A → Z",
+    "name-za": "Name Z → A"
   },
   "not_found": {
     "title": "Page Not Found",
