@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { SortOption } from "./ProductsPageClient";
 
 interface ProductsToolbarProps {
@@ -9,14 +10,14 @@ interface ProductsToolbarProps {
   productsPerPage: number;
 }
 
-const sortOptions = [
-  { value: "newest", label: "Mới nhất" },
-  { value: "oldest", label: "Cũ nhất" },
-  { value: "price-low", label: "Giá thấp → cao" },
-  { value: "price-high", label: "Giá cao → thấp" },
-  { value: "name-az", label: "Tên A → Z" },
-  { value: "name-za", label: "Tên Z → A" },
-] as const;
+const sortOptions: readonly SortOption[] = [
+  "newest",
+  "oldest",
+  "price-low",
+  "price-high",
+  "name-az",
+  "name-za",
+];
 
 export default function ProductsToolbar({
   sortBy,
@@ -29,20 +30,23 @@ export default function ProductsToolbar({
   const startProduct = (currentPage - 1) * productsPerPage + 1;
   const endProduct = Math.min(currentPage * productsPerPage, productCount);
 
+  const { t } = useTranslation();
+
   return (
     <div className="bg-card rounded-lg p-4 mb-6 shadow-sm border">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         {/* Product count & pagination info */}
         <div className="text-sm text-muted-foreground">
-          Hiển thị{" "}
+          {t("products.page.toolbar_1")}{" "}
           <span className="font-semibold">
             {startProduct}-{endProduct}
           </span>{" "}
-          trong tổng số <span className="font-semibold">{productCount}</span>{" "}
-          sản phẩm
+          {t("products.page.toolbar_2")}{" "}
+          <span className="font-semibold">{productCount}</span>{" "}
+          {t("products.page.toolbar_3")}
           {totalPages > 1 && (
             <span className="ml-2">
-              (Trang {currentPage}/{totalPages})
+              ({t("products.page.toolbar_5")} {currentPage}/{totalPages})
             </span>
           )}
         </div>
@@ -53,7 +57,7 @@ export default function ProductsToolbar({
             className="text-sm font-medium text-foreground whitespace-nowrap"
             htmlFor="sortBy"
           >
-            Sắp xếp theo:
+            {t("products.page.toolbar_4")}
           </label>
           <select
             id="sortBy"
@@ -61,9 +65,9 @@ export default function ProductsToolbar({
             onChange={(e) => setSortBy(e.target.value as SortOption)}
             className="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm min-w-[160px]"
           >
-            {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+            {sortOptions.map((value) => (
+              <option key={value} value={value}>
+                {t(`sort.${value}`)}
               </option>
             ))}
           </select>

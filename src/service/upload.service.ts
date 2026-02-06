@@ -1,18 +1,18 @@
 const MAX_FILE_SIZE = 32 * 1024 * 1024; // 32MB (ImgBB limit)
-const ALLOWED_IMAGE_TYPES = [
+const ALLOWED_IMAGE_TYPES = new Set([
   "image/jpeg",
   "image/jpg",
   "image/png",
   "image/gif",
   "image/webp",
   "image/bmp",
-];
+]);
 
 /**
  * Validate image file
  */
 export const validateImageFile = (file: File): string | null => {
-  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
     return "Only JPG, JPEG, PNG, GIF, WEBP, and BMP images are allowed";
   }
 

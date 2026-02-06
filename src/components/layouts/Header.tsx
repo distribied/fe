@@ -43,7 +43,7 @@ const Header = () => {
 
   const navItems = [
     { name: t("header.nav.home"), href: "/", icon: Home },
-    { name: "Sản Phẩm", href: "/products", icon: Package },
+    { name: t("header.nav.products"), href: "/products", icon: Package },
     { name: t("header.nav.about"), href: "/about", icon: Info },
     { name: t("header.nav.news"), href: "/news", icon: Newspaper },
     { name: t("header.nav.contact"), href: "/contact", icon: Mail },
@@ -268,9 +268,9 @@ const Header = () => {
 
               {/* Desktop nav */}
               <div className="hidden md:flex items-center">
-                {navItems.map((item, index) => (
+                {navItems.map((item) => (
                   <Link
-                    key={index}
+                    key={item.name}
                     href={item.href}
                     className="text-white py-3.5 px-6 font-semibold hover:bg-white/15 transition-all duration-200"
                   >
@@ -316,11 +316,11 @@ const Header = () => {
                 </div>
 
                 {/* Mobile Nav Links */}
-                {navItems.map((item, index) => {
+                {navItems.map((item) => {
                   const Icon = item.icon;
                   return (
                     <Link
-                      key={index}
+                      key={item.name}
                       href={item.href}
                       className="flex items-center gap-3 text-white py-3 px-4 hover:bg-white/10 transition-all duration-200"
                       onClick={() => setIsMenuOpen(false)}
