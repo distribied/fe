@@ -101,7 +101,7 @@ const HeroCarousel = () => {
       >
         {slides.map((slide, index) => (
           <div
-            key={index}
+            key={slide.title}
             className="w-full flex-shrink-0 relative aspect-[16/9]"
           >
             <img
@@ -204,9 +204,9 @@ const HeroCarousel = () => {
 
       {/* Dots */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-        {slides.map((_, index) => (
+        {slides.map((slide, index) => (
           <button
-            key={index}
+            key={slide.title}
             onClick={() => goToSlide(index)}
             className={`w-3 h-3 rounded-full transition-colors ${
               index === currentSlide ? "bg-primary" : "bg-background/60"
