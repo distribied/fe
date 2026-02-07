@@ -69,8 +69,14 @@ const Header = () => {
   // Measure header content height dynamically
   useEffect(() => {
     const measureHeight = () => {
-      if (headerContentRef.current) {
-        const height = headerContentRef.current.getBoundingClientRect().height;
+      if (headerRef.current) {
+        const height = headerRef.current.getBoundingClientRect().height;
+
+        document.documentElement.style.setProperty(
+          "--header-height",
+          `${height}px`,
+        );
+
         setHeaderContentHeight(height);
       }
     };
@@ -349,7 +355,7 @@ const Header = () => {
       </div>
 
       {/* Spacer - maintains layout space for the entire header */}
-      <div style={{ height: "210px" }} />
+      <div className="h-[var(--header-height)]" />
     </>
   );
 };
