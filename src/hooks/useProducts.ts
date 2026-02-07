@@ -12,6 +12,7 @@ import {
   getProductBySlug,
   createProduct,
   updateProduct,
+  updateProductWithImages,
   deleteProduct,
   getCategories,
   getCategoryById,
@@ -64,6 +65,28 @@ export const useUpdateProduct = () => {
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       queryClient.invalidateQueries({ queryKey: ["product", id] });
+    },
+  });
+};
+
+export const useUpdateProductWithImages = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      id,
+      updates,
+      imageUrls,
+      thumbnailIndex,
+    }: {
+      id: string;
+      updates: Partial<Product>;
+      imageUrls: string[];
+      thumbnailIndex: number;
+    }) => updateProductWithImages(id, updates, imageUrls, thumbnailIndex),
+    onSuccess: (_, { id }) => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["product", id] });
+      queryClient.invalidateQueries({ queryKey: ["productImages", id] });
     },
   });
 };

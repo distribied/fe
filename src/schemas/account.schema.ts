@@ -7,6 +7,7 @@ export const AccountSchema = z.object({
   email: z.string().email(),
   password: z.string().optional(),
   createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 });
 
 // Schema for creating a new account (password required)

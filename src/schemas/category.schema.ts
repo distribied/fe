@@ -4,7 +4,9 @@ export const CategorySchema = z.object({
   id: z.number().or(z.string()),
   name: z.string().max(100),
   slug: z.string().max(150).optional(),
-  order: z.number().int().optional(),
+  order: z.number().int().positive().min(1).optional(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 });
 
 // Schema for creating a new category

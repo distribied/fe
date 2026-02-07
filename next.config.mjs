@@ -9,7 +9,12 @@ const nextConfig = {
   // Image optimization configuration
   images: {
     // Allow images from external domains if needed
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.ibb.co",
+      },
+    ],
   },
 
   // Transpile specific packages if needed

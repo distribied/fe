@@ -69,6 +69,7 @@ export interface ProductFilters {
   minPrice?: number;
   maxPrice?: number;
   limit?: number;
+  search?: string;
 }
 
 export const getProducts = async (
@@ -86,9 +87,34 @@ export const getProducts = async (
     constraints.push(limit(filters.limit));
   }
 
-  const q = query(collection(db, PRODUCTS_COLLECTION), ...constraints);
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((d) => docToProduct(d.data(), d.id));
+  let q = query(collection(db, PRODUCTS_COLLECTION), ...constraints);
+  let snapshot = await getDocs(q);
+
+  // Apply search filter on the client side if search is provided
+  let productDocs = snapshot.docs;
+  if (filters?.search) {
+    const searchTerm = filters.search.toLowerCase();
+    productDocs = snapshot.docs.filter((doc) => {
+      const data = doc.data();
+      return (
+        data.name?.toLowerCase().includes(searchTerm) ||
+        data.description?.toLowerCase().includes(searchTerm) ||
+        data.slug?.toLowerCase().includes(searchTerm)
+      );
+    });
+  }
+
+  // Fetch products with their images
+  const products = await Promise.all(
+    productDocs.map(async (d) => {
+      const product = docToProduct(d.data(), d.id);
+      // Fetch images for this product
+      const images = await getProductImages(d.id);
+      return { ...product, images };
+    }),
+  );
+
+  return products;
 };
 
 export const getProductById = async (id: string): Promise<Product | null> => {
@@ -197,6 +223,66 @@ export const updateProduct = async (
       updatedAt: new Date(),
     }),
   );
+};
+
+export const updateProductWithImages = async (
+  productId: string,
+  updates: Partial<Product>,
+  imageUrls: string[],
+  thumbnailIndex: number = 0,
+): Promise<void> => {
+  // Update product data
+  await updateProduct(productId, updates);
+
+  // Get existing images
+  const existingImages = await getProductImages(productId);
+  const existingUrls = existingImages.map((img) => img.url);
+
+  // Find images to delete (in existing but not in new list)
+  const imagesToDelete = existingImages.filter(
+    (img) => !imageUrls.includes(img.url),
+  );
+
+  // Find images to add (in new list but not existing)
+  const urlsToAdd = imageUrls.filter((url) => !existingUrls.includes(url));
+
+  const batch = writeBatch(db);
+
+  // Soft-delete removed images
+  for (const img of imagesToDelete) {
+    const imgRef = doc(db, PRODUCT_IMAGES_COLLECTION, img.id.toString());
+    batch.update(imgRef, { isDeleted: true, updatedAt: new Date() });
+  }
+
+  // Update thumbnail flags on existing images
+  for (const img of existingImages) {
+    if (!imagesToDelete.includes(img)) {
+      const imgIndex = imageUrls.indexOf(img.url);
+      const shouldBeThumbnail = imgIndex === thumbnailIndex;
+      if (img.isThumbnail !== shouldBeThumbnail) {
+        const imgRef = doc(db, PRODUCT_IMAGES_COLLECTION, img.id.toString());
+        batch.update(imgRef, {
+          isThumbnail: shouldBeThumbnail,
+          updatedAt: new Date(),
+        });
+      }
+    }
+  }
+
+  // Add new images
+  urlsToAdd.forEach((url) => {
+    const urlIndex = imageUrls.indexOf(url);
+    const imageRef = doc(collection(db, PRODUCT_IMAGES_COLLECTION));
+    batch.set(imageRef, {
+      productId: productId,
+      url,
+      isThumbnail: urlIndex === thumbnailIndex,
+      isDeleted: false,
+      updatedAt: new Date(),
+    });
+  });
+
+  await batch.commit();
 };
 
 export const deleteProduct = async (id: string): Promise<void> => {

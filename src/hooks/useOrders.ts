@@ -1,37 +1,68 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { type Order, type OrderStatus } from "@/schemas";
-import {
-  getOrders,
-  getOrderById,
-  getOrderWithDetails,
-  createOrder,
-  updateOrder,
-  updateOrderStatus,
-  type OrderFilters,
-  type CreateOrderWithDetails,
-} from "@/service/order.service";
+import { type Order, type CreateOrder, type UpdateOrder, type OrderStatus } from "@/schemas";
 
-// ==================== ORDERS ====================
+const API_BASE_URL = "/api";
 
-export const useOrders = (filters?: OrderFilters) => {
+// Fetch all orders
+const fetchOrders = async (filters?: { status?: OrderStatus }): Promise<Order[]> => {
+  const params = new URLSearchParams();
+  if (filters?.status) {
+    params.append("status", filters.status);
+  }
+
+  const response = await fetch(`${API_BASE_URL}/orders?${params}`);
+  if (!response.ok) throw new Error("Failed to fetch orders");
+  return response.json();
+};
+
+// Fetch specific order with details
+const fetchOrderById = async (id: string): Promise<any> => {
+  const response = await fetch(`${API_BASE_URL}/orders/${id}`);
+  if (!response.ok) throw new Error("Failed to fetch order");
+  return response.json();
+};
+
+// Create new order
+const createOrderApi = async (data: CreateOrder): Promise<Order> => {
+  const response = await fetch(`${API_BASE_URL}/orders`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error("Failed to create order");
+  return response.json();
+};
+
+// Update order
+const updateOrderApi = async ({ id, updates }: { id: string; updates: UpdateOrder }): Promise<Order> => {
+  const response = await fetch(`${API_BASE_URL}/orders/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updates),
+  });
+  if (!response.ok) throw new Error("Failed to update order");
+  return response.json();
+};
+
+// Delete order
+const deleteOrderApi = async (id: string): Promise<void> => {
+  const response = await fetch(`${API_BASE_URL}/orders/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) throw new Error("Failed to delete order");
+};
+
+export const useOrders = (filters?: { status?: OrderStatus }) => {
   return useQuery({
     queryKey: ["orders", filters],
-    queryFn: () => getOrders(filters),
+    queryFn: () => fetchOrders(filters),
   });
 };
 
-export const useOrder = (id: string) => {
+export const useOrder = (id?: string) => {
   return useQuery({
     queryKey: ["order", id],
-    queryFn: () => getOrderById(id),
-    enabled: !!id,
-  });
-};
-
-export const useOrderWithDetails = (id: string) => {
-  return useQuery({
-    queryKey: ["order", id, "details"],
-    queryFn: () => getOrderWithDetails(id),
+    queryFn: () => fetchOrderById(id!),
     enabled: !!id,
   });
 };
@@ -39,7 +70,7 @@ export const useOrderWithDetails = (id: string) => {
 export const useCreateOrder = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (orderInput: CreateOrderWithDetails) => createOrder(orderInput),
+    mutationFn: createOrderApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
     },
@@ -49,8 +80,7 @@ export const useCreateOrder = () => {
 export const useUpdateOrder = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: Partial<Order> }) =>
-      updateOrder(id, updates),
+    mutationFn: updateOrderApi,
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
       queryClient.invalidateQueries({ queryKey: ["order", id] });
@@ -58,14 +88,12 @@ export const useUpdateOrder = () => {
   });
 };
 
-export const useUpdateOrderStatus = () => {
+export const useDeleteOrder = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, status }: { id: string; status: OrderStatus }) =>
-      updateOrderStatus(id, status),
-    onSuccess: (_, { id }) => {
+    mutationFn: deleteOrderApi,
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
-      queryClient.invalidateQueries({ queryKey: ["order", id] });
     },
   });
 };
