@@ -67,22 +67,30 @@ const Header = () => {
 
   // Measure header content height dynamically
   useEffect(() => {
-    const measureHeight = () => {
-      if (topHeaderRef.current) {
-        const height = topHeaderRef.current.getBoundingClientRect().height;
+    if (!topHeaderRef.current) return;
 
-        document.documentElement.style.setProperty(
-          "--top-header-height",
-          `${height}px`,
-        );
+    const el = topHeaderRef.current;
 
-        setTopHeaderHeight(height);
-      }
+    const updateHeight = () => {
+      const height = el.getBoundingClientRect().height;
+      document.documentElement.style.setProperty(
+        "--top-header-height",
+        `${height}px`,
+      );
+      setTopHeaderHeight(height);
     };
 
-    measureHeight();
-    window.addEventListener("resize", measureHeight);
-    return () => window.removeEventListener("resize", measureHeight);
+    updateHeight();
+
+    const observer = new ResizeObserver(() => {
+      updateHeight();
+    });
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   // Scroll handler using requestAnimationFrame to avoid layout thrashing
