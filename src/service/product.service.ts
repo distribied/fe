@@ -24,10 +24,10 @@ import {
   type CreateProduct,
   type ProductImage,
 } from "@/schemas";
-import { CATEGORIES_COLLECTION } from "./category.service";
-
-const PRODUCTS_COLLECTION = "products";
-const PRODUCT_IMAGES_COLLECTION = "product_images";
+import {
+  PRODUCT_IMAGES_COLLECTION,
+  PRODUCTS_COLLECTION,
+} from "@/const/firebase-collections";
 
 // Helper to convert Firestore doc to Product with validation
 const docToProduct = (docData: DocumentData, docId: string): Product => {
@@ -347,19 +347,4 @@ const removeUndefined = <T extends Record<string, any>>(obj: T): Partial<T> => {
     }
   });
   return cleaned;
-};
-
-export const clearAllData = async (): Promise<void> => {
-  const collections = [
-    PRODUCTS_COLLECTION,
-    CATEGORIES_COLLECTION,
-    PRODUCT_IMAGES_COLLECTION,
-  ];
-
-  for (const collectionName of collections) {
-    const snapshot = await getDocs(collection(db, collectionName));
-    const batch = writeBatch(db);
-    snapshot.docs.forEach((d) => batch.delete(d.ref));
-    await batch.commit();
-  }
 };
