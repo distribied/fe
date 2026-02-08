@@ -92,8 +92,8 @@ export default function AdminCategoryPage() {
   const generateSlug = (name: string) => {
     return name
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+      .replaceAll(/[^a-z0-9]+/g, "-")
+      .replaceAll(/(^-|-$)/g, "");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -102,7 +102,7 @@ export default function AdminCategoryPage() {
       if (editingCategory) {
         await updateMutation.mutateAsync({
           id: editingCategory.id.toString(),
-          data: formData,
+          updates: formData,
         });
         toast.success("Category updated successfully!");
       } else {
@@ -113,6 +113,7 @@ export default function AdminCategoryPage() {
       setIsCreateDialogOpen(false);
     } catch (error) {
       toast.error("Failed to save category.");
+      console.error("Error saving category:", error);
     }
   };
 
@@ -133,6 +134,7 @@ export default function AdminCategoryPage() {
       toast.success("Category deleted successfully!");
     } catch (error) {
       toast.error("Failed to delete category.");
+      console.error("Error deleting category:", error);
     }
   };
 
@@ -222,7 +224,7 @@ export default function AdminCategoryPage() {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      order: parseInt(e.target.value) || 1,
+                      order: Number.parseInt(e.target.value) || 1,
                     })
                   }
                 />

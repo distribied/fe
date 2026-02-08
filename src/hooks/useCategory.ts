@@ -1,63 +1,24 @@
+import { Category, CreateCategory } from "@/schemas";
+import {
+  createCategory,
+  deleteCategory,
+  getCategories,
+  getCategoryById,
+  updateCategory,
+} from "@/service/category.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { type CreateCategory, type UpdateCategory } from "@/schemas";
-
-const API_BASE_URL = "/api/categories";
-
-// Fetch all categories
-const fetchCategories = async (): Promise<any[]> => {
-  const response = await fetch(`${API_BASE_URL}`);
-  if (!response.ok) throw new Error("Failed to fetch categories");
-  return response.json();
-};
-
-// Fetch specific category
-const fetchCategoryById = async (id: string): Promise<any> => {
-  const response = await fetch(`${API_BASE_URL}/${id}`);
-  if (!response.ok) throw new Error("Failed to fetch category");
-  return response.json();
-};
-
-// Create category
-const createCategory = async (data: CreateCategory): Promise<any> => {
-  const response = await fetch(`${API_BASE_URL}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  if (!response.ok) throw new Error("Failed to create category");
-  return response.json();
-};
-
-// Update category
-const updateCategory = async ({ id, data }: { id: string; data: UpdateCategory }): Promise<any> => {
-  const response = await fetch(`${API_BASE_URL}/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  if (!response.ok) throw new Error("Failed to update category");
-  return response.json();
-};
-
-// Delete category
-const deleteCategory = async (id: string): Promise<void> => {
-  const response = await fetch(`${API_BASE_URL}/${id}`, {
-    method: "DELETE",
-  });
-  if (!response.ok) throw new Error("Failed to delete category");
-};
 
 export const useCategories = () => {
   return useQuery({
     queryKey: ["categories"],
-    queryFn: fetchCategories,
+    queryFn: () => getCategories(),
   });
 };
 
-export const useCategory = (id?: string) => {
+export const useCategory = (id: string) => {
   return useQuery({
     queryKey: ["category", id],
-    queryFn: () => fetchCategoryById(id!),
+    queryFn: () => getCategoryById(id),
     enabled: !!id,
   });
 };
@@ -65,7 +26,7 @@ export const useCategory = (id?: string) => {
 export const useCreateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: createCategory,
+    mutationFn: (category: CreateCategory) => createCategory(category),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
@@ -75,7 +36,8 @@ export const useCreateCategory = () => {
 export const useUpdateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: updateCategory,
+    mutationFn: ({ id, updates }: { id: string; updates: Partial<Category> }) =>
+      updateCategory(id, updates),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
       queryClient.invalidateQueries({ queryKey: ["category", id] });
@@ -86,7 +48,7 @@ export const useUpdateCategory = () => {
 export const useDeleteCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: deleteCategory,
+    mutationFn: (id: string) => deleteCategory(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },

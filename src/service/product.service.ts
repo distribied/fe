@@ -18,18 +18,15 @@ import {
   ProductSchema,
   CreateProductSchema,
   UpdateProductSchema,
-  CategorySchema,
-  CreateCategorySchema,
   ProductImageSchema,
   CreateProductImageSchema,
   type Product,
   type CreateProduct,
-  type Category,
   type ProductImage,
 } from "@/schemas";
+import { CATEGORIES_COLLECTION } from "./category.service";
 
 const PRODUCTS_COLLECTION = "products";
-const CATEGORIES_COLLECTION = "categories";
 const PRODUCT_IMAGES_COLLECTION = "product_images";
 
 // Helper to convert Firestore doc to Product with validation
@@ -138,17 +135,6 @@ export const getProductBySlug = async (
   return docToProduct(d.data(), d.id);
 };
 
-// Helper to remove undefined values from object (Firestore doesn't accept undefined)
-const removeUndefined = <T extends Record<string, any>>(obj: T): Partial<T> => {
-  const cleaned: any = {};
-  Object.keys(obj).forEach((key) => {
-    if (obj[key] !== undefined) {
-      cleaned[key] = obj[key];
-    }
-  });
-  return cleaned;
-};
-
 export const createProduct = async (
   product: CreateProduct,
 ): Promise<Product> => {
@@ -236,7 +222,7 @@ export const updateProductWithImages = async (
 
   // Get existing images
   const existingImages = await getProductImages(productId);
-  const existingUrls = existingImages.map((img) => img.url);
+  const existingUrls = new Set(existingImages.map((img) => img.url));
 
   // Find images to delete (in existing but not in new list)
   const imagesToDelete = existingImages.filter(
@@ -244,7 +230,7 @@ export const updateProductWithImages = async (
   );
 
   // Find images to add (in new list but not existing)
-  const urlsToAdd = imageUrls.filter((url) => !existingUrls.includes(url));
+  const urlsToAdd = imageUrls.filter((url) => !existingUrls.has(url));
 
   const batch = writeBatch(db);
 
@@ -288,35 +274,6 @@ export const updateProductWithImages = async (
 export const deleteProduct = async (id: string): Promise<void> => {
   const docRef = doc(db, PRODUCTS_COLLECTION, id);
   await deleteDoc(docRef);
-};
-
-// ==================== CATEGORIES ====================
-
-export const getCategories = async (): Promise<Category[]> => {
-  const snapshot = await getDocs(collection(db, CATEGORIES_COLLECTION));
-  return snapshot.docs.map((d) => {
-    const data = d.data();
-    return CategorySchema.parse({
-      id: d.id,
-      name: data.name,
-      slug: data.slug,
-      order: data.order,
-    });
-  });
-};
-
-export const getCategoryById = async (id: string): Promise<Category | null> => {
-  const docRef = doc(db, CATEGORIES_COLLECTION, id);
-  const snapshot = await getDoc(docRef);
-  if (!snapshot.exists()) return null;
-
-  const data = snapshot.data();
-  return CategorySchema.parse({
-    id: snapshot.id,
-    name: data.name,
-    slug: data.slug,
-    order: data.order,
-  });
 };
 
 // ==================== PRODUCT IMAGES ====================
@@ -380,101 +337,16 @@ export const deleteProductImage = async (id: string): Promise<void> => {
   });
 };
 
-// ==================== MOCK DATA SEEDING ====================
-
-const MOCK_CATEGORIES: Omit<Category, "id">[] = [
-  { name: "Hộp quà Tết", slug: "hop-qua-tet", order: 1 },
-  { name: "Bánh kẹo", slug: "banh-keo", order: 2 },
-  { name: "Trái cây sấy", slug: "trai-cay-say", order: 3 },
-  { name: "Hạt dinh dưỡng", slug: "hat-dinh-duong", order: 4 },
-];
-
-const MOCK_PRODUCTS: CreateProduct[] = [
-  {
-    categoryId: "1",
-    name: "Hộp quà Tết Phú Quý",
-    slug: "hop-qua-tet-phu-quy",
-    description: "Hộp quà Tết sang trọng với đầy đủ bánh kẹo truyền thống",
-    price: 599000,
-    isActive: true,
-    ratingAverage: 4.8,
-  },
-  {
-    categoryId: "1",
-    name: "Hộp quà Tết An Khang",
-    slug: "hop-qua-tet-an-khang",
-    description: "Hộp quà cao cấp với các loại hạt dinh dưỡng",
-    price: 899000,
-    isActive: true,
-    ratingAverage: 4.9,
-  },
-  {
-    categoryId: "2",
-    name: "Bánh pía Sóc Trăng",
-    slug: "banh-pia-soc-trang",
-    description: "Bánh pía truyền thống Sóc Trăng, nhân đậu xanh sầu riêng",
-    price: 150000,
-    isActive: true,
-    ratingAverage: 4.7,
-  },
-  {
-    categoryId: "2",
-    name: "Kẹo dừa Bến Tre",
-    slug: "keo-dua-ben-tre",
-    description: "Kẹo dừa thơm ngon đặc sản Bến Tre",
-    price: 85000,
-    isActive: true,
-    ratingAverage: 4.5,
-  },
-  {
-    categoryId: "3",
-    name: "Xoài sấy dẻo",
-    slug: "xoai-say-deo",
-    description: "Xoài sấy dẻo tự nhiên, không chất bảo quản",
-    price: 120000,
-    isActive: true,
-    ratingAverage: 4.6,
-  },
-  {
-    categoryId: "4",
-    name: "Hạt điều rang muối",
-    slug: "hat-dieu-rang-muoi",
-    description: "Hạt điều Bình Phước rang muối giòn tan",
-    price: 250000,
-    isActive: true,
-    ratingAverage: 4.8,
-  },
-];
-
-export const seedMockData = async (): Promise<{
-  categories: number;
-  products: number;
-}> => {
-  const batch = writeBatch(db);
-  let categoryCount = 0;
-  let productCount = 0;
-
-  // Seed categories
-  for (const category of MOCK_CATEGORIES) {
-    const validatedCategory = CreateCategorySchema.parse(category);
-    const docRef = doc(collection(db, CATEGORIES_COLLECTION));
-    batch.set(docRef, validatedCategory);
-    categoryCount++;
-  }
-
-  // Seed products
-  for (const product of MOCK_PRODUCTS) {
-    const validatedProduct = CreateProductSchema.parse(product);
-    const docRef = doc(collection(db, PRODUCTS_COLLECTION));
-    batch.set(docRef, {
-      ...validatedProduct,
-      createdAt: new Date(),
-    });
-    productCount++;
-  }
-
-  await batch.commit();
-  return { categories: categoryCount, products: productCount };
+// ==================== HELPERS ====================
+// Helper to remove undefined values from object (Firestore doesn't accept undefined)
+const removeUndefined = <T extends Record<string, any>>(obj: T): Partial<T> => {
+  const cleaned: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] !== undefined) {
+      cleaned[key] = obj[key];
+    }
+  });
+  return cleaned;
 };
 
 export const clearAllData = async (): Promise<void> => {

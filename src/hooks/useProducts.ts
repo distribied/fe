@@ -12,8 +12,6 @@ import {
   updateProduct,
   updateProductWithImages,
   deleteProduct,
-  getCategories,
-  getCategoryById,
   getProductImages,
   addProductImage,
   deleteProductImage,
@@ -96,23 +94,6 @@ export const useDeleteProduct = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
-  });
-};
-
-// ==================== CATEGORIES ====================
-
-export const useCategories = () => {
-  return useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-  });
-};
-
-export const useCategory = (id: string) => {
-  return useQuery({
-    queryKey: ["category", id],
-    queryFn: () => getCategoryById(id),
-    enabled: !!id,
   });
 };
 
