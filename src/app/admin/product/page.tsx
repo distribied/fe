@@ -7,7 +7,6 @@ import {
   useCreateProduct,
   useUpdateProductWithImages,
   useDeleteProduct,
-  useCategories,
 } from "@/hooks/useProducts";
 import { type CreateProduct, type Product } from "@/schemas";
 import { createProductWithImages } from "@/service/product.service";
@@ -41,6 +40,7 @@ import {
 import { SearchFilter } from "@/components/features/admin/SearchFilter";
 import { PaginationControls } from "@/components/features/admin/PaginationControls";
 import { toast } from "sonner";
+import { useCategories } from "@/hooks/useCategory";
 
 const ITEMS_PER_PAGE = 8;
 

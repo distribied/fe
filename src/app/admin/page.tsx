@@ -11,19 +11,11 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Package,
-  ShoppingCart,
-  Users,
-  FolderTree,
-  TrendingUp,
-  BarChart3,
-  Plus,
-  Eye,
-} from "lucide-react";
-import { useProducts, useCategories } from "@/hooks/useProducts";
+import { Package, ShoppingCart, TrendingUp, Eye } from "lucide-react";
 import { useOrders } from "@/hooks/useOrders";
 import { useAccounts } from "@/hooks/useAccount";
+import { useProducts } from "@/hooks/useProducts";
+import { useCategories } from "@/hooks/useCategory";
 
 export default function AdminDashboard() {
   const { data: products, isLoading: productsLoading } = useProducts();
