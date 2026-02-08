@@ -8,10 +8,14 @@ export default function AboutPage() {
         container
         mx-auto
         px-4
-        py-16
 
-        /* đảm bảo anchor / scroll không bị header che */
-        scroll-mt-[var(--header-height)]
+        /* Top spacing: thoáng */
+        pt-8
+        md:pt-10
+
+        /* Bottom spacing: gọn, tránh hở footer */
+        pb-8
+        md:pb-4
       "
     >
       <div
@@ -19,34 +23,19 @@ export default function AboutPage() {
           grid
           grid-cols-1
           md:grid-cols-2
-          gap-20
-          md:gap-12
-          items-stretch
+
+          gap-12
+          md:gap-10
+          items-start
         "
       >
-        {/* Left: Store Introduction */}
-        <div
-          className="
-            h-[480px]
-
-            /* mobile: bù chiều cao header */
-            pt-[var(--header-height)]
-
-            /* desktop: không cần */
-            md:pt-0
-          "
-        >
+        {/* Store Introduction – auto height */}
+        <div>
           <StoreIntroduction />
         </div>
 
-        {/* Right: Map */}
-        <div
-          className="
-            h-[480px]
-            pt-[var(--header-height)]
-            md:pt-0
-          "
-        >
+        {/* Map – cần khung tối thiểu để đẹp */}
+        <div className="min-h-[320px] md:min-h-[420px]">
           <MapEmbed />
         </div>
       </div>
