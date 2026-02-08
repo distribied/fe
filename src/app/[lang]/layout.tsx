@@ -12,10 +12,12 @@ export default function LangLayout({
 }) {
   return (
     <ClientI18nProvider lang={params.lang}>
-      <Header />
-      <main className="flex-1 min-h-screen">{children}</main>
-      <Footer />
-      <FloatingContact />
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
+        <FloatingContact />
+      </div>
     </ClientI18nProvider>
   );
 }

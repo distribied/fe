@@ -54,8 +54,6 @@ export default function AdminProductPage() {
   // Zustand store
   const {
     setProducts,
-    updateProduct: updateProductInStore,
-    addProduct: addProductToStore,
     removeProduct: removeProductFromStore,
     products: storedProducts,
   } = useProductStore();
