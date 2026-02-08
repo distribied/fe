@@ -1,8 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   type Product,
-  type Category,
-  type ProductImage,
   type CreateProduct,
   type CreateProductImage,
 } from "@/schemas";
