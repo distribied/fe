@@ -1,6 +1,6 @@
+import { Account } from "@/schemas";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Account } from "@/types/account.types";
 
 interface AuthState {
   user: Account | null;

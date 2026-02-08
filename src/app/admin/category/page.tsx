@@ -38,6 +38,7 @@ import {
   Hash,
 } from "lucide-react";
 import { toast } from "sonner";
+import { handleError } from "@/errors/handleError";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -136,8 +137,7 @@ export default function AdminCategoryPage() {
       await deleteMutation.mutateAsync(id);
       toast.success("Category deleted successfully!");
     } catch (error) {
-      toast.error("Failed to delete category.");
-      console.error("Error deleting category:", error);
+      if (error) handleError(error);
     }
   };
 

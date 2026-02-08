@@ -7,22 +7,17 @@ import {
   updateDoc,
   deleteDoc,
   writeBatch,
+  query,
+  where,
+  limit,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { type Category, CategorySchema, CreateCategorySchema } from "@/schemas";
-
-export const CATEGORIES_COLLECTION = "categories";
-
-// Helper to remove undefined values from object
-const removeUndefined = <T extends Record<string, any>>(obj: T): Partial<T> => {
-  const cleaned: any = {};
-  Object.keys(obj).forEach((key) => {
-    if (obj[key] !== undefined) {
-      cleaned[key] = obj[key];
-    }
-  });
-  return cleaned;
-};
+import {
+  CATEGORIES_COLLECTION,
+  PRODUCTS_COLLECTION,  
+} from "@/const/firebase-collections";
+import { CategoryHasProductsError } from "@/errors/category.errors";
 
 export const getCategories = async (): Promise<Category[]> => {
   const snapshot = await getDocs(collection(db, CATEGORIES_COLLECTION));
@@ -70,13 +65,37 @@ export const updateCategory = async (
   id: string,
   updates: Partial<Category>,
 ): Promise<void> => {
-  const docRef = doc(db, CATEGORIES_COLLECTION, id);
-  await updateDoc(docRef, removeUndefined(updates));
+  const categoryRef = doc(db, CATEGORIES_COLLECTION, id);
+  await updateDoc(categoryRef, updates);
+
+  const productSnap = await getDocs(
+    query(collection(db, PRODUCTS_COLLECTION), where("categoryId", "==", id)),
+  );
+  if (productSnap.empty) return;
+  const batch = writeBatch(db);
+  productSnap.forEach((p) => {
+    const payload: any = {};
+
+    if (updates.name) payload.categoryName = updates.name;
+    if (updates.slug) payload.categorySlug = updates.slug;
+
+    batch.update(p.ref, payload);
+  });
+
+  await batch.commit();
 };
 
 export const deleteCategory = async (id: string): Promise<void> => {
-  const docRef = doc(db, CATEGORIES_COLLECTION, id);
-  await deleteDoc(docRef);
+  const productQuery = query(
+    collection(db, PRODUCTS_COLLECTION),
+    where("categoryId", "==", id),
+    limit(1),
+  );
+  const snapshot = await getDocs(productQuery);
+  if (!snapshot.empty) {
+    throw new CategoryHasProductsError();
+  }
+  await deleteDoc(doc(db, CATEGORIES_COLLECTION, id));
 };
 
 // Mock data for seeding

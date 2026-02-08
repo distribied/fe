@@ -2,8 +2,8 @@
 
 import CategorySectionHeader from "./CategorySectionHeader";
 import ProductCard from "../../shared/ProductCard";
-import { Product } from "@/types/product.types";
 import { useParams } from "next/navigation";
+import { Product } from "@/schemas";
 
 // UI-specific interface for ProductCard props
 interface ProductCardData {
