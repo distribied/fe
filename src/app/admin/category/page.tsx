@@ -92,6 +92,9 @@ export default function AdminCategoryPage() {
   const generateSlug = (name: string) => {
     return name
       .toLowerCase()
+      .normalize("NFD")
+      .replaceAll(/[\u0300-\u036f]/g, "")
+      .replaceAll("đ", "d")
       .replaceAll(/[^a-z0-9]+/g, "-")
       .replaceAll(/(^-|-$)/g, "");
   };
