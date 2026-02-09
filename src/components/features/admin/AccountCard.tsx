@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2, Shield, User, Calendar } from "lucide-react";
+import { Pencil, Trash2, Shield, User } from "lucide-react";
 import { type Account, type Role } from "@/schemas";
 
 interface AccountCardProps {
@@ -28,7 +28,7 @@ export function AccountCard({
   onDelete,
   isDeleting,
   formatRoleBadgeVariant,
-}: AccountCardProps) {
+}: Readonly<AccountCardProps>) {
   const formatRole = (role: Role) => {
     return role === "ADMIN" ? "Admin" : "Client";
   };

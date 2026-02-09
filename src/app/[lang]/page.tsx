@@ -7,10 +7,10 @@ import ProductSection from "@/components/features/home/ProductSection";
 import Reveal from "@/components/ui/Reveal";
 
 import { mockCategoriesData, mockCategoriesInfo } from "@/data/mock-data";
-import { useParams } from "next/navigation";
+import { useLocale } from "@/hooks/useLocale";
 
 export default function HomePage() {
-  const { lang } = useParams();
+  const { href } = useLocale();
 
   return (
     <div className="min-h-screen flex flex-col bg-muted">
@@ -53,9 +53,9 @@ export default function HomePage() {
                   products={category.products}
                   totalCount={category.totalCount}
                   categorySlug={categoryInfo?.slug.vi}
-                  href={`/${lang}/category/${
-                    categoryInfo?.slug.vi || category.slug
-                  }`}
+                  href={href(
+                    `category/${categoryInfo?.slug.vi || category.slug}`,
+                  )}
                 />
               </Reveal>
             );

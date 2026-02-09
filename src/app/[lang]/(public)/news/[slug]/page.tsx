@@ -12,21 +12,21 @@ export default function ArticleDetail({
 
   return (
     <article className="container mx-auto px-4 py-16">
-      <div className="max-w-3xl mx-auto">
-        <p className="text-sm text-muted-foreground mb-4">
-          {article.publishedAt}
-        </p>
+      <div className="mx-auto max-w-3xl">
+        {/* Meta */}
+        <p className="mb-4 text-sm text-text-subtle">{article.publishedAt}</p>
 
-        <h1 className="text-3xl font-bold mb-8">{article.title}</h1>
+        {/* Title */}
+        <h1 className="mb-8 text-3xl font-bold text-text-heading">
+          {article.title}
+        </h1>
 
+        {/* Content */}
         <div className="space-y-8">
           {article.blocks.map((block, index) => {
             if (block.type === "paragraph") {
               return (
-                <p
-                  key={index}
-                  className="leading-relaxed text-muted-foreground"
-                >
+                <p key={index} className="leading-relaxed text-text-body">
                   {block.content}
                 </p>
               );
@@ -34,7 +34,10 @@ export default function ArticleDetail({
 
             if (block.type === "heading") {
               return (
-                <h2 key={index} className="text-xl font-semibold">
+                <h2
+                  key={index}
+                  className="text-xl font-semibold text-text-heading"
+                >
                   {block.content}
                 </h2>
               );
@@ -46,10 +49,10 @@ export default function ArticleDetail({
                   <img
                     src={block.src}
                     alt={block.caption ?? ""}
-                    className="rounded-lg w-full"
+                    className="w-full rounded-lg"
                   />
                   {block.caption && (
-                    <figcaption className="text-sm text-muted-foreground mt-2 text-center">
+                    <figcaption className="mt-2 text-center text-sm text-text-muted">
                       {block.caption}
                     </figcaption>
                   )}

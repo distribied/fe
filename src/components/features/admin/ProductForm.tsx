@@ -34,7 +34,7 @@ export function ProductForm({
   isSubmitting,
   editingProduct,
   categories = [],
-}: ProductFormProps) {
+}: Readonly<ProductFormProps>) {
   const imageUpload = useImageUpload();
   const [thumbnailIndex, setThumbnailIndex] = useState(0);
   const [existingImages, setExistingImages] = useState<ProductImage[]>([]);
@@ -64,9 +64,9 @@ export function ProductForm({
       slug: name
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, ""),
+        .replaceAll(/[\u0300-\u036f]/g, "")
+        .replaceAll(/[^a-z0-9]+/g, "-")
+        .replaceAll(/(^-|-$)/g, ""),
     });
   };
 
@@ -94,7 +94,7 @@ export function ProductForm({
     e.preventDefault();
 
     // Collect all image URLs (existing + new uploads)
-    let allImageUrls: string[] = [...existingImages.map((img) => img.url)];
+    let allImageUrls: string[] = existingImages.map((img) => img.url);
 
     // Upload new images if any
     if (imageUpload.images.length > 0) {

@@ -31,8 +31,7 @@ import {
 } from "@/components/ui/select";
 import { PlusCircle, Loader2, Users } from "lucide-react";
 import { toast } from "sonner";
-
-const ITEMS_PER_PAGE = 8;
+import { ITEMS_PER_PAGE } from "@/const/constants";
 
 export default function AdminAccountPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);

@@ -48,6 +48,43 @@ export const useImageUpload = () => {
   }, []);
 
   /**
+   * Update image progress
+   */
+  const updateImageProgress = useCallback((index: number, progress: number) => {
+    setImages((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], progress };
+      return updated;
+    });
+  }, []);
+
+  /**
+   * Update image success
+   */
+  const updateImageSuccess = useCallback((index: number, url: string) => {
+    setImages((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], url, progress: 100 };
+      return updated;
+    });
+  }, []);
+
+  /**
+   * Update image error
+   */
+  const updateImageError = useCallback((index: number, error: string) => {
+    setImages((prev) => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        error,
+        progress: 0,
+      };
+      return updated;
+    });
+  }, []);
+
+  /**
    * Upload a single image
    */
   const uploadImage = useCallback(
@@ -55,36 +92,20 @@ export const useImageUpload = () => {
       return new Promise((resolve, reject) => {
         const image = images[index];
 
-        uploadProductImage(image.file, productId, (progress) => {
-          setImages((prev) => {
-            const updated = [...prev];
-            updated[index] = { ...updated[index], progress };
-            return updated;
-          });
-        })
+        uploadProductImage(image.file, productId, (progress) =>
+          updateImageProgress(index, progress),
+        )
           .then((url) => {
-            setImages((prev) => {
-              const updated = [...prev];
-              updated[index] = { ...updated[index], url, progress: 100 };
-              return updated;
-            });
+            updateImageSuccess(index, url);
             resolve(url);
           })
           .catch((error) => {
-            setImages((prev) => {
-              const updated = [...prev];
-              updated[index] = {
-                ...updated[index],
-                error: error.message,
-                progress: 0,
-              };
-              return updated;
-            });
+            updateImageError(index, error.message);
             reject(error);
           });
       });
     },
-    [images],
+    [images, updateImageProgress, updateImageSuccess, updateImageError],
   );
 
   /**
@@ -97,11 +118,11 @@ export const useImageUpload = () => {
 
       try {
         for (let i = 0; i < images.length; i++) {
-          if (!images[i].url) {
+          if (images[i].url) {
+            urls.push(images[i].url);
+          } else {
             const url = await uploadImage(i, productId);
             urls.push(url);
-          } else {
-            urls.push(images[i].url);
           }
         }
 

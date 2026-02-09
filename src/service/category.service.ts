@@ -13,10 +13,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { type Category, CategorySchema, CreateCategorySchema } from "@/schemas";
-import {
-  CATEGORIES_COLLECTION,
-  PRODUCTS_COLLECTION,  
-} from "@/const/firebase-collections";
+import { CATEGORIES_COLLECTION, PRODUCTS_COLLECTION } from "@/const/constants";
 import { CategoryHasProductsError } from "@/errors/category.errors";
 
 export const getCategories = async (): Promise<Category[]> => {

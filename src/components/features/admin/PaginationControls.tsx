@@ -26,7 +26,7 @@ export function PaginationControls({
   totalItems,
   itemsPerPage,
   itemName = "items",
-}: PaginationControlsProps) {
+}: Readonly<PaginationControlsProps>) {
   if (totalPages <= 1) return null;
 
   const startIndex = (currentPage - 1) * itemsPerPage;

@@ -1,7 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash2, Star } from "lucide-react";
@@ -14,9 +20,15 @@ interface ProductCardProps {
   isDeleting?: boolean;
 }
 
-export function ProductCard({ product, onEdit, onDelete, isDeleting }: ProductCardProps) {
-  const thumbnailImage = product.images?.find(img => img.isThumbnail) || product.images?.[0];
-  
+export function ProductCard({
+  product,
+  onEdit,
+  onDelete,
+  isDeleting,
+}: Readonly<ProductCardProps>) {
+  const thumbnailImage =
+    product.images?.find((img) => img.isThumbnail) || product.images?.[0];
+
   const formatCurrency = (price: number) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -40,14 +52,14 @@ export function ProductCard({ product, onEdit, onDelete, isDeleting }: ProductCa
             <Star className="h-12 w-12" />
           </div>
         )}
-        
+
         {/* Image count badge */}
         {product.images && product.images.length > 1 && (
           <Badge className="absolute top-2 right-2 bg-black/50 text-white">
             {product.images.length} images
           </Badge>
         )}
-        
+
         {/* Status badge */}
         <div className="absolute top-2 left-2">
           <Badge variant={product.isActive ? "default" : "secondary"}>
@@ -76,7 +88,7 @@ export function ProductCard({ product, onEdit, onDelete, isDeleting }: ProductCa
           </div>
         </div>
       </div>
-      
+
       <CardHeader className="pb-3">
         <CardTitle className="line-clamp-2 text-base">
           {product.name || "Untitled Product"}
@@ -87,7 +99,7 @@ export function ProductCard({ product, onEdit, onDelete, isDeleting }: ProductCa
           </CardDescription>
         )}
       </CardHeader>
-      
+
       <CardContent className="pt-0">
         <div className="space-y-2">
           <div className="flex justify-between items-center">
@@ -96,7 +108,7 @@ export function ProductCard({ product, onEdit, onDelete, isDeleting }: ProductCa
               {formatCurrency(product.price || 0)}
             </span>
           </div>
-          
+
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">Rating:</span>
             <div className="flex items-center gap-1">
@@ -106,7 +118,7 @@ export function ProductCard({ product, onEdit, onDelete, isDeleting }: ProductCa
               </span>
             </div>
           </div>
-          
+
           {/* Category will be added when category data is loaded */}
           {/* {product.category?.name && (
             <div className="flex justify-between items-center">

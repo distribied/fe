@@ -24,10 +24,8 @@ import {
   type CreateProduct,
   type ProductImage,
 } from "@/schemas";
-import {
-  PRODUCT_IMAGES_COLLECTION,
-  PRODUCTS_COLLECTION,
-} from "@/const/firebase-collections";
+import { PRODUCT_IMAGES_COLLECTION, PRODUCTS_COLLECTION } from "@/const/constants";
+
 
 // Helper to convert Firestore doc to Product with validation
 const docToProduct = (docData: DocumentData, docId: string): Product => {

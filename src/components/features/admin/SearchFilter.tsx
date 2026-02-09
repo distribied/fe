@@ -35,7 +35,7 @@ export function SearchFilter({
   onFilterChange,
   filterOptions,
   allOptionLabel = "All",
-}: SearchFilterProps) {
+}: Readonly<SearchFilterProps>) {
   return (
     <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-4">
       <div className="relative flex-1">

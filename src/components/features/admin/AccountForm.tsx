@@ -30,7 +30,7 @@ export function AccountForm({
   onCancel,
   isSubmitting,
   editingAccount,
-}: AccountFormProps) {
+}: Readonly<AccountFormProps>) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {

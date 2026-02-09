@@ -97,6 +97,10 @@
     "name-az": "Tên A → Z",
     "name-za": "Tên Z → A"
   },
+  "pagination": {
+    "previous": "Trước",
+    "next": "Sau"
+  },
   "not_found": {
     "title": "Không tìm thấy trang",
     "description": "Có vẻ như trang bạn đang tìm kiếm không tồn tại hoặc đã được chuyển đi.",

@@ -9,15 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Eye,
-  Package,
-  Phone,
-  Mail,
-  MapPin,
-  Calendar,
-  User,
-} from "lucide-react";
+import { Eye, Phone, Mail, MapPin, User } from "lucide-react";
 import { type Order, type OrderStatus } from "@/schemas";
 
 interface OrderCardProps {
@@ -34,7 +26,7 @@ export function OrderCard({
   onViewDetails,
   getStatusBadgeVariant,
   formatCurrency,
-}: OrderCardProps) {
+}: Readonly<OrderCardProps>) {
   const formatDate = (date: Date | string | undefined) => {
     if (!date) return "No date";
     const dateObj = new Date(date);
@@ -50,7 +42,7 @@ export function OrderCard({
   const formatPhone = (phone: string) => {
     if (!phone) return "";
     // Format phone number if it's just digits
-    const digits = phone.replace(/\D/g, "");
+    const digits = phone.replaceAll(/\D/g, "");
     if (digits.length >= 10) {
       return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
     }
