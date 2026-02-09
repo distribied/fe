@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Button }from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { ShoppingCart, Phone, ArrowLeft, Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { MockProductCard, mockCategoriesData }from "@/data/mock-data";
-import { useParams }from "next/navigation";
+import { MockProductCard, mockCategoriesData } from "@/data/mock-data";
 import { useState, useMemo } from "react";
 import ProductCard from "@/components/shared/ProductCard";
 
@@ -17,8 +16,6 @@ export default function ProductPageClient({
   product,
 }: Readonly<ProductPageClientProps>) {
   const { t, i18n } = useTranslation();
-  const params = useParams();
-  const lang = params.lang as "vi" | "en";
   const [isFavorite, setIsFavorite] = useState(false);
 
   const formatPrice = (value: number) => {
@@ -43,7 +40,7 @@ export default function ProductPageClient({
 
     // Get products from same category (excluding current product)
     const sameCategoryProducts = allProducts.filter(
-      (p) => p.category === product.category && p.id !== product.id
+      (p) => p.category === product.category && p.id !== product.id,
     );
 
     // If same category has enough products, use them, otherwise add from other categories
@@ -51,7 +48,7 @@ export default function ProductPageClient({
 
     if (recommendations.length < 4) {
       const otherCategoryProducts = allProducts.filter(
-        (p) => p.category !== product.category && p.id !== product.id
+        (p) => p.category !== product.category && p.id !== product.id,
       );
       recommendations = [
         ...recommendations,
@@ -71,7 +68,9 @@ export default function ProductPageClient({
           className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
-          <span className="text-xs sm:text-sm font-medium">{t("common.back_home")}</span>
+          <span className="text-xs sm:text-sm font-medium">
+            {t("common.back_home")}
+          </span>
         </Link>
       </div>
 
@@ -147,7 +146,8 @@ export default function ProductPageClient({
                   </div>
                   {product.oldPrice && (
                     <span className="text-sm sm:text-base text-primary font-semibold">
-                      💰 {t("products.save")} {formatPrice(product.oldPrice - product.price)}
+                      💰 {t("products.save")}{" "}
+                      {formatPrice(product.oldPrice - product.price)}
                     </span>
                   )}
                 </>
@@ -229,7 +229,9 @@ export default function ProductPageClient({
               className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold border border-border hover:border-primary hover:bg-primary/5"
               onClick={() => setIsFavorite(!isFavorite)}
             >
-              <Heart className={`h-5 w-5 sm:h-6 sm:w-6 mr-2 transition-all ${isFavorite ? "fill-destructive text-destructive" : "text-muted-foreground"}`} />
+              <Heart
+                className={`h-5 w-5 sm:h-6 sm:w-6 mr-2 transition-all ${isFavorite ? "fill-destructive text-destructive" : "text-muted-foreground"}`}
+              />
               {isFavorite ? "Đã thích" : "Thích sản phẩm"}
             </Button>
 
@@ -238,16 +240,25 @@ export default function ProductPageClient({
               <div className="space-y-4 sm:space-y-3">
                 <div>
                   <p className="text-xs sm:text-sm text-muted-foreground mb-2">
-                    <strong className="block mb-2 text-base sm:text-lg text-foreground">📞 {t("products.hotline_label")}</strong>
-                    <a href="tel:0907882878" className="text-primary hover:text-primary/80 font-semibold text-lg sm:text-xl transition-colors">
+                    <strong className="block mb-2 text-base sm:text-lg text-foreground">
+                      📞 {t("products.hotline_label")}
+                    </strong>
+                    <a
+                      href="tel:0907882878"
+                      className="text-primary hover:text-primary/80 font-semibold text-lg sm:text-xl transition-colors"
+                    >
                       0907.882.878
                     </a>
                   </p>
                 </div>
                 <div className="border-t border-border/30 pt-4">
                   <p className="text-xs sm:text-sm text-muted-foreground">
-                    <strong className="block mb-2 text-base sm:text-lg text-foreground">📍 {t("products.address_label")}</strong>
-                    <span className="break-words text-sm sm:text-base">500/3 Đường Đoàn Văn Bơ, P.15, Q.4</span>
+                    <strong className="block mb-2 text-base sm:text-lg text-foreground">
+                      📍 {t("products.address_label")}
+                    </strong>
+                    <span className="break-words text-sm sm:text-base">
+                      500/3 Đường Đoàn Văn Bơ, P.15, Q.4
+                    </span>
                   </p>
                 </div>
               </div>

@@ -1,3 +1,5 @@
+"use client";
+import { useLocale } from "@/hooks/useLocale";
 import Link from "next/link";
 
 type Props = {
@@ -13,9 +15,11 @@ export default function NewsListItem({
   publishedAt,
   thumbnail,
 }: Readonly<Props>) {
+  const { href } = useLocale();
+
   return (
     <Link
-      href={`/news/${slug}`}
+      href={href(`news/${slug}`)}
       className="flex gap-6 py-6 border-b hover:bg-muted/40 transition"
     >
       <img
@@ -25,13 +29,9 @@ export default function NewsListItem({
       />
 
       <div className="flex flex-col justify-center">
-        <p className="text-xs text-muted-foreground mb-2">
-          {publishedAt}
-        </p>
+        <p className="text-xs text-text-muted mb-2">{publishedAt}</p>
 
-        <h3 className="text-lg font-semibold leading-snug">
-          {title}
-        </h3>
+        <h3 className="text-text-heading font-semibold leading-snug">{title}</h3>
       </div>
     </Link>
   );

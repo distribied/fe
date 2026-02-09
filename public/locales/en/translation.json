@@ -97,6 +97,10 @@
     "name-az": "Name A → Z",
     "name-za": "Name Z → A"
   },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next"
+  },
   "not_found": {
     "title": "Page Not Found",
     "description": "The page you are looking for does not exist or has been moved.",

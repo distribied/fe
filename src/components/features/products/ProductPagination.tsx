@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface ProductsPaginationProps {
   currentPage: number;
@@ -11,6 +12,7 @@ export default function ProductsPagination({
   totalPages,
   onPageChange,
 }: Readonly<ProductsPaginationProps>) {
+  const { t } = useTranslation();
   const getVisiblePages = () => {
     const delta = 2; // Number of pages to show on each side of current page
     const range = [];
@@ -57,7 +59,7 @@ export default function ProductsPagination({
           }`}
         >
           <ChevronLeft className="h-4 w-4" />
-          Trước
+          {t("pagination.previous")}
         </button>
 
         {/* Page numbers */}
@@ -90,7 +92,7 @@ export default function ProductsPagination({
               : "text-primary hover:bg-primary/10"
           }`}
         >
-          Sau
+          {t("pagination.next")}
           <ChevronRight className="h-4 w-4" />
         </button>
       </div>

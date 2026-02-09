@@ -3,39 +3,24 @@ import MapEmbed from "@/components/features/about/MapEmbed";
 
 export default function AboutPage() {
   return (
-    <section
-      className="
-        container
-        mx-auto
-        px-4
-
-        /* Top spacing: thoáng */
-        pt-8
-        md:pt-10
-
-        /* Bottom spacing: gọn, tránh hở footer */
-        pb-8
-        md:pb-4
-      "
-    >
+    <section className="container mx-auto px-4 pt-8 md:pt-10 pb-8 md:pb-4">
       <div
         className="
           grid
           grid-cols-1
           md:grid-cols-2
-
           gap-12
           md:gap-10
-          items-start
+          items-stretch
         "
       >
-        {/* Store Introduction – auto height */}
-        <div>
+        {/* Introduction – cột cao hơn */}
+        <div className="flex">
           <StoreIntroduction />
         </div>
 
-        {/* Map – cần khung tối thiểu để đẹp */}
-        <div className="min-h-[320px] md:min-h-[420px]">
+        {/* Map – tự giãn bằng chiều cao introduction */}
+        <div className="flex">
           <MapEmbed />
         </div>
       </div>

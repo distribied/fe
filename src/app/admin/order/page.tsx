@@ -40,8 +40,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
-
-const ITEMS_PER_PAGE = 8;
+import { ITEMS_PER_PAGE } from "@/const/constants";
 
 const ORDER_STATUS_OPTIONS: { value: OrderStatus; label: string }[] = [
   { value: "PENDING", label: "Pending" },

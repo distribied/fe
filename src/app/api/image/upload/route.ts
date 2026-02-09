@@ -1,7 +1,5 @@
+import { IMGBB_API_KEY, IMGBB_UPLOAD_URL } from "@/const/constants";
 import { NextRequest, NextResponse } from "next/server";
-
-const IMGBB_API_KEY = process.env.IMGBB_API_KEY; // Server-side only, NO NEXT_PUBLIC_
-const IMGBB_UPLOAD_URL = "https://api.imgbb.com/1/upload";
 
 export async function POST(request: NextRequest) {
   try {

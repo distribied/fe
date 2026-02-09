@@ -24,9 +24,9 @@ import {
   type OrderDetail,
   type OrderStatus,
 } from "@/schemas";
+import { ORDER_DETAILS_COLLECTION, ORDERS_COLLECTION } from "@/const/constants";
 
-const ORDERS_COLLECTION = "orders";
-const ORDER_DETAILS_COLLECTION = "order_details";
+
 
 // Helper to convert Firestore doc to Order with validation
 const docToOrder = (docData: DocumentData, docId: string): Order => {

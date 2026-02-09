@@ -22,13 +22,12 @@ import {
   MockCategoryInfo,
   mockFetchCategoriesInfo,
 } from "@/data/mock-data";
-import { useParams } from "next/navigation";
+import { useLocale } from "@/hooks/useLocale";
 
 const Header = () => {
   const { t, i18n } = useTranslation();
   const [categories, setCategories] = useState<MockCategoryInfo[]>([]);
-  const params = useParams();
-  const lang = params.lang as "vi" | "en";
+  const { href } = useLocale();
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -45,16 +44,16 @@ const Header = () => {
   }, []);
 
   const navItems = [
-    { name: t("header.nav.home"), href: `/${lang}`, icon: Home },
+    { name: t("header.nav.home"), href: href(""), icon: Home },
     {
       name: t("header.nav.products"),
-      href: `/${lang}/products`,
+      href: href("products"),
       icon: Package,
     },
-    { name: t("header.nav.about"), href: `/${lang}/about`, icon: Info },
-    { name: t("header.nav.news"), href: `/${lang}/news`, icon: Newspaper },
-    { name: t("header.nav.contact"), href: `/${lang}/contact`, icon: Mail },
-    { name: t("header.nav.album"), href: `/${lang}/gallery`, icon: Image },
+    { name: t("header.nav.about"), href: href("about"), icon: Info },
+    { name: t("header.nav.news"), href: href("news"), icon: Newspaper },
+    { name: t("header.nav.contact"), href: href("contract"), icon: Mail },
+    { name: t("header.nav.album"), href: href("gallery"), icon: Image },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -168,7 +167,10 @@ const Header = () => {
           <div className="container mx-auto px-4 py-3 md:py-4">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               {/* Logo */}
-              <Link href="/" className="flex items-center gap-2 md:gap-3 group">
+              <Link
+                href={href("")}
+                className="flex items-center gap-2 md:gap-3 group"
+              >
                 <img
                   src="/ui/logo.png"
                   alt="Kiều Sâm"
@@ -243,7 +245,7 @@ const Header = () => {
                 {categories.map((c) => (
                   <Link
                     key={c.id}
-                    href={`/${lang}/products?category=${c.slug.vi}`}
+                    href={href(`products?category=${c.slug.vi}`)}
                     className="block px-5 py-3 text-sm font-semibold hover:bg-primary/10"
                     onClick={() => setIsCategoryOpen(false)}
                   >

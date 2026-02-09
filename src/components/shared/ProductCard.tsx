@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useLocale } from "@/hooks/useLocale";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 interface ProductCardProps {
@@ -23,8 +23,7 @@ const ProductCard = ({
   showContact = false,
 }: ProductCardProps) => {
   const { t, i18n } = useTranslation();
-  const params = useParams();
-  const lang = params.lang as "vi" | "en";
+  const { href } = useLocale();
 
   const formatPrice = (value: number) => {
     return (
@@ -38,7 +37,7 @@ const ProductCard = ({
     <div className="bg-card rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-md transition-shadow group">
       {/* Image */}
       <Link
-        href={`${lang}/product/${id}`}
+        href={href(`product/${id}`)}
         className="block relative overflow-hidden aspect-square"
       >
         <img
@@ -50,7 +49,7 @@ const ProductCard = ({
 
       {/* Content */}
       <div className="p-2 sm:p-3 md:p-4">
-        <Link href={`${lang}/product/${id}`}>
+        <Link href={href(`/product/${id}`)}>
           <h3 className="text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-2 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] hover:text-primary transition-colors">
             {title}
           </h3>
@@ -84,7 +83,7 @@ const ProductCard = ({
             className="flex-1 text-[10px] sm:text-xs px-1 sm:px-2 h-7 sm:h-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
             asChild
           >
-            <Link href={`${lang}/product/${id}`}>
+            <Link href={href(`product/${id}`)}>
               {t("products.view_details")}
             </Link>
           </Button>

@@ -2,8 +2,8 @@
 
 import CategorySectionHeader from "./CategorySectionHeader";
 import ProductCard from "../../shared/ProductCard";
-import { useParams } from "next/navigation";
 import { Product } from "@/schemas";
+import { useLocale } from "@/hooks/useLocale";
 
 // UI-specific interface for ProductCard props
 interface ProductCardData {
@@ -41,12 +41,12 @@ const ProductSection = ({
   categorySlug,
   totalCount,
 }: ProductSectionProps) => {
-  const params = useParams();
-  const lang = params.lang as "vi" | "en";
+  const { href } = useLocale();
+
   // Always use /products with category param
   const viewAllHref = categorySlug
-    ? `${lang}/products?category=${categorySlug}`
-    : `${lang}/products`;
+    ? href(`/products?category=${categorySlug}`)
+    : href(`products`);
 
   // Show max 8 products
   const displayProducts = products.slice(0, 8);

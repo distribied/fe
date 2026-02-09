@@ -33,6 +33,11 @@ const navigation = [
     icon: Home,
   },
   {
+    name: "Categories",
+    href: "/admin/category",
+    icon: FolderTree,
+  },
+  {
     name: "Products",
     href: "/admin/product",
     icon: Package,
@@ -41,11 +46,6 @@ const navigation = [
     name: "Orders",
     href: "/admin/order",
     icon: ShoppingCart,
-  },
-  {
-    name: "Categories",
-    href: "/admin/category",
-    icon: FolderTree,
   },
   {
     name: "Accounts",
@@ -57,10 +57,10 @@ const navigation = [
 function NavLink({
   item,
   onClick,
-}: {
+}: Readonly<{
   item: (typeof navigation)[0];
   onClick?: () => void;
-}) {
+}>) {
   const pathname = usePathname();
   const isActive = pathname === item.href;
 
@@ -104,9 +104,9 @@ function Sidebar() {
 
 export default function AdminLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (

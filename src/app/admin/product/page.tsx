@@ -29,20 +29,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import {
-  PlusCircle,
-  Pencil,
-  Trash2,
-  Loader2,
-  Star,
-  Package,
-} from "lucide-react";
+import { PlusCircle, Trash2, Loader2, Star, Package } from "lucide-react";
 import { SearchFilter } from "@/components/features/admin/SearchFilter";
 import { PaginationControls } from "@/components/features/admin/PaginationControls";
 import { toast } from "sonner";
 import { useCategories } from "@/hooks/useCategory";
-
-const ITEMS_PER_PAGE = 8;
+import { ITEMS_PER_PAGE } from "@/const/constants";
+import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
+import { handleError } from "@/errors/handleError";
 
 export default function AdminProductPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -50,6 +44,7 @@ export default function AdminProductPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   // Zustand store
   const {
@@ -176,15 +171,12 @@ export default function AdminProductPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this product?")) return;
-
     try {
       await deleteMutation.mutateAsync(id);
       removeProductFromStore(id);
       toast.success("Product deleted successfully!");
     } catch (error) {
-      toast.error("Failed to delete product.");
-      console.error("Error deleting product:", error);
+      if (error) handleError(error);
     }
   };
 
@@ -283,12 +275,16 @@ export default function AdminProductPage() {
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4">
           {displayProducts.map((product) => {
             const thumbnailUrl = getThumbnail(product);
+
             return (
               <Card
                 key={product.id}
-                className="group overflow-hidden hover:shadow-lg transition-shadow"
+                role="button"
+                tabIndex={0}
+                onClick={() => handleEdit(product)}
+                className="group relative overflow-hidden cursor-pointer transition-shadow hover:shadow-lg focus:outline-none"
               >
-                {/* Product Image / Thumbnail */}
+                {/* Image */}
                 <div className="aspect-square relative overflow-hidden bg-muted">
                   {thumbnailUrl ? (
                     <Image
@@ -296,7 +292,6 @@ export default function AdminProductPage() {
                       alt={product.name || "Product"}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -306,40 +301,41 @@ export default function AdminProductPage() {
 
                   {/* Status badge */}
                   <Badge
-                    className="absolute top-2 left-2"
+                    className="absolute top-2 left-2 z-10"
                     variant={product.isActive ? "default" : "secondary"}
                   >
                     {product.isActive ? "Active" : "Inactive"}
                   </Badge>
 
-                  {/* Image count badge */}
+                  {/* Image count */}
                   {product.images && product.images.length > 1 && (
-                    <Badge className="absolute top-2 right-2 bg-black/50 text-white">
+                    <Badge className="absolute top-2 right-10 z-10 bg-black/50 text-white">
                       {product.images.length} images
                     </Badge>
                   )}
 
-                  {/* Action buttons overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
-                    <Button
-                      size="icon"
-                      variant="secondary"
-                      onClick={() => handleEdit(product)}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="destructive"
-                      onClick={() => handleDelete(product.id.toString())}
-                      disabled={deleteMutation.isPending}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
+                  {/* DELETE BUTTON */}
+                  <Button
+                    size="icon"
+                    variant="destructive"
+                    className="
+                      absolute top-2 right-2 z-20
+                      h-8 w-8
+                      opacity-100 md:opacity-0
+                      md:group-hover:opacity-100
+                      transition-opacity
+                    "
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setConfirmDeleteId(product.id.toString());
+                    }}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </div>
 
-                <CardHeader className="p-2 md:p-4 pb-1 md:pb-2">
+                {/* Info */}
+                <CardHeader className="p-2 md:p-4 pb-1">
                   <CardTitle className="line-clamp-1 text-xs sm:text-sm md:text-base">
                     {product.name || "Untitled Product"}
                   </CardTitle>
@@ -351,25 +347,15 @@ export default function AdminProductPage() {
                 </CardHeader>
 
                 <CardContent className="p-2 md:p-4 pt-0">
-                  <div className="space-y-0.5 sm:space-y-1">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] sm:text-xs md:text-sm text-muted-foreground hidden sm:inline">
-                        Price:
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-xs sm:text-sm md:text-lg text-green-600">
+                      {formatCurrency(product.price || 0)}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-current text-yellow-500" />
+                      <span className="text-xs font-medium">
+                        {product.ratingAverage?.toFixed(1) || "0.0"}
                       </span>
-                      <span className="font-bold text-xs sm:text-sm md:text-lg text-green-600">
-                        {formatCurrency(product.price || 0)}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] sm:text-xs md:text-sm text-muted-foreground hidden sm:inline">
-                        Rating:
-                      </span>
-                      <div className="flex items-center gap-0.5 sm:gap-1">
-                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current text-yellow-500" />
-                        <span className="text-[10px] sm:text-xs md:text-sm font-medium">
-                          {product.ratingAverage?.toFixed(1) || "0.0"}
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -386,6 +372,22 @@ export default function AdminProductPage() {
           )}
         </div>
       )}
+
+      {/* Confirm dialog */}
+      <ConfirmDialog
+        open={!!confirmDeleteId}
+        title="Delete product confirm"
+        description="Are you sure you want to delete this product?"
+        confirmText="Yes"
+        cancelText="Cancel"
+        loading={deleteMutation.isPending}
+        onCancel={() => setConfirmDeleteId(null)}
+        onConfirm={async () => {
+          if (!confirmDeleteId) return;
+          await handleDelete(confirmDeleteId);
+          setConfirmDeleteId(null);
+        }}
+      />
 
       {/* Pagination */}
       {!productsLoading && (

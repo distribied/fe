@@ -39,14 +39,15 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { handleError } from "@/errors/handleError";
-
-const ITEMS_PER_PAGE = 8;
+import { ITEMS_PER_PAGE } from "@/const/constants";
+import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 
 export default function AdminCategoryPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   // Form state
   const [formData, setFormData] = useState<CreateCategory>({
@@ -132,7 +133,6 @@ export default function AdminCategoryPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this category?")) return;
     try {
       await deleteMutation.mutateAsync(id);
       toast.success("Category deleted successfully!");
@@ -322,7 +322,10 @@ export default function AdminCategoryPage() {
                   <Button
                     size="sm"
                     variant="destructive"
-                    onClick={() => handleDelete(category.id.toString())}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setConfirmDeleteId(category.id.toString());
+                    }}
                     disabled={deleteMutation.isPending}
                     className="flex-1"
                   >
@@ -343,6 +346,22 @@ export default function AdminCategoryPage() {
           )}
         </div>
       )}
+
+      {/* Confirm dialog */}
+      <ConfirmDialog
+        open={!!confirmDeleteId}
+        title="Delete category confirm"
+        description="Are you sure you want to delete this category?"
+        confirmText="Yes"
+        cancelText="Cancel"
+        loading={deleteMutation.isPending}
+        onCancel={() => setConfirmDeleteId(null)}
+        onConfirm={async () => {
+          if (!confirmDeleteId) return;
+          await handleDelete(confirmDeleteId);
+          setConfirmDeleteId(null);
+        }}
+      />
 
       {/* Pagination */}
       {!isLoading && (
