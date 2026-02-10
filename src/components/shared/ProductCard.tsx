@@ -34,10 +34,10 @@ const ProductCard = ({
   };
 
   return (
-    <div className="bg-card rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-md transition-shadow group">
+    <div className="bg-card rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-md transition-shadow group flex flex-col h-full">
       {/* Image */}
       <Link
-        href={href(`product/${id}`)}
+        href={href(`/products/${id}`)}
         className="block relative overflow-hidden aspect-square"
       >
         <img
@@ -48,21 +48,21 @@ const ProductCard = ({
       </Link>
 
       {/* Content */}
-      <div className="p-2 sm:p-3 md:p-4">
-        <Link href={href(`/product/${id}`)}>
+      <div className="p-2 sm:p-3 md:p-4 flex flex-col flex-grow">
+        <Link href={href(`/products/${id}`)}>
           <h3 className="text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-2 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] hover:text-primary transition-colors">
             {title}
           </h3>
         </Link>
 
-        {/* Price */}
-        <div className="mb-2 sm:mb-3">
+        {/* Price - Fixed height */}
+        <div className="mb-2 sm:mb-3 min-h-[2.5rem] sm:min-h-[3rem] flex items-start">
           {showContact ? (
             <span className="text-destructive font-bold uppercase text-xs sm:text-sm">
               {t("products.contact")}
             </span>
           ) : (
-            <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+            <div className="flex flex-col gap-1">
               {oldPrice && (
                 <span className="price-old text-xs">
                   {formatPrice(oldPrice)}
@@ -75,15 +75,15 @@ const ProductCard = ({
           )}
         </div>
 
-        {/* Buttons */}
-        <div className="flex gap-1 sm:gap-2">
+        {/* Buttons - Push to bottom */}
+        <div className="flex gap-1 sm:gap-2 mt-auto">
           <Button
             variant="outline"
             size="sm"
             className="flex-1 text-[10px] sm:text-xs px-1 sm:px-2 h-7 sm:h-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
             asChild
           >
-            <Link href={href(`product/${id}`)}>
+            <Link href={href(`/products/${id}`)}>
               {t("products.view_details")}
             </Link>
           </Button>
