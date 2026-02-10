@@ -26,7 +26,7 @@ const SideBanners = () => {
       {mockSideProducts.map((product) => (
         <Link
           key={product.id}
-          href={href(`product/${product.id}`)}
+          href={href(`products/${product.id}`)}
           className="group bg-card rounded-lg border border-border hover:border-primary hover:shadow-md transition-all overflow-hidden flex-1"
         >
           <div className="flex gap-3 p-3 h-full">

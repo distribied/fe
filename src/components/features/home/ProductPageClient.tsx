@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { MockProductCard, mockCategoriesData } from "@/data/mock-data";
 import { useState, useMemo } from "react";
 import ProductCard from "@/components/shared/ProductCard";
+import ImageZoom from "@/components/shared/ImageZoom";
 
 interface ProductPageClientProps {
   product: MockProductCard & { category: string };
@@ -74,78 +75,56 @@ export default function ProductPageClient({
         </Link>
       </div>
 
-      {/* Breadcrumb */}
-      <nav className="mb-3 sm:mb-6">
-        <ol className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground flex-wrap">
-          <li>
-            <Link href="/" className="hover:text-primary transition-colors">
-              {t("header.nav.home")}
-            </Link>
-          </li>
-          <li className="px-1">/</li>
-          <li className="hidden sm:inline">
-            <span className="hover:text-primary transition-colors cursor-pointer">
-              {product.category}
-            </span>
-          </li>
-          <li className="hidden sm:inline px-1">/</li>
-          <li className="text-foreground font-medium truncate max-w-[180px] sm:max-w-none">
-            {product.title}
-          </li>
-        </ol>
-      </nav>
-
       {/* Product Detail */}
       <div className="bg-card rounded-lg shadow-sm border border-border p-4 sm:p-6 md:p-8 mb-6 sm:mb-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
           {/* Product Image - Responsive */}
-          <div className="flex flex-col gap-4">
-            <div className="aspect-square overflow-hidden rounded-lg bg-muted w-full">
-              <img
-                src={product.image}
-                alt={product.title}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-              />
-            </div>
+          <div className="flex flex-col gap-4 lg:max-w-md lg:mx-auto">
+            <ImageZoom
+              src={product.image}
+              alt={product.title}
+              zoomScale={1.8}
+              lensSize={150}
+            />
           </div>
 
           {/* Product Info - Responsive Layout */}
           <div className="flex flex-col">
             <div className="mb-4 sm:mb-6">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
+              <h1 className="text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
                 {product.title}
               </h1>
               {/* Category Badge - Rectangle Style */}
-              <span className="inline-block bg-primary/10 text-primary px-4 sm:px-5 py-2 sm:py-2.5 rounded text-xs sm:text-sm font-semibold uppercase tracking-wider">
+              <span className="inline-block bg-primary/10 text-primary px-4 sm:px-5 lg:px-4 py-2 sm:py-2.5 lg:py-2 rounded text-xs sm:text-sm lg:text-xs font-semibold uppercase tracking-wider">
                 {product.category}
               </span>
             </div>
 
             {/* Price Section - Better Mobile Layout */}
-            <div className="mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-border/50">
+            <div className="mb-6 sm:mb-8 lg:mb-6 pb-6 sm:pb-8 lg:pb-6 border-b border-border/50">
               {product.showContact ? (
-                <div className="bg-gradient-to-r from-primary/10 to-accent/10 p-4 sm:p-6 rounded-lg border border-primary/20">
-                  <p className="text-lg sm:text-xl font-bold text-primary mb-2 sm:mb-3">
+                <div className="bg-gradient-to-r from-primary/10 to-accent/10 p-4 sm:p-6 lg:p-4 rounded-lg border border-primary/20">
+                  <p className="text-lg sm:text-xl lg:text-lg font-bold text-primary mb-2 sm:mb-3 lg:mb-2">
                     {t("products.contact")}
                   </p>
-                  <p className="text-sm sm:text-base text-muted-foreground">
+                  <p className="text-sm sm:text-base lg:text-sm text-muted-foreground">
                     Vui lòng liên hệ để biết giá và tư vấn chi tiết
                   </p>
                 </div>
               ) : (
                 <>
-                  <div className="flex items-baseline gap-3 sm:gap-4 flex-wrap mb-3">
+                  <div className="flex items-baseline gap-3 sm:gap-4 lg:gap-3 flex-wrap mb-3 lg:mb-2">
                     {product.oldPrice && (
-                      <span className="text-base sm:text-lg text-muted-foreground line-through opacity-70">
+                      <span className="text-base sm:text-lg lg:text-base text-muted-foreground line-through opacity-70">
                         {formatPrice(product.oldPrice)}
                       </span>
                     )}
-                    <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-destructive">
+                    <span className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl font-bold text-destructive">
                       {formatPrice(product.price)}
                     </span>
                   </div>
                   {product.oldPrice && (
-                    <span className="text-sm sm:text-base text-primary font-semibold">
+                    <span className="text-sm sm:text-base lg:text-sm text-primary font-semibold">
                       💰 {t("products.save")}{" "}
                       {formatPrice(product.oldPrice - product.price)}
                     </span>
@@ -155,11 +134,11 @@ export default function ProductPageClient({
             </div>
 
             {/* Description */}
-            <div className="mb-6 sm:mb-8">
-              <h3 className="font-bold text-foreground mb-3 text-base sm:text-lg">
+            <div className="mb-6 sm:mb-8 lg:mb-5">
+              <h3 className="font-bold text-foreground mb-3 lg:mb-2 text-base sm:text-lg lg:text-base">
                 {t("products.description")}
               </h3>
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              <p className="text-sm sm:text-base lg:text-sm text-muted-foreground leading-relaxed">
                 Sản phẩm thủ công truyền thống được làm từ nguyên liệu tự nhiên,
                 thân thiện với môi trường. Được chế tác tỉ mỉ bởi các nghệ nhân
                 lành nghề, mang đậm bản sắc văn hóa Việt Nam. Phù hợp làm quà
@@ -168,54 +147,54 @@ export default function ProductPageClient({
             </div>
 
             {/* Product Features */}
-            <div className="mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-border/50">
-              <h3 className="font-bold text-foreground mb-4 text-base sm:text-lg">
+            <div className="mb-6 sm:mb-8 lg:mb-5 pb-6 sm:pb-8 lg:pb-5 border-b border-border/50">
+              <h3 className="font-bold text-foreground mb-4 lg:mb-3 text-base sm:text-lg lg:text-base">
                 Đặc điểm nổi bật
               </h3>
-              <ul className="space-y-3 text-sm sm:text-base text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+              <ul className="space-y-3 lg:space-y-2 text-sm sm:text-base lg:text-sm text-muted-foreground">
+                <li className="flex items-start gap-3 lg:gap-2">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 lg:mt-1.5 flex-shrink-0"></span>
                   <span>100% thủ công từ nguyên liệu tự nhiên</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                <li className="flex items-start gap-3 lg:gap-2">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 lg:mt-1.5 flex-shrink-0"></span>
                   <span>Thân thiện với môi trường</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                <li className="flex items-start gap-3 lg:gap-2">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 lg:mt-1.5 flex-shrink-0"></span>
                   <span>Thiết kế độc đáo, mang đậm bản sắc Việt Nam</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                <li className="flex items-start gap-3 lg:gap-2">
+                  <span className="w-2 h-2 bg-primary rounded-full mt-2 lg:mt-1.5 flex-shrink-0"></span>
                   <span>Bền đẹp, dễ sử dụng và bảo quản</span>
                 </li>
               </ul>
             </div>
 
             {/* Actions - Full width mobile with enhanced sizing */}
-            <div className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <div className="flex flex-col gap-3 sm:gap-4 lg:gap-3 mb-6 sm:mb-8 lg:mb-5">
               {product.showContact ? (
                 <Button
                   size="lg"
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-14 sm:h-16 text-base sm:text-lg font-bold shadow-md hover:shadow-lg transition-all"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] h-14 sm:h-16 lg:h-12 text-base sm:text-lg lg:text-base font-bold shadow-md hover:shadow-xl transition-all duration-200"
                 >
-                  <Phone className="h-5 w-5 sm:h-6 sm:w-6 mr-3" />
+                  <Phone className="h-5 w-5 sm:h-6 sm:w-6 lg:h-5 lg:w-5 mr-3 lg:mr-2" />
                   {t("products.consult")}
                 </Button>
               ) : (
                 <>
                   <Button
                     size="lg"
-                    className="w-full bg-accent text-accent-foreground hover:bg-accent/90 h-14 sm:h-16 text-base sm:text-lg font-bold shadow-md hover:shadow-lg transition-all"
+                    className="w-full bg-accent text-accent-foreground hover:bg-accent/90 hover:scale-[1.02] active:scale-[0.98] h-14 sm:h-16 lg:h-12 text-base sm:text-lg lg:text-base font-bold shadow-md hover:shadow-xl transition-all duration-200"
                   >
-                    <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6 mr-3" />
+                    <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6 lg:h-5 lg:w-5 mr-3 lg:mr-2" />
                     {t("products.buy_now")}
                   </Button>
                   <Button
                     size="lg"
-                    className="w-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground h-14 sm:h-16 text-base sm:text-lg font-bold transition-all"
+                    className="w-full border-2 border-primary bg-primary text-primary-foreground hover:bg-transparent hover:text-primary hover:scale-[1.02] active:scale-[0.98] h-14 sm:h-16 lg:h-12 text-base sm:text-lg lg:text-base font-bold transition-all duration-200"
                   >
-                    <Phone className="h-5 w-5 sm:h-6 sm:w-6 mr-3" />
+                    <Phone className="h-5 w-5 sm:h-6 sm:w-6 lg:h-5 lg:w-5 mr-3 lg:mr-2" />
                     {t("products.consult")}
                   </Button>
                 </>
@@ -226,40 +205,40 @@ export default function ProductPageClient({
             <Button
               size="lg"
               variant="ghost"
-              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold border border-border hover:border-primary hover:bg-primary/5"
+              className="w-full h-12 sm:h-14 lg:h-11 text-base sm:text-lg lg:text-base font-semibold border border-border hover:border-primary hover:bg-primary/5 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
               onClick={() => setIsFavorite(!isFavorite)}
             >
               <Heart
-                className={`h-5 w-5 sm:h-6 sm:w-6 mr-2 transition-all ${isFavorite ? "fill-destructive text-destructive" : "text-muted-foreground"}`}
+                className={`h-5 w-5 sm:h-6 sm:w-6 lg:h-5 lg:w-5 mr-2 transition-all duration-200 ${
+                  isFavorite
+                    ? "fill-destructive text-destructive scale-110"
+                    : "text-muted-foreground hover:scale-110"
+                }`}
               />
               {isFavorite ? "Đã thích" : "Thích sản phẩm"}
             </Button>
 
             {/* Contact Info - Enhanced Card Style */}
-            <div className="mt-6 sm:mt-8 p-4 sm:p-6 bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl border-2 border-primary/10 shadow-sm">
-              <div className="space-y-4 sm:space-y-3">
+            <div className="mt-6 sm:mt-8 lg:mt-5 p-4 sm:p-6 lg:p-4 bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl border-2 border-primary/10 shadow-sm">
+              <div className="space-y-4 sm:space-y-3 lg:space-y-3">
                 <div>
-                  <p className="text-xs sm:text-sm text-muted-foreground mb-2">
-                    <strong className="block mb-2 text-base sm:text-lg text-foreground">
-                      📞 {t("products.hotline_label")}
-                    </strong>
-                    <a
-                      href="tel:0907882878"
-                      className="text-primary hover:text-primary/80 font-semibold text-lg sm:text-xl transition-colors"
-                    >
-                      0907.882.878
-                    </a>
-                  </p>
+                  <strong className="block mb-2 lg:mb-1.5 text-base sm:text-lg lg:text-base text-foreground">
+                    📞 {t("products.hotline_label")}
+                  </strong>
+                  <a
+                    href="tel:0907882878"
+                    className="text-primary hover:text-primary/80 font-semibold text-lg sm:text-xl lg:text-lg transition-colors"
+                  >
+                    0907.882.878
+                  </a>
                 </div>
-                <div className="border-t border-border/30 pt-4">
-                  <p className="text-xs sm:text-sm text-muted-foreground">
-                    <strong className="block mb-2 text-base sm:text-lg text-foreground">
-                      📍 {t("products.address_label")}
-                    </strong>
-                    <span className="break-words text-sm sm:text-base">
-                      500/3 Đường Đoàn Văn Bơ, P.15, Q.4
-                    </span>
-                  </p>
+                <div className="border-t border-border/30 pt-4 lg:pt-3">
+                  <strong className="block mb-2 lg:mb-1.5 text-base sm:text-lg lg:text-base text-foreground">
+                    📍 {t("products.address_label")}
+                  </strong>
+                  <span className="break-words text-sm sm:text-base lg:text-sm text-muted-foreground">
+                    500/3 Đường Đoàn Văn Bơ, P.15, Q.4
+                  </span>
                 </div>
               </div>
             </div>
