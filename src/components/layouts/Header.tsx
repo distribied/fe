@@ -52,7 +52,7 @@ const Header = () => {
     },
     { name: t("header.nav.about"), href: href("about"), icon: Info },
     { name: t("header.nav.news"), href: href("news"), icon: Newspaper },
-    { name: t("header.nav.contact"), href: href("contract"), icon: Mail },
+    { name: t("header.nav.contact"), href: href("contact"), icon: Mail },
     { name: t("header.nav.album"), href: href("gallery"), icon: Image },
   ];
 
