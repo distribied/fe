@@ -178,5 +178,67 @@
     "q3_answer": "Absolutely! We specialize in custom orders. You can share your ideas and desired designs, and we will provide consultation and detailed quotes. Please contact us via the consultation form or call our hotline for best support.",
     "q4_question": "What is the return policy?",
     "q4_answer": "We accept returns within 7 days from the date of receipt if the product is defective due to manufacturing. Returned products must be intact, unused, and include all invoices and accessories."
+  },
+  "album": {
+    "hero_title": "Activity Album",
+    "hero_subtitle": "Memorable moments in our journey of development and activities",
+    "categories": {
+      "all": "All",
+      "production": "Production Process",
+      "events": "Events & Exhibitions",
+      "customers": "Customers",
+      "showroom": "Showroom Space",
+      "community": "Community Activities"
+    },
+    "albums": {
+      "production_process": {
+        "title": "Handcraft Production Process",
+        "description": "Discover the meticulous and passionate work process of artisans in creating high-quality rattan and bamboo products."
+      },
+      "artisan_work": {
+        "title": "Artisans at Work",
+        "description": "The skillful hands of artisans creating value in every handcrafted product."
+      },
+      "craft_fair_2025": {
+        "title": "Handicraft Fair 2025",
+        "description": "Participating in the largest handicraft fair of 2025, showcasing products to thousands of visitors."
+      },
+      "exhibition_opening": {
+        "title": "Product Exhibition Opening",
+        "description": "Grand opening of our product exhibition with the presence of many customers and partners."
+      },
+      "customer_testimonials": {
+        "title": "Happy Customers",
+        "description": "Joyful moments when customers receive their desired products and are satisfied with the quality."
+      },
+      "corporate_orders": {
+        "title": "Corporate Orders",
+        "description": "Large orders from businesses and offices for gifts and workspace decoration needs."
+      },
+      "showroom_space": {
+        "title": "Showroom Space",
+        "description": "Our modern, elegant, and cozy product display space."
+      },
+      "product_display": {
+        "title": "Product Display",
+        "description": "Artistic and attractive product arrangement and display at our showroom."
+      },
+      "craft_workshop": {
+        "title": "Craft Workshop Training",
+        "description": "Free handicraft training program for youth and workers in the community."
+      },
+      "charity_event": {
+        "title": "Charity Activities",
+        "description": "Participating in charity activities, donating products to people in difficult circumstances."
+      }
+    },
+    "no_albums": "No albums yet",
+    "no_albums_description": "There are currently no albums in this category. Please select another category or come back later.",
+    "stats": {
+      "albums": "Albums",
+      "photos": "Photos",
+      "events": "Events",
+      "years": "Years of Experience"
+    }
   }
 }

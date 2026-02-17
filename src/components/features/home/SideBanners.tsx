@@ -61,7 +61,7 @@ const SideBanners = () => {
 
       {/* View All Button */}
       <Link
-        href="/products"
+        href={href("products")}
         className="text-center text-sm font-medium text-primary hover:text-white py-3 px-6 rounded-lg shadow-md hover:bg-primary transition-all transform origin-bottom bg-secondary hover:bg-primary hover:scale-105 animate-wiggle"
       >
         {t("products.view_all")} →

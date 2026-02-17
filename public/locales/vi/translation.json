@@ -178,5 +178,67 @@
     "q3_answer": "Hoàn toàn có thể! Chúng tôi chuyên nhận đặt hàng theo yêu cầu. Bạn có thể chia sẻ ý tưởng, mẫu mã mong muốn và chúng tôi sẽ tư vấn và báo giá chi tiết. Vui lòng liên hệ qua form tư vấn hoặc gọi hotline để được hỗ trợ tốt nhất.",
     "q4_question": "Chính sách đổi trả như thế nào?",
     "q4_answer": "Chúng tôi chấp nhận đổi trả trong vòng 7 ngày kể từ ngày nhận hàng nếu sản phẩm bị lỗi do nhà sản xuất. Sản phẩm đổi trả phải còn nguyên vẹn, chưa qua sử dụng và có đầy đủ hóa đơn, phụ kiện đi kèm."
+  },
+  "album": {
+    "hero_title": "Album Hoạt Động",
+    "hero_subtitle": "Những khoảnh khắc đáng nhớ trong hành trình phát triển và hoạt động của chúng tôi",
+    "categories": {
+      "all": "Tất Cả",
+      "production": "Quy Trình Sản Xuất",
+      "events": "Sự Kiện & Triển Lãm",
+      "customers": "Khách Hàng",
+      "showroom": "Không Gian Showroom",
+      "community": "Hoạt Động Cộng Đồng"
+    },
+    "albums": {
+      "production_process": {
+        "title": "Quy Trình Sản Xuất Thủ Công",
+        "description": "Khám phá quy trình làm việc tỉ mỉ và tâm huyết của các nghệ nhân trong việc tạo ra những sản phẩm mây tre lá chất lượng cao."
+      },
+      "artisan_work": {
+        "title": "Nghệ Nhân Làm Việc",
+        "description": "Những bàn tay khéo léo của các nghệ nhân đang tạo nên giá trị cho từng sản phẩm thủ công mỹ nghệ."
+      },
+      "craft_fair_2025": {
+        "title": "Hội Chợ Thủ Công Mỹ Nghệ 2025",
+        "description": "Tham gia hội chợ thủ công mỹ nghệ lớn nhất năm 2025, giới thiệu sản phẩm đến hàng ngàn khách tham quan."
+      },
+      "exhibition_opening": {
+        "title": "Khai Trương Triển Lãm Sản Phẩm",
+        "description": "Lễ khai trương triển lãm sản phẩm mới với sự góp mặt của đông đảo khách hàng và đối tác."
+      },
+      "customer_testimonials": {
+        "title": "Khách Hàng Hài Lòng",
+        "description": "Những khoảnh khắc vui vẻ khi khách hàng nhận được sản phẩm ưng ý và hài lòng với chất lượng."
+      },
+      "corporate_orders": {
+        "title": "Đơn Hàng Doanh Nghiệp",
+        "description": "Các đơn hàng lớn từ doanh nghiệp, văn phòng cho nhu cầu quà tặng và trang trí không gian làm việc."
+      },
+      "showroom_space": {
+        "title": "Không Gian Showroom",
+        "description": "Không gian trưng bày sản phẩm hiện đại, sang trọng và ấm cúng của chúng tôi."
+      },
+      "product_display": {
+        "title": "Trưng Bày Sản Phẩm",
+        "description": "Cách bố trí và trưng bày sản phẩm một cách nghệ thuật và hấp dẫn tại showroom."
+      },
+      "craft_workshop": {
+        "title": "Workshop Dạy Nghề Thủ Công",
+        "description": "Chương trình dạy nghề thủ công miễn phí cho thanh niên và người lao động trong cộng đồng."
+      },
+      "charity_event": {
+        "title": "Hoạt Động Từ Thiện",
+        "description": "Tham gia các hoạt động từ thiện, trao tặng sản phẩm cho người có hoàn cảnh khó khăn."
+      }
+    },
+    "no_albums": "Chưa có album nào",
+    "no_albums_description": "Hiện tại chưa có album nào trong danh mục này. Vui lòng chọn danh mục khác hoặc quay lại sau.",
+    "stats": {
+      "albums": "Album",
+      "photos": "Hình Ảnh",
+      "events": "Sự Kiện",
+      "years": "Năm Kinh Nghiệm"
+    }
   }
 }
