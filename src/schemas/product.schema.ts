@@ -11,7 +11,8 @@ export const ProductSchema = z.object({
   price: z.number().nonnegative(),
   isActive: z.boolean().default(true),
   ratingAverage: z.number().min(0).max(5).default(0),
-  images: z.array(ProductImageSchema).optional(), // Product images
+  images: z.array(ProductImageSchema).optional(),
+  searchKeywords: z.array(z.string()).optional(), // Search keyword (auto-generated when create or update product)
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional().nullable(),
 });

@@ -24,8 +24,11 @@ import {
   type CreateProduct,
   type ProductImage,
 } from "@/schemas";
-import { PRODUCT_IMAGES_COLLECTION, PRODUCTS_COLLECTION } from "@/const/constants";
-
+import {
+  PRODUCT_IMAGES_COLLECTION,
+  PRODUCTS_COLLECTION,
+} from "@/const/constants";
+import { generateSearchKeywords } from "@/utils/search.utils";
 
 // Helper to convert Firestore doc to Product with validation
 const docToProduct = (docData: DocumentData, docId: string): Product => {
@@ -139,6 +142,8 @@ export const createProduct = async (
   // Validate input
   const validatedProduct = CreateProductSchema.parse(product);
 
+  const searchKeywords = generateSearchKeywords(validatedProduct.name);
+
   const firebaseData = removeUndefined({
     categoryId: validatedProduct.categoryId,
     name: validatedProduct.name,
@@ -148,6 +153,7 @@ export const createProduct = async (
     price: validatedProduct.price,
     isActive: validatedProduct.isActive ?? true,
     ratingAverage: validatedProduct.ratingAverage ?? 0,
+    searchKeywords,
     createdAt: new Date(),
   });
 
@@ -181,7 +187,6 @@ export const createProductWithImages = async (
         productId: createdProduct.id,
         url,
         isThumbnail: index === thumbnailIndex,
-        isDeleted: false,
         updatedAt: new Date(),
       });
     });
@@ -196,17 +201,20 @@ export const updateProduct = async (
   id: string,
   updates: Partial<Product>,
 ): Promise<void> => {
-  // Validate updates
   const validatedUpdates = UpdateProductSchema.parse(updates);
 
+  const updateData: any = {
+    ...validatedUpdates,
+    updatedAt: new Date(),
+  };
+
+  if (validatedUpdates.name) {
+    updateData.searchKeywords = generateSearchKeywords(validatedUpdates.name);
+  }
+
   const docRef = doc(db, PRODUCTS_COLLECTION, id);
-  await updateDoc(
-    docRef,
-    removeUndefined({
-      ...validatedUpdates,
-      updatedAt: new Date(),
-    }),
-  );
+
+  await updateDoc(docRef, removeUndefined(updateData));
 };
 
 export const updateProductWithImages = async (
@@ -232,10 +240,10 @@ export const updateProductWithImages = async (
 
   const batch = writeBatch(db);
 
-  // Soft-delete removed images
+  // Hard delete removed images
   for (const img of imagesToDelete) {
     const imgRef = doc(db, PRODUCT_IMAGES_COLLECTION, img.id.toString());
-    batch.update(imgRef, { isDeleted: true, updatedAt: new Date() });
+    batch.delete(imgRef);
   }
 
   // Update thumbnail flags on existing images
@@ -261,7 +269,6 @@ export const updateProductWithImages = async (
       productId: productId,
       url,
       isThumbnail: urlIndex === thumbnailIndex,
-      isDeleted: false,
       updatedAt: new Date(),
     });
   });
@@ -270,8 +277,22 @@ export const updateProductWithImages = async (
 };
 
 export const deleteProduct = async (id: string): Promise<void> => {
-  const docRef = doc(db, PRODUCTS_COLLECTION, id);
-  await deleteDoc(docRef);
+  // Get all images for this product
+  const images = await getProductImages(id);
+
+  const batch = writeBatch(db);
+
+  // Hard delete all product images
+  for (const img of images) {
+    const imgRef = doc(db, PRODUCT_IMAGES_COLLECTION, img.id.toString());
+    batch.delete(imgRef);
+  }
+
+  // Delete the product
+  const productRef = doc(db, PRODUCTS_COLLECTION, id);
+  batch.delete(productRef);
+
+  await batch.commit();
 };
 
 // ==================== PRODUCT IMAGES ====================
@@ -285,24 +306,21 @@ export const getProductImages = async (
   );
   const snapshot = await getDocs(q);
 
-  return snapshot.docs
-    .filter((d) => !d.data().isDeleted && !d.data().is_deleted)
-    .map((d) => {
-      const data = d.data();
-      return ProductImageSchema.parse({
-        id: d.id,
-        productId: data.productId || data.product_id,
-        url: data.url,
-        isThumbnail: data.isThumbnail ?? data.is_thumbnail ?? false,
-        isDeleted: data.isDeleted ?? data.is_deleted,
-        updatedAt:
-          data.updatedAt?.toDate?.() ??
-          data.updated_at?.toDate?.() ??
-          (data.updatedAt || data.updated_at
-            ? new Date(data.updatedAt || data.updated_at)
-            : undefined),
-      });
+  return snapshot.docs.map((d) => {
+    const data = d.data();
+    return ProductImageSchema.parse({
+      id: d.id,
+      productId: data.productId || data.product_id,
+      url: data.url,
+      isThumbnail: data.isThumbnail ?? data.is_thumbnail ?? false,
+      updatedAt:
+        data.updatedAt?.toDate?.() ??
+        data.updated_at?.toDate?.() ??
+        (data.updatedAt || data.updated_at
+          ? new Date(data.updatedAt || data.updated_at)
+          : undefined),
     });
+  });
 };
 
 export const addProductImage = async (
@@ -315,24 +333,19 @@ export const addProductImage = async (
     productId: validatedImage.productId,
     url: validatedImage.url,
     isThumbnail: validatedImage.isThumbnail ?? false,
-    isDeleted: false,
     updatedAt: new Date(),
   });
 
   return ProductImageSchema.parse({
     id: docRef.id,
     ...validatedImage,
-    isDeleted: false,
     updatedAt: new Date(),
   });
 };
 
 export const deleteProductImage = async (id: string): Promise<void> => {
   const docRef = doc(db, PRODUCT_IMAGES_COLLECTION, id);
-  await updateDoc(docRef, {
-    isDeleted: true,
-    updatedAt: new Date(),
-  });
+  await deleteDoc(docRef);
 };
 
 // ==================== HELPERS ====================
