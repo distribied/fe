@@ -7,6 +7,7 @@ import {
 import { toast } from "sonner";
 
 export interface UploadedImage {
+  id: string;
   file: File;
   url: string;
   preview: string;
@@ -36,6 +37,7 @@ export const useImageUpload = () => {
       const preview = URL.createObjectURL(file);
 
       validFiles.push({
+        id: `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
         file,
         url: "",
         preview,

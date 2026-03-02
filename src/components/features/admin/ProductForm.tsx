@@ -171,13 +171,16 @@ export function ProductForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="price">Price (VND) *</Label>
+          <Label htmlFor="price">Giá (VNĐ) *</Label>
           <Input
             id="price"
             type="number"
-            value={formData.price}
+            value={formData.price || ""}
             onChange={(e) =>
-              onFormDataChange({ ...formData, price: Number(e.target.value) })
+              onFormDataChange({
+                ...formData,
+                price: e.target.value === "" ? 0 : Number(e.target.value),
+              })
             }
             placeholder="0"
             min="0"
@@ -201,17 +204,19 @@ export function ProductForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="ratingAverage">Rating (0-5)</Label>
+          <Label htmlFor="ratingAverage">Đánh giá (0-5)</Label>
           <Input
             id="ratingAverage"
             type="number"
-            value={formData.ratingAverage}
+            value={formData.ratingAverage || ""}
             onChange={(e) =>
               onFormDataChange({
                 ...formData,
-                ratingAverage: Number(e.target.value),
+                ratingAverage:
+                  e.target.value === "" ? 0 : Number(e.target.value),
               })
             }
+            placeholder="0"
             min="0"
             max="5"
             step="0.1"
@@ -242,19 +247,13 @@ export function ProductForm({
         <Label>Product Images</Label>
 
         {/* Upload Area */}
-        <div
+        <label
+          htmlFor="file-input"
+          className="border-2 border-dashed rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer block"
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          className="border-2 border-dashed rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer"
-          onClick={() => document.getElementById("file-input")?.click()}
+          onDragEnter={(e) => e.preventDefault()}
         >
-          <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-          <p className="text-sm text-muted-foreground mb-2">
-            Drag and drop images here, or click to browse
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Supports: JPG, PNG, WEBP (max 32MB each)
-          </p>
           <input
             id="file-input"
             type="file"
@@ -263,7 +262,14 @@ export function ProductForm({
             onChange={handleFileInput}
             className="hidden"
           />
-        </div>
+          <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+          <p className="text-sm text-muted-foreground mb-2">
+            Drag and drop images here, or click to browse
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Supports: JPG, PNG, WEBP (max 32MB each)
+          </p>
+        </label>
 
         {/* Image Previews */}
         {totalImages > 0 && (
@@ -309,7 +315,7 @@ export function ProductForm({
             {imageUpload.images.map((image, index) => {
               const actualIndex = existingImages.length + index;
               return (
-                <div key={`new-${index}`} className="relative group">
+                <div key={image.id} className="relative group">
                   <div className="aspect-square rounded-lg overflow-hidden border bg-muted">
                     <img
                       src={image.preview}
