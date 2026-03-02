@@ -5,7 +5,6 @@ export const ProductImageSchema = z.object({
   productId: z.number().or(z.string()),
   url: z.string().url(),
   isThumbnail: z.boolean().default(false),
-  isDeleted: z.boolean().optional().nullable(),
   updatedAt: z.coerce.date().optional().nullable(),
 });
 

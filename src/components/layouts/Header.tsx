@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { LanguageSwitcher } from "../features/languages/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import {
@@ -23,11 +24,23 @@ import {
   mockFetchCategoriesInfo,
 } from "@/data/mock-data";
 import { useLocale } from "@/hooks/useLocale";
+import { useRecommendProducts } from "@/hooks/useSearchProducts";
+import { Product } from "@/schemas";
 
 const Header = () => {
   const { t, i18n } = useTranslation();
+  const router = useRouter();
   const [categories, setCategories] = useState<MockCategoryInfo[]>([]);
   const { href } = useLocale();
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  // Search state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showRecommendations, setShowRecommendations] = useState(false);
+  const { data: recommendations = [] } = useRecommendProducts({
+    searchTerm: searchQuery,
+    limit: 5,
+  });
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -58,7 +71,6 @@ const Header = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const categoryRef = useRef<HTMLDivElement>(null);
   const [topHeaderHeight, setTopHeaderHeight] = useState(0);
@@ -121,17 +133,42 @@ const Header = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Close category dropdown
       if (
         categoryRef.current &&
         !categoryRef.current.contains(event.target as Node)
       ) {
         setIsCategoryOpen(false);
       }
+
+      // Close search recommendations dropdown
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        setShowRecommendations(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Handle search form submit
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(href(`products?search=${encodeURIComponent(searchQuery.trim())}`));
+      setShowRecommendations(false);
+    }
+  };
+
+  // Handle clicking on a recommendation
+  const handleRecommendationClick = (product: Product) => {
+    router.push(href(`products?search=${encodeURIComponent(product.name)}`));
+    setShowRecommendations(false);
+    setSearchQuery(product.name);
+  };
 
   return (
     <>
@@ -190,15 +227,61 @@ const Header = () => {
 
               {/* Desktop search + hotline */}
               <div className="hidden md:flex items-center gap-4">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder={t("header.search_placeholder")}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="border-2 border-primary/20 rounded-full py-2.5 px-4 pr-10 w-64 text-sm focus:outline-none bg-white"
-                  />
-                  <Search className="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 text-primary/60" />
+                <div className="relative" ref={searchRef}>
+                  <form onSubmit={handleSearchSubmit}>
+                    <input
+                      type="text"
+                      placeholder={t("header.search_placeholder")}
+                      value={searchQuery}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setShowRecommendations(e.target.value.length >= 2);
+                      }}
+                      onFocus={() => {
+                        if (searchQuery.length >= 2) setShowRecommendations(true);
+                      }}
+                      className="border-2 border-primary/20 rounded-full py-2.5 px-4 pr-10 w-64 text-sm focus:outline-none bg-white"
+                    />
+                    <button
+                      type="submit"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-primary/60 hover:text-primary"
+                    >
+                      <Search className="h-4 w-4" />
+                    </button>
+                  </form>
+
+                  {/* Recommendations dropdown */}
+                  {showRecommendations && recommendations.length > 0 && (
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+                      {recommendations.map((product) => (
+                        <button
+                          key={product.id}
+                          type="button"
+                          onClick={() => handleRecommendationClick(product)}
+                          className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100 last:border-b-0"
+                        >
+                          {product.images && product.images.length > 0 && (
+                            <img
+                              src={product.images[0]?.url}
+                              alt={product.name}
+                              className="w-10 h-10 object-cover rounded"
+                            />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">
+                              {product.name}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              }).format(product.price)}
+                            </p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-2 bg-primary/5 rounded-full px-4 py-2.5 border-2 border-primary/30">

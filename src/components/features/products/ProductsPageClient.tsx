@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductsHeader from "./ProductsHeader";
 import ProductsSidebar from "./ProductsSidebar";
 import ProductsGrid from "./ProductsGrid";
 import {
-  getAllProducts,
   mockCategoriesInfo,
-  MockProductCard,
   MockCategoryInfo,
 } from "@/data/mock-data";
 import ProductsToolbar from "./ProductsToolbar";
 import ProductsPagination from "./ProductPagination";
+import { useProducts } from "@/hooks/useProducts";
+import { useSearchProducts } from "@/hooks/useSearchProducts";
 
 export type SortOption =
   | "newest"
@@ -27,34 +27,47 @@ const PRODUCTS_PER_PAGE = 20;
 export default function ProductsPageClient() {
   const searchParams = useSearchParams();
 
-  const [allProducts, setAllProducts] = useState<
-    (MockProductCard & { category: string })[]
-  >([]);
-  const [filteredProducts, setFilteredProducts] = useState<
-    (MockProductCard & { category: string })[]
-  >([]);
+  // Get search query from URL
+  const searchQuery = searchParams.get("search") || "";
+  const categoryQuery = searchParams.get("category") || "";
+
+  // Fetch products based on search/category - only use Firestore, no mock data
+  const { data: searchResults = [], isLoading: isLoadingSearchResults } = useSearchProducts({
+    searchTerm: searchQuery,
+    categoryId: categoryQuery && categoryQuery !== "featured" ? categoryQuery : undefined,
+  });
+
+  const { data: allProductsFromFirestore = [], isLoading: isLoadingAllProducts } = useProducts(
+    !searchQuery && (!categoryQuery || categoryQuery === "featured")
+      ? {}
+      : undefined
+  );
+
+  // Use search results if searching, otherwise use all products
+  const products = searchQuery ? searchResults : allProductsFromFirestore;
+  const isLoading = searchQuery ? isLoadingSearchResults : isLoadingAllProducts;
+
   const [categories, setCategories] = useState<MockCategoryInfo[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Load data on mount
+  // Load categories on mount
   useEffect(() => {
-    const products = getAllProducts();
-    setAllProducts(products);
     setCategories(mockCategoriesInfo);
 
-    const categoryParam = searchParams.get("category");
-    if (categoryParam && categoryParam !== "featured") {
-      setSelectedCategory(categoryParam);
+    if (categoryQuery && categoryQuery !== "featured") {
+      setSelectedCategory(categoryQuery);
     }
-  }, [searchParams]);
+  }, [categoryQuery]);
 
-  // Filter + sort
-  useEffect(() => {
-    let filtered = [...allProducts];
+  // Filter + sort products
+  const filteredProducts = useMemo(() => {
+    // Apply sidebar category filter on top of search/category results
+    let filtered = [...products];
 
-    if (selectedCategory !== "all") {
+    // Apply category filter from sidebar (additional filter)
+    if (selectedCategory !== "all" && selectedCategory !== categoryQuery) {
       const categoryInfo = categories.find(
         (cat) =>
           cat.slug.vi === selectedCategory || cat.slug.en === selectedCategory,
@@ -62,35 +75,39 @@ export default function ProductsPageClient() {
 
       if (categoryInfo) {
         const keyword = categoryInfo.name.vi.split(" ")[0].toLowerCase();
-
-        filtered = filtered.filter((product) =>
-          product.category.toLowerCase().includes(keyword),
+        filtered = filtered.filter((product: any) =>
+          product.category?.toLowerCase().includes(keyword),
         );
       }
     }
 
+    // Sort
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "newest":
-          return b.id.localeCompare(a.id);
+          return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
         case "oldest":
-          return a.id.localeCompare(b.id);
+          return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
         case "price-low":
           return a.price - b.price;
         case "price-high":
           return b.price - a.price;
         case "name-az":
-          return a.title.localeCompare(b.title);
+          return a.name.localeCompare(b.name);
         case "name-za":
-          return b.title.localeCompare(a.title);
+          return b.name.localeCompare(a.name);
         default:
           return 0;
       }
     });
 
-    setFilteredProducts(filtered);
+    return filtered;
+  }, [products, selectedCategory, categoryQuery, sortBy, categories]);
+
+  // Reset page when filters change
+  useEffect(() => {
     setCurrentPage(1);
-  }, [allProducts, selectedCategory, sortBy, categories]);
+  }, [searchQuery, selectedCategory, sortBy]);
 
   // Pagination
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
@@ -125,7 +142,7 @@ export default function ProductsPageClient() {
             productsPerPage={PRODUCTS_PER_PAGE}
           />
 
-          <ProductsGrid products={currentProducts} />
+          <ProductsGrid products={currentProducts} isLoading={isLoading} />
 
           {totalPages > 1 && (
             <ProductsPagination
