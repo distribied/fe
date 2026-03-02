@@ -151,15 +151,12 @@ export default function AdminCategoryPage() {
   };
 
   return (
-    <div className="container mx-auto py-4 md:py-8 px-2 md:px-4">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 md:mb-6">
+    <div className="container mx-auto py-6 px-3 md:px-4 space-y-4">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div>
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
-            Category Management
-          </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Manage product categories
-          </p>
+          <h1 className="text-2xl font-bold tracking-tight">Danh mục</h1>
+          <p className="text-sm text-muted-foreground">Quản lý danh mục sản phẩm</p>
         </div>
 
         <Dialog
@@ -170,27 +167,26 @@ export default function AdminCategoryPage() {
           }}
         >
           <DialogTrigger asChild>
-            <Button size="sm" className="md:size-default">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">Add Category</span>
-              <span className="sm:hidden">Add</span>
+            <Button className="gap-1.5">
+              <PlusCircle className="h-4 w-4" />
+              Thêm danh mục
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                {editingCategory ? "Edit Category" : "Create New Category"}
+                {editingCategory ? "Chỉnh sửa danh mục" : "Thêm danh mục mới"}
               </DialogTitle>
               <DialogDescription>
                 {editingCategory
-                  ? "Update category information"
-                  : "Add a new product category"}
+                  ? "Cập nhật thông tin danh mục"
+                  : "Thêm danh mục sản phẩm mới"}
               </DialogDescription>
             </DialogHeader>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">Tên danh mục</Label>
                 <Input
                   id="name"
                   value={formData.name}
@@ -202,6 +198,7 @@ export default function AdminCategoryPage() {
                       slug: generateSlug(name),
                     });
                   }}
+                  placeholder="Nhập tên danh mục"
                   required
                 />
               </div>
@@ -214,11 +211,12 @@ export default function AdminCategoryPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, slug: e.target.value })
                   }
+                  placeholder="danh-muc-slug"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="order">Display Order</Label>
+                <Label htmlFor="order">Thứ tự hiển thị</Label>
                 <Input
                   id="order"
                   type="number"
@@ -242,7 +240,7 @@ export default function AdminCategoryPage() {
                     resetForm();
                   }}
                 >
-                  Cancel
+                  Hủy
                 </Button>
                 <Button
                   type="submit"
@@ -253,7 +251,7 @@ export default function AdminCategoryPage() {
                   {createMutation.isPending || updateMutation.isPending ? (
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
                   ) : null}
-                  {editingCategory ? "Update" : "Create"}
+                  {editingCategory ? "Cập nhật" : "Tạo mới"}
                 </Button>
               </div>
             </form>
@@ -263,14 +261,21 @@ export default function AdminCategoryPage() {
 
       {/* Search */}
       <SearchFilter
-        searchPlaceholder="Search categories..."
+        searchPlaceholder="Tìm kiếm danh mục..."
         searchValue={searchQuery}
         onSearchChange={setSearchQuery}
         filterValue="all"
         onFilterChange={() => {}}
         filterOptions={[]}
-        allOptionLabel="All"
+        allOptionLabel="Tất cả"
       />
+
+      {/* Stats summary */}
+      <div className="flex gap-4 text-sm text-muted-foreground">
+        <span>
+          Hiển thị <strong>{displayCategories.length}</strong> / <strong>{filteredCategories.length}</strong> danh mục
+        </span>
+      </div>
 
       {/* Categories List */}
       {isLoading ? (
@@ -282,31 +287,33 @@ export default function AdminCategoryPage() {
           {displayCategories.map((category: Category) => (
             <Card
               key={category.id}
-              className="group overflow-hidden hover:shadow-lg transition-shadow"
+              className="group overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
             >
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <FolderTree className="h-5 w-5 text-primary" />
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <FolderTree className="h-4 w-4 text-primary" />
+                    </div>
                     <CardTitle className="text-base line-clamp-1">
                       {category.name}
                     </CardTitle>
                   </div>
-                  <Badge variant="outline" className="text-xs">
+                  <Badge variant="outline" className="text-xs flex-shrink-0">
                     <Hash className="h-3 w-3 mr-1" />
                     {category.order || 1}
                   </Badge>
                 </div>
                 {category.slug && (
-                  <CardDescription className="text-xs">
+                  <CardDescription className="text-xs ml-8">
                     /{category.slug}
                   </CardDescription>
                 )}
               </CardHeader>
 
-              <CardContent className="pt-0">
+              <CardContent className="pt-2">
                 <div className="text-xs text-muted-foreground mb-3">
-                  Created: {formatDate(category.createdAt)}
+                  Ngày tạo: {formatDate(category.createdAt)}
                 </div>
 
                 <div className="flex gap-2">
@@ -316,8 +323,8 @@ export default function AdminCategoryPage() {
                     onClick={() => handleEdit(category)}
                     className="flex-1"
                   >
-                    <Pencil className="h-4 w-4 mr-1" />
-                    Edit
+                    <Pencil className="h-3.5 w-3.5 mr-1" />
+                    Sửa
                   </Button>
                   <Button
                     size="sm"
@@ -329,8 +336,8 @@ export default function AdminCategoryPage() {
                     disabled={deleteMutation.isPending}
                     className="flex-1"
                   >
-                    <Trash2 className="h-4 w-4 mr-1" />
-                    Delete
+                    <Trash2 className="h-3.5 w-3.5 mr-1" />
+                    Xóa
                   </Button>
                 </div>
               </CardContent>
@@ -339,9 +346,9 @@ export default function AdminCategoryPage() {
 
           {displayCategories.length === 0 && (
             <div className="col-span-full text-center py-12 text-muted-foreground">
-              <FolderTree className="mx-auto h-12 w-12 mb-4" />
-              <h3 className="text-lg font-medium mb-2">No categories found</h3>
-              <p>Click "Add Category" to create your first category.</p>
+              <FolderTree className="mx-auto h-12 w-12 mb-4 opacity-50" />
+              <h3 className="text-lg font-medium mb-2">Không tìm thấy danh mục</h3>
+              <p className="text-sm">Nhấn "Thêm danh mục" để tạo danh mục đầu tiên.</p>
             </div>
           )}
         </div>
@@ -350,10 +357,10 @@ export default function AdminCategoryPage() {
       {/* Confirm dialog */}
       <ConfirmDialog
         open={!!confirmDeleteId}
-        title="Delete category confirm"
-        description="Are you sure you want to delete this category?"
-        confirmText="Yes"
-        cancelText="Cancel"
+        title="Xác nhận xóa danh mục"
+        description="Bạn có chắc chắn muốn xóa danh mục này?"
+        confirmText="Xóa"
+        cancelText="Hủy"
         loading={deleteMutation.isPending}
         onCancel={() => setConfirmDeleteId(null)}
         onConfirm={async () => {
@@ -371,7 +378,7 @@ export default function AdminCategoryPage() {
           onPageChange={setCurrentPage}
           totalItems={filteredCategories.length}
           itemsPerPage={ITEMS_PER_PAGE}
-          itemName="categories"
+          itemName="danh mục"
         />
       )}
     </div>

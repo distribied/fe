@@ -195,14 +195,13 @@ export default function AdminProductPage() {
   };
 
   return (
-    <div className="container mx-auto py-4 md:py-8 px-2 md:px-4">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 md:mb-6">
+    <div className="container mx-auto py-6 px-3 md:px-4 space-y-4">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div>
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
-            Product Management
-          </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Manage your products and inventory
+          <h1 className="text-2xl font-bold tracking-tight">Sản phẩm</h1>
+          <p className="text-sm text-muted-foreground">
+            Quản lý sản phẩm trong cửa hàng
           </p>
         </div>
 
@@ -214,21 +213,20 @@ export default function AdminProductPage() {
           }}
         >
           <DialogTrigger asChild>
-            <Button size="sm" className="md:size-default">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">Add Product</span>
-              <span className="sm:hidden">Add</span>
+            <Button className="gap-1.5">
+              <PlusCircle className="h-4 w-4" />
+              Thêm sản phẩm
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {editingProduct ? "Edit Product" : "Create New Product"}
+                {editingProduct ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
               </DialogTitle>
               <DialogDescription>
                 {editingProduct
-                  ? "Update product information"
-                  : "Add a new product to your inventory"}
+                  ? "Cập nhật thông tin sản phẩm"
+                  : "Thêm sản phẩm mới vào cửa hàng"}
               </DialogDescription>
             </DialogHeader>
 
@@ -252,7 +250,7 @@ export default function AdminProductPage() {
 
       {/* Search and Filter */}
       <SearchFilter
-        searchPlaceholder="Search products..."
+        searchPlaceholder="Tìm kiếm sản phẩm..."
         searchValue={searchQuery}
         onSearchChange={setSearchQuery}
         filterValue={selectedCategory}
@@ -263,8 +261,16 @@ export default function AdminProductPage() {
             label: category.name,
           })) || []
         }
-        allOptionLabel="All Categories"
+        allOptionLabel="Tất cả danh mục"
       />
+
+      {/* Stats summary */}
+      <div className="flex gap-4 text-sm text-muted-foreground">
+        <span>
+          Hiển thị <strong>{displayProducts.length}</strong> /{" "}
+          <strong>{filteredProducts.length}</strong> sản phẩm
+        </span>
+      </div>
 
       {/* Products List */}
       {productsLoading ? (
@@ -272,7 +278,7 @@ export default function AdminProductPage() {
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
           {displayProducts.map((product) => {
             const thumbnailUrl = getThumbnail(product);
 
@@ -282,7 +288,7 @@ export default function AdminProductPage() {
                 role="button"
                 tabIndex={0}
                 onClick={() => handleEdit(product)}
-                className="group relative overflow-hidden cursor-pointer transition-shadow hover:shadow-lg focus:outline-none"
+                className="group relative overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1"
               >
                 {/* Image */}
                 <div className="aspect-square relative overflow-hidden bg-muted">
@@ -295,22 +301,22 @@ export default function AdminProductPage() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                      <Package className="h-16 w-16" />
+                      <Package className="h-12 w-12" />
                     </div>
                   )}
 
                   {/* Status badge */}
                   <Badge
-                    className="absolute top-2 left-2 z-10"
+                    className="absolute top-2 left-2 z-10 text-[10px] px-1.5 py-0.5"
                     variant={product.isActive ? "default" : "secondary"}
                   >
-                    {product.isActive ? "Active" : "Inactive"}
+                    {product.isActive ? "Hoạt động" : "Ẩn"}
                   </Badge>
 
                   {/* Image count */}
                   {product.images && product.images.length > 1 && (
-                    <Badge className="absolute top-2 right-10 z-10 bg-black/50 text-white">
-                      {product.images.length} images
+                    <Badge className="absolute top-2 right-10 z-10 bg-black/50 text-white text-[10px] px-1.5 py-0.5">
+                      {product.images.length}
                     </Badge>
                   )}
 
@@ -320,7 +326,7 @@ export default function AdminProductPage() {
                     variant="destructive"
                     className="
                       absolute top-2 right-2 z-20
-                      h-8 w-8
+                      h-7 w-7
                       opacity-100 md:opacity-0
                       md:group-hover:opacity-100
                       transition-opacity
@@ -330,29 +336,29 @@ export default function AdminProductPage() {
                       setConfirmDeleteId(product.id.toString());
                     }}
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-3.5 w-3.5" />
                   </Button>
                 </div>
 
                 {/* Info */}
-                <CardHeader className="p-2 md:p-4 pb-1">
-                  <CardTitle className="line-clamp-1 text-xs sm:text-sm md:text-base">
-                    {product.name || "Untitled Product"}
+                <CardHeader className="p-2.5 pb-1">
+                  <CardTitle className="line-clamp-1 text-sm font-semibold">
+                    {product.name || "Chưa có tên"}
                   </CardTitle>
                   {product.slug && (
-                    <CardDescription className="text-[10px] sm:text-xs truncate">
+                    <CardDescription className="text-[10px] truncate">
                       /{product.slug}
                     </CardDescription>
                   )}
                 </CardHeader>
 
-                <CardContent className="p-2 md:p-4 pt-0">
+                <CardContent className="p-2.5 pt-0">
                   <div className="flex justify-between items-center">
-                    <span className="font-bold text-xs sm:text-sm md:text-lg text-green-600">
+                    <span className="font-bold text-sm text-green-600">
                       {formatCurrency(product.price || 0)}
                     </span>
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-current text-yellow-500" />
+                    <div className="flex items-center gap-0.5">
+                      <Star className="h-3.5 w-3.5 fill-current text-yellow-500" />
                       <span className="text-xs font-medium">
                         {product.ratingAverage?.toFixed(1) || "0.0"}
                       </span>
@@ -365,9 +371,13 @@ export default function AdminProductPage() {
 
           {displayProducts.length === 0 && (
             <div className="col-span-full text-center py-12 text-muted-foreground">
-              <Package className="mx-auto h-12 w-12 mb-4" />
-              <h3 className="text-lg font-medium mb-2">No products found</h3>
-              <p>Click "Add Product" to create your first product.</p>
+              <Package className="mx-auto h-12 w-12 mb-4 opacity-50" />
+              <h3 className="text-lg font-medium mb-2">
+                Không tìm thấy sản phẩm
+              </h3>
+              <p className="text-sm">
+                Nhấn "Thêm sản phẩm" để tạo sản phẩm đầu tiên.
+              </p>
             </div>
           )}
         </div>
@@ -376,10 +386,10 @@ export default function AdminProductPage() {
       {/* Confirm dialog */}
       <ConfirmDialog
         open={!!confirmDeleteId}
-        title="Delete product confirm"
-        description="Are you sure you want to delete this product?"
-        confirmText="Yes"
-        cancelText="Cancel"
+        title="Xác nhận xóa sản phẩm"
+        description="Bạn có chắc chắn muốn xóa sản phẩm này?"
+        confirmText="Xóa"
+        cancelText="Hủy"
         loading={deleteMutation.isPending}
         onCancel={() => setConfirmDeleteId(null)}
         onConfirm={async () => {
@@ -397,7 +407,7 @@ export default function AdminProductPage() {
           onPageChange={setCurrentPage}
           totalItems={filteredProducts.length}
           itemsPerPage={ITEMS_PER_PAGE}
-          itemName="products"
+          itemName="sản phẩm"
         />
       )}
     </div>
