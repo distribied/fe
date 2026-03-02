@@ -17,7 +17,6 @@ import {
 import {
   Menu,
   Package,
-  ShoppingCart,
   Users,
   FolderTree,
   Home,
@@ -41,11 +40,6 @@ const navigation = [
     name: "Products",
     href: "/admin/product",
     icon: Package,
-  },
-  {
-    name: "Orders",
-    href: "/admin/order",
-    icon: ShoppingCart,
   },
   {
     name: "Accounts",
