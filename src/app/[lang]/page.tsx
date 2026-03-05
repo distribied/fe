@@ -9,6 +9,7 @@ import Reveal from "@/components/ui/Reveal";
 import { useProducts } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategory";
 import { useLocale } from "@/hooks/useLocale";
+import { useTranslation } from "react-i18next";
 import { Product } from "@/schemas";
 
 // Helper function to transform Product to ProductCard data
@@ -24,6 +25,7 @@ const transformProductToCardData = (product: Product) => {
 
 export default function HomePage() {
   const { href } = useLocale();
+  const { t } = useTranslation();
 
   // Fetch products from Firestore
   const { data: allProducts = [], isLoading: isLoadingProducts } = useProducts({ isActive: true });
@@ -93,6 +95,33 @@ export default function HomePage() {
                 <SideBanners />
               </div>
             </div>
+          </Reveal>
+
+          {/* Featured Products Section */}
+          <Reveal>
+            <section className="mb-8">
+              {/* Section header */}
+              <div className="relative mb-8">
+                <div className="relative overflow-hidden bg-gradient-to-r from-primary via-primary to-primary py-4 md:py-5 px-6 rounded-lg shadow-lg">
+                  <div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[shimmer_3s_infinite]"
+                    style={{
+                      animation: "shimmer 3s infinite",
+                    }}
+                  />
+                  <h3 className="relative text-xl sm:text-2xl md:text-3xl font-bold text-primary-foreground text-center uppercase tracking-wider">
+                    ✨ {t("products.featured")} ✨
+                  </h3>
+                </div>
+              </div>
+
+              {/* Featured products grid - show first 8 products */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {allProducts.slice(0, 8).map((product) => (
+                  <ProductCard key={product.id} {...transformProductToCardData(product)} />
+                ))}
+              </div>
+            </section>
           </Reveal>
 
           {/* Dynamic Category sections - partition products by category */}
