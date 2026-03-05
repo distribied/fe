@@ -71,6 +71,14 @@
     "save": "Save",
     "hotline_label": "Hotline",
     "address_label": "Address",
+    "like_product": "Like this product",
+    "liked": "Liked",
+    "share_product": "Share Product",
+    "copied": "Copied!",
+    "highlights": "Key Features",
+    "highlight_1": "100% handmade from natural materials",
+    "highlight_2": "Environmentally friendly",
+    "highlight_3": "Unique design with Vietnamese cultural identity",
     "page": {
       "header_1": "All Products",
       "header_2": "Explore our full collection of handmade products",
@@ -240,5 +248,22 @@
       "events": "Events",
       "years": "Years of Experience"
     }
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "empty_description": "You haven't added any products to your cart yet",
+    "continue_shopping": "Continue Shopping",
+    "remove": "Remove product",
+    "subtotal": "Subtotal",
+    "summary": "Order Summary",
+    "items": "Products",
+    "shipping": "Shipping",
+    "free": "Free",
+    "total": "Total",
+    "checkout": "Checkout",
+    "clear_cart": "Clear Cart",
+    "added_to_cart": "Added to cart",
+    "view_cart": "View Cart"
   }
 }

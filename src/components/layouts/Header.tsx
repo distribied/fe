@@ -12,27 +12,28 @@ import {
   Mail,
   Sparkles,
   Package,
+  ShoppingCart,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LanguageSwitcher } from "../features/languages/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
-import {
-  getCategoryName,
-  MockCategoryInfo,
-  mockFetchCategoriesInfo,
-} from "@/data/mock-data";
 import { useLocale } from "@/hooks/useLocale";
 import { useRecommendProducts } from "@/hooks/useSearchProducts";
+import { useCategories } from "@/hooks/useCategory";
+import { useCart } from "@/hooks/useCart";
 import { Product } from "@/schemas";
 
 const Header = () => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
-  const [categories, setCategories] = useState<MockCategoryInfo[]>([]);
+  const { data: categories = [] } = useCategories();
   const { href } = useLocale();
+  const { getTotalItems } = useCart();
   const searchRef = useRef<HTMLDivElement>(null);
+
+  const cartItemCount = getTotalItems();
 
   // Search state
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,20 +42,6 @@ const Header = () => {
     searchTerm: searchQuery,
     limit: 5,
   });
-
-  // Fetch categories on component mount
-  useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const categoriesData = await mockFetchCategoriesInfo();
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error("Failed to load categories:", error);
-      }
-    };
-
-    loadCategories();
-  }, []);
 
   const navItems = [
     { name: t("header.nav.home"), href: href(""), icon: Home },
@@ -291,6 +278,19 @@ const Header = () => {
                   </span>
                 </div>
 
+                {/* Cart Icon */}
+                <Link
+                  href={href("cart")}
+                  className="relative p-2 text-primary hover:bg-primary/10 rounded-full transition-colors"
+                >
+                  <ShoppingCart className="h-6 w-6" />
+                  {cartItemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-destructive text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                      {cartItemCount > 99 ? "99+" : cartItemCount}
+                    </span>
+                  )}
+                </Link>
+
                 <LanguageSwitcher />
               </div>
             </div>
@@ -328,11 +328,11 @@ const Header = () => {
                 {categories.map((c) => (
                   <Link
                     key={c.id}
-                    href={href(`products?category=${c.slug.vi}`)}
+                    href={href(`products?category=${c.id}`)}
                     className="block px-5 py-3 text-sm font-semibold hover:bg-primary/10"
                     onClick={() => setIsCategoryOpen(false)}
                   >
-                    {getCategoryName(c, i18n.language)}
+                    {c.name}
                   </Link>
                 ))}
               </div>

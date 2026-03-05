@@ -71,6 +71,15 @@
     "save": "Tiết kiệm",
     "hotline_label": "Hotline",
     "address_label": "Địa chỉ",
+    "like_product": "Thích sản phẩm",
+    "liked": "Đã thích",
+    "share_product": "Chia sẻ sản phẩm",
+    "copied": "Đã sao chép!",
+    "highlights": "Đặc điểm nổi bật",
+    "highlight_1": "100% thủ công từ nguyên liệu tự nhiên",
+    "highlight_2": "Thân thiện với môi trường",
+    "highlight_3": "Thiết kế độc đáo, mang đậm bản sắc Việt Nam",
+    "in_stock": "Còn hàng",
     "page": {
       "header_1": "Tất Cả Sản Phẩm",
       "header_2": "Khám phá bộ sưu tập đầy đủ các sản phẩm thủ công của chúng tôi",
@@ -240,5 +249,22 @@
       "events": "Sự Kiện",
       "years": "Năm Kinh Nghiệm"
     }
+  },
+  "cart": {
+    "title": "Giỏ Hàng",
+    "empty": "Giỏ hàng trống",
+    "empty_description": "Bạn chưa thêm sản phẩm nào vào giỏ hàng",
+    "continue_shopping": "Tiếp tục mua sắm",
+    "remove": "Xóa sản phẩm",
+    "subtotal": "Tạm tính",
+    "summary": "Tổng quan đơn hàng",
+    "items": "Sản phẩm",
+    "shipping": "Phí vận chuyển",
+    "free": "Miễn phí",
+    "total": "Tổng cộng",
+    "checkout": "Thanh toán",
+    "clear_cart": "Xóa toàn bộ giỏ hàng",
+    "added_to_cart": "Đã thêm vào giỏ hàng",
+    "view_cart": "Xem giỏ hàng"
   }
 }
