@@ -119,7 +119,11 @@ export const getProductById = async (id: string): Promise<Product | null> => {
   const docRef = doc(db, PRODUCTS_COLLECTION, id);
   const snapshot = await getDoc(docRef);
   if (!snapshot.exists()) return null;
-  return docToProduct(snapshot.data(), snapshot.id);
+
+  const product = docToProduct(snapshot.data(), snapshot.id);
+  // Fetch images for this product
+  const images = await getProductImages(id);
+  return { ...product, images };
 };
 
 export const getProductBySlug = async (
@@ -133,7 +137,11 @@ export const getProductBySlug = async (
   const snapshot = await getDocs(q);
   if (snapshot.empty) return null;
   const d = snapshot.docs[0];
-  return docToProduct(d.data(), d.id);
+
+  const product = docToProduct(d.data(), d.id);
+  // Fetch images for this product
+  const images = await getProductImages(d.id);
+  return { ...product, images };
 };
 
 export const createProduct = async (

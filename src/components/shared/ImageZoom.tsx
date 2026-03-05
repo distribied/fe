@@ -7,6 +7,7 @@ interface ImageZoomProps {
   alt: string;
   zoomScale?: number;
   lensSize?: number;
+  className?: string;
 }
 
 export default function ImageZoom({
@@ -14,6 +15,7 @@ export default function ImageZoom({
   alt,
   zoomScale = 1.8,
   lensSize = 150,
+  className = "",
 }: Readonly<ImageZoomProps>) {
   const [showZoom, setShowZoom] = useState(false);
   const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
@@ -51,7 +53,7 @@ export default function ImageZoom({
         ref={imageRef}
         type="button"
         aria-label="Zoom image"
-        className="relative aspect-square w-full overflow-hidden rounded-lg bg-muted text-left focus:outline-none"
+        className={`relative aspect-square w-full overflow-hidden rounded-lg bg-muted text-left focus:outline-none ${className}`}
         style={{ cursor: "zoom-in" }}
         onMouseEnter={() => setShowZoom(true)}
         onMouseLeave={() => setShowZoom(false)}

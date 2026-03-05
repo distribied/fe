@@ -387,3 +387,36 @@ input[type="number"] {
 .animate-pop-in {
   animation: pop-in 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
+
+/* Fade in up animation for product cards */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+/* Product image slide animation */
+@keyframes slide-image-in {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-image {
+  animation: slide-image-in 0.4s ease-out;
+}
