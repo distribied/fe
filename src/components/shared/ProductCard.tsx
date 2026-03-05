@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/useLocale";
+import { useCart } from "@/hooks/useCart";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { ShoppingCart, Check } from "lucide-react";
 
 interface ProductCardProps {
   id: string;
@@ -24,6 +27,8 @@ const ProductCard = ({
 }: ProductCardProps) => {
   const { t, i18n } = useTranslation();
   const { href } = useLocale();
+  const { addItem, items } = useCart();
+  const [added, setAdded] = useState(false);
 
   const formatPrice = (value: number) => {
     return (
@@ -31,6 +36,14 @@ const ProductCard = ({
         value,
       ) + (i18n.language === "en" ? " VND" : "Đ")
     );
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem(id, 1);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
   };
 
   return (
@@ -89,9 +102,24 @@ const ProductCard = ({
           </Button>
           <Button
             size="sm"
-            className="flex-1 text-[10px] sm:text-xs px-1 sm:px-2 h-7 sm:h-8 bg-accent text-accent-foreground hover:opacity-90"
+            className={`flex-1 text-[10px] sm:text-xs px-1 sm:px-2 h-7 sm:h-8 ${
+              added
+                ? "bg-green-500 hover:bg-green-600 text-white"
+                : "bg-accent text-accent-foreground hover:opacity-90"
+            }`}
+            onClick={handleAddToCart}
           >
-            {t("products.buy_now")}
+            {added ? (
+              <>
+                <Check className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                {t("cart.added_to_cart")}
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                {t("products.buy_now")}
+              </>
+            )}
           </Button>
         </div>
       </div>
