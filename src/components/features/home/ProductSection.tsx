@@ -17,7 +17,8 @@ interface ProductCardData {
 
 interface ProductSectionProps {
   title: string;
-  products: ProductCardData[];
+  icon?: string;
+  products: Product[];
   href?: string;
   categorySlug?: string;
   totalCount?: number;
@@ -37,6 +38,7 @@ const transformProductToCardData = (product: Product): ProductCardData => {
 
 const ProductSection = ({
   title,
+  icon,
   products,
   categorySlug,
   totalCount,
@@ -58,13 +60,14 @@ const ProductSection = ({
     <section className="mb-8">
       <CategorySectionHeader
         title={title}
+        icon={icon}
         href={shouldShowViewAll ? viewAllHref : undefined}
       />
 
       {/* Products grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {displayProducts.map((product) => (
-          <ProductCard key={product.id} {...product} />
+          <ProductCard key={product.id} {...transformProductToCardData(product)} />
         ))}
       </div>
     </section>
