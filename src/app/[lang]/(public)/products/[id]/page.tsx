@@ -1,32 +1,16 @@
 import { notFound } from "next/navigation";
 import ProductPageClient from "@/components/features/home/ProductPageClient";
-import { mockCategoriesData, MockProductCard } from "@/data/mock-data";
+import { getProductById, getProducts } from "@/service/product.service";
 
 interface ProductPageProps {
   params: { id: string };
 }
 
-// Helper function to get all products from categories
-const getAllProducts = (): (MockProductCard & { category: string })[] => {
-  const allProducts: (MockProductCard & { category: string })[] = [];
-
-  mockCategoriesData.forEach((category) => {
-    category.products.forEach((product) => {
-      allProducts.push({
-        ...product,
-        category: category.title,
-      });
-    });
-  });
-
-  return allProducts;
-};
-
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = params;
 
-  const allProducts = getAllProducts();
-  const product = allProducts.find((p) => p.id === id);
+  // Fetch product from Firestore
+  const product = await getProductById(id);
 
   if (!product) {
     notFound();
@@ -36,10 +20,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 }
 
 // Generate static params for all products (for build optimization)
-export function generateStaticParams() {
-  const allProducts = getAllProducts();
+export async function generateStaticParams() {
+  const products = await getProducts({ isActive: true });
 
-  return allProducts.map((product) => ({
-    id: product.id,
+  return products.map((product) => ({
+    id: product.id.toString(),
   }));
 }

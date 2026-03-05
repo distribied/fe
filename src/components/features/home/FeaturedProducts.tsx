@@ -1,11 +1,42 @@
 "use client";
 
 import ProductCard from "@/components/shared/ProductCard";
-import { mockFeaturedProducts } from "@/data/mock-data";
+import { useProducts } from "@/hooks/useProducts";
 import { useTranslation } from "react-i18next";
 
 const FeaturedProducts = () => {
   const { t } = useTranslation();
+
+  // Fetch featured products from Firestore (limit to 8)
+  const { data: products = [], isLoading } = useProducts({ isActive: true });
+
+  // Take first 8 products as featured
+  const featuredProducts = products.slice(0, 8);
+
+  if (isLoading) {
+    return (
+      <section className="mb-8">
+        <div className="relative mb-8">
+          <div className="relative overflow-hidden bg-gradient-to-r from-primary via-primary to-primary py-4 md:py-5 px-6 rounded-lg shadow-lg">
+            <h3 className="relative text-xl sm:text-2xl md:text-3xl font-bold text-primary-foreground text-center uppercase tracking-wider">
+              ✨ {t("products.featured")} ✨
+            </h3>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="bg-card rounded-lg animate-pulse">
+              <div className="aspect-square bg-muted" />
+              <div className="p-4 space-y-2">
+                <div className="h-4 bg-muted rounded w-3/4" />
+                <div className="h-4 bg-muted rounded w-1/2" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="mb-8">
@@ -74,9 +105,18 @@ const FeaturedProducts = () => {
 
       {/* Products grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {mockFeaturedProducts.map((product, index) => (
-          <ProductCard key={index} {...product} />
-        ))}
+        {featuredProducts.map((product) => {
+          const thumbnail = product.images?.find((img) => img.isThumbnail)?.url || "/placeholder.jpg";
+          return (
+            <ProductCard
+              key={product.id}
+              id={product.id.toString()}
+              image={thumbnail}
+              title={product.name || ""}
+              price={product.price || 0}
+            />
+          );
+        })}
       </div>
     </section>
   );
