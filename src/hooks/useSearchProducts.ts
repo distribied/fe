@@ -20,7 +20,10 @@ interface UseRecommendParams {
   limit?: number;
 }
 
-export function useRecommendProducts({ searchTerm, limit: limitCount = 5 }: UseRecommendParams) {
+export function useRecommendProducts({
+  searchTerm,
+  limit: limitCount = 5,
+}: UseRecommendParams) {
   return useQuery({
     queryKey: ["recommend-products", searchTerm, limitCount],
     queryFn: () => recommendProducts(searchTerm, limitCount),
