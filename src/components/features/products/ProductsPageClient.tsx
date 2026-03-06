@@ -5,14 +5,12 @@ import { useSearchParams } from "next/navigation";
 import ProductsHeader from "./ProductsHeader";
 import ProductsSidebar from "./ProductsSidebar";
 import ProductsGrid from "./ProductsGrid";
-import {
-  mockCategoriesInfo,
-  MockCategoryInfo,
-} from "@/data/mock-data";
 import ProductsToolbar from "./ProductsToolbar";
 import ProductsPagination from "./ProductPagination";
 import { useProducts } from "@/hooks/useProducts";
+import { useCategories } from "@/hooks/useCategory";
 import { useSearchProducts } from "@/hooks/useSearchProducts";
+import type { Category } from "@/schemas";
 
 export type SortOption =
   | "newest"
@@ -39,7 +37,7 @@ export default function ProductsPageClient() {
 
   const { data: allProductsFromFirestore = [], isLoading: isLoadingAllProducts } = useProducts(
     !searchQuery && (!categoryQuery || categoryQuery === "featured")
-      ? {}
+      ? { isActive: true }
       : undefined
   );
 
@@ -47,17 +45,22 @@ export default function ProductsPageClient() {
   const products = searchQuery ? searchResults : allProductsFromFirestore;
   const isLoading = searchQuery ? isLoadingSearchResults : isLoadingAllProducts;
 
-  const [categories, setCategories] = useState<MockCategoryInfo[]>([]);
+  // Fetch categories from Firestore
+  const { data: categoriesFromFirestore = [], isLoading: isLoadingCategories } = useCategories();
+
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Load categories on mount
-  useEffect(() => {
-    setCategories(mockCategoriesInfo);
+  // Use real categories from Firestore
+  const categories = categoriesFromFirestore;
 
+  // Sync URL category query to selected category
+  useEffect(() => {
     if (categoryQuery && categoryQuery !== "featured") {
       setSelectedCategory(categoryQuery);
+    } else {
+      setSelectedCategory("all");
     }
   }, [categoryQuery]);
 
@@ -68,17 +71,10 @@ export default function ProductsPageClient() {
 
     // Apply category filter from sidebar (additional filter)
     if (selectedCategory !== "all" && selectedCategory !== categoryQuery) {
-      const categoryInfo = categories.find(
-        (cat) =>
-          cat.slug.vi === selectedCategory || cat.slug.en === selectedCategory,
+      // Filter by categoryId from Firestore
+      filtered = filtered.filter(
+        (product) => product.categoryId?.toString() === selectedCategory
       );
-
-      if (categoryInfo) {
-        const keyword = categoryInfo.name.vi.split(" ")[0].toLowerCase();
-        filtered = filtered.filter((product: any) =>
-          product.category?.toLowerCase().includes(keyword),
-        );
-      }
     }
 
     // Sort

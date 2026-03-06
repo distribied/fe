@@ -5,11 +5,13 @@ import { useTranslation } from "react-i18next";
 
 interface CategorySectionHeaderProps {
   title: string;
+  icon?: string;
   href?: string;
 }
 
 const CategorySectionHeader = ({
   title,
+  icon,
   href = "#",
 }: CategorySectionHeaderProps) => {
   const { t } = useTranslation();
@@ -18,13 +20,21 @@ const CategorySectionHeader = ({
     <div className="flex items-center justify-between mb-4 md:mb-6 gap-2">
       {/* Left side with icon and title */}
       <div className="flex items-center min-w-0">
-        {/* Circular basket icon - thêm shadow và border đậm hơn */}
+        {/* Circular icon - use category icon or default basket icon */}
         <div className="relative z-10 w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-primary/80 flex-shrink-0 bg-background shadow-lg shadow-primary/20">
-          <img
-            src="/ui/basket-icon.png"
-            alt=""
-            className="w-full h-full object-cover"
-          />
+          {icon ? (
+            <img
+              src={icon}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <img
+              src="/ui/basket-icon.png"
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          )}
           {/* Subtle overlay để tạo liên kết với woven section */}
           <div className="absolute inset-0 bg-primary/10 mix-blend-multiply" />
         </div>

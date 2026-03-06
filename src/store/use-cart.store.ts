@@ -1,61 +1,56 @@
-import { Product } from "@/schemas";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export interface CartItem extends Product {
+// Cart item with just product ID and quantity
+export interface CartItem {
+  productId: string;
   quantity: number;
 }
 
 interface CartState {
   items: CartItem[];
-  addItem: (product: Product, quantity?: number) => void;
-  removeItem: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
+  addItem: (productId: string, quantity?: number) => void;
+  removeItem: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   getTotalItems: () => number;
-  getTotalPrice: () => number;
 }
 
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
-      addItem: (product, quantity = 1) => {
+      addItem: (productId, quantity = 1) => {
         const currentItems = get().items;
         const existingItem = currentItems.find(
-          (item) => item.id === product.id,
+          (item) => item.productId === productId,
         );
 
         if (existingItem) {
           set({
             items: currentItems.map((item) =>
-              item.id === product.id
+              item.productId === productId
                 ? { ...item, quantity: item.quantity + quantity }
                 : item,
             ),
           });
         } else {
-          set({ items: [...currentItems, { ...product, quantity }] });
+          set({ items: [...currentItems, { productId, quantity }] });
         }
       },
       removeItem: (productId) =>
         set((state) => ({
-          items: state.items.filter((item) => item.id !== productId),
+          items: state.items.filter((item) => item.productId !== productId),
         })),
       updateQuantity: (productId, quantity) =>
         set((state) => ({
           items: state.items.map((item) =>
-            item.id === productId ? { ...item, quantity } : item,
+            item.productId === productId ? { ...item, quantity } : item,
           ),
         })),
       clearCart: () => set({ items: [] }),
       getTotalItems: () =>
         get().items.reduce((total, item) => total + item.quantity, 0),
-      getTotalPrice: () =>
-        get().items.reduce(
-          (total, item) => total + (item.price || 0) * item.quantity,
-          0,
-        ),
     }),
     {
       name: "cart-storage",

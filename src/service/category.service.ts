@@ -24,6 +24,7 @@ export const getCategories = async (): Promise<Category[]> => {
       id: d.id,
       name: data.name,
       slug: data.slug,
+      icon: data.icon,
       order: data.order,
     });
   });
@@ -39,6 +40,7 @@ export const getCategoryById = async (id: string): Promise<Category | null> => {
     id: snapshot.id,
     name: data.name,
     slug: data.slug,
+    icon: data.icon,
     order: data.order,
   });
 };

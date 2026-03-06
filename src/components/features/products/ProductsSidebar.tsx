@@ -1,11 +1,11 @@
 "use client";
 
-import { MockCategoryInfo, getCategoryName } from "@/data/mock-data";
+import { Category } from "@/schemas";
 import { useTranslation } from "react-i18next";
 import Reveal from "@/components/ui/Reveal";
 
 interface ProductsSidebarProps {
-  categories: MockCategoryInfo[];
+  categories: Category[];
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
 }
@@ -15,7 +15,7 @@ export default function ProductsSidebar({
   selectedCategory,
   setSelectedCategory,
 }: Readonly<ProductsSidebarProps>) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Reveal delay={0.1}>
@@ -39,14 +39,14 @@ export default function ProductsSidebar({
           {categories.map((category) => (
             <button
               key={category.id}
-              onClick={() => setSelectedCategory(category.slug.vi)}
+              onClick={() => setSelectedCategory(category.id.toString())}
               className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                selectedCategory === category.slug.vi
+                selectedCategory === category.id.toString()
                   ? "bg-primary text-primary-foreground"
                   : "hover:bg-muted"
               }`}
             >
-              {getCategoryName(category, i18n.language)}
+              {category.name}
             </button>
           ))}
         </div>
