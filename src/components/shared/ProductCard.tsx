@@ -110,10 +110,7 @@ const ProductCard = ({
             onClick={handleAddToCart}
           >
             {added ? (
-              <>
-                <Check className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-                {t("cart.added_to_cart")}
-              </>
+              <Check className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
             ) : (
               <>
                 <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
