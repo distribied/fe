@@ -7,7 +7,7 @@ import {
   QueryConstraint,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { normalizeText } from "@/utils/search.utils";
+import { normalizeText, generateSearchPrefixes } from "@/utils/search.utils";
 import { Product } from "@/schemas";
 import { getProductImages } from "./product.service";
 
@@ -24,9 +24,14 @@ export async function searchProducts(
 
   const normalized = normalizeText(searchTerm);
 
+  // Generate all possible prefixes from the search term
+  const prefixes = generateSearchPrefixes(normalized);
+
+  if (prefixes.length === 0) return [];
+
   const constraints: QueryConstraint[] = [
     where("isActive", "==", true),
-    where("searchKeywords", "array-contains", normalized),
+    where("searchKeywords", "array-contains-any", prefixes),
     limit(options?.limit ?? 20),
   ];
 
@@ -67,11 +72,16 @@ export async function recommendProducts(
 
   const normalized = normalizeText(searchTerm);
 
+  // Generate all possible prefixes from the search term
+  const prefixes = generateSearchPrefixes(normalized);
+
+  if (prefixes.length === 0) return [];
+
   // Use array-contains-any to match any keyword that contains the search term
   const q = query(
     collection(db, "products"),
     where("isActive", "==", true),
-    where("searchKeywords", "array-contains", normalized),
+    where("searchKeywords", "array-contains-any", prefixes),
     limit(limitCount),
   );
 
