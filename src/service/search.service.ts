@@ -4,7 +4,11 @@ import {
   query,
   where,
   limit,
+  or,
   QueryConstraint,
+  orderBy,
+  startAt,
+  endAt,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { normalizeText, generateSearchPrefixes } from "@/utils/search.utils";
@@ -39,25 +43,94 @@ export async function searchProducts(
     constraints.unshift(where("categoryId", "==", options.categoryId));
   }
 
-  const q = query(collection(db, "products"), ...constraints);
-  const snapshot = await getDocs(q);
+  // Try searchKeywords first
+  const keywordQuery = query(
+    collection(db, "products"),
+    where("isActive", "==", true),
+    where("searchKeywords", "array-contains", normalized),
+    ...(options?.categoryId ? [where("categoryId", "==", options.categoryId)] : []),
+    limit(options?.limit ?? 20),
+  );
 
-  // Fetch products with their images
-  const products = await Promise.all(
-    snapshot.docs.map(async (d) => {
+  const keywordSnapshot = await getDocs(keywordQuery);
+
+  let products = await Promise.all(
+    keywordSnapshot.docs.map(async (d) => {
       const product = {
         id: d.id,
         ...d.data(),
         createdAt: d.data().createdAt?.toDate?.(),
         updatedAt: d.data().updatedAt?.toDate?.(),
       };
-      // Fetch images for this product
       const images = await getProductImages(d.id);
       return { ...product, images };
     }),
-  );
+  ) as Product[];
 
-  return products as Product[];
+  // If no results from searchKeywords, try to search by name
+  if (products.length === 0) {
+    // Search by name using startAt/endAt for prefix matching
+    const nameQuery = query(
+      collection(db, "products"),
+      where("isActive", "==", true),
+      orderBy("name"),
+      startAt(searchTerm.toLowerCase()),
+      endAt(searchTerm.toLowerCase() + '\uf8ff'),
+      limit(options?.limit ?? 20),
+    );
+
+    try {
+      const nameSnapshot = await getDocs(nameQuery);
+
+      products = await Promise.all(
+        nameSnapshot.docs.map(async (d) => {
+          const product = {
+            id: d.id,
+            ...d.data(),
+            createdAt: d.data().createdAt?.toDate?.(),
+            updatedAt: d.data().updatedAt?.toDate?.(),
+          };
+          const images = await getProductImages(d.id);
+          return { ...product, images };
+        }),
+      ) as Product[];
+    } catch (error) {
+      // If orderBy fails (e.g., no index), try without it
+      console.log("Name search failed, trying fallback...");
+      const fallbackQuery = query(
+        collection(db, "products"),
+        where("isActive", "==", true),
+        limit(options?.limit ?? 100),
+      );
+
+      const fallbackSnapshot = await getDocs(fallbackQuery);
+
+      // Filter by name manually
+      const searchLower = searchTerm.toLowerCase();
+      products = await Promise.all(
+        fallbackSnapshot.docs
+          .filter(d => d.data().name?.toString().toLowerCase().includes(searchLower))
+          .slice(0, options?.limit ?? 20)
+          .map(async (d) => {
+            const product = {
+              id: d.id,
+              ...d.data(),
+              createdAt: d.data().createdAt?.toDate?.(),
+              updatedAt: d.data().updatedAt?.toDate?.(),
+            };
+            const images = await getProductImages(d.id);
+            return { ...product, images };
+          }),
+      ) as Product[];
+    }
+  }
+
+  // Filter by category if specified and we got results from name search
+  if (products.length > 0 && options?.categoryId) {
+    products = products.filter(p => p.categoryId?.toString() === options.categoryId);
+  }
+
+  return products;
 }
 
 /**
