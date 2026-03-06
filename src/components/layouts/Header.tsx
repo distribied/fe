@@ -26,7 +26,7 @@ import { useCart } from "@/hooks/useCart";
 import { Product } from "@/schemas";
 
 const Header = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const router = useRouter();
   const { data: categories = [] } = useCategories();
   const { href } = useLocale();
@@ -145,7 +145,9 @@ const Header = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(href(`products?search=${encodeURIComponent(searchQuery.trim())}`));
+      router.push(
+        href(`products?search=${encodeURIComponent(searchQuery.trim())}`),
+      );
       setShowRecommendations(false);
     }
   };
@@ -225,7 +227,8 @@ const Header = () => {
                         setShowRecommendations(e.target.value.length >= 2);
                       }}
                       onFocus={() => {
-                        if (searchQuery.length >= 2) setShowRecommendations(true);
+                        if (searchQuery.length >= 2)
+                          setShowRecommendations(true);
                       }}
                       className="border-2 border-primary/20 rounded-full py-2.5 px-4 pr-10 w-64 text-sm focus:outline-none bg-white"
                     />
