@@ -125,7 +125,7 @@ export function ProductForm({
       {/* Product Details */}
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="name">Product Name *</Label>
+          <Label htmlFor="name">Tên sản phẩm *</Label>
           <Input
             id="name"
             value={formData.name}
@@ -150,7 +150,7 @@ export function ProductForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="categoryId">Category</Label>
+          <Label htmlFor="categoryId">Danh mục</Label>
           <Select
             value={formData.categoryId?.toString() || ""}
             onValueChange={(value) =>
@@ -158,7 +158,7 @@ export function ProductForm({
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select category" />
+              <SelectValue placeholder="Chọn danh mục" />
             </SelectTrigger>
             <SelectContent>
               {categories.map((category) => (
@@ -190,14 +190,14 @@ export function ProductForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">Mô tả</Label>
         <Textarea
           id="description"
           value={formData.description || ""}
           onChange={(e) =>
             onFormDataChange({ ...formData, description: e.target.value })
           }
-          placeholder="Product description..."
+          placeholder="Mô tả sản phẩm..."
           rows={4}
         />
       </div>
@@ -224,7 +224,7 @@ export function ProductForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="isActive">Status</Label>
+          <Label htmlFor="isActive">Trạng thái</Label>
           <Select
             value={formData.isActive ? "true" : "false"}
             onValueChange={(value) =>
@@ -235,8 +235,8 @@ export function ProductForm({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="true">Active</SelectItem>
-              <SelectItem value="false">Inactive</SelectItem>
+              <SelectItem value="true">Hiện sản phẩm</SelectItem>
+              <SelectItem value="false">Ẩn sản phẩm</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -244,7 +244,7 @@ export function ProductForm({
 
       {/* Image Upload Section - At Bottom */}
       <div className="space-y-4 pt-4 border-t">
-        <Label>Product Images</Label>
+        <Label>Ảnh sản phẩm</Label>
 
         {/* Upload Area */}
         <label
@@ -264,10 +264,10 @@ export function ProductForm({
           />
           <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
           <p className="text-sm text-muted-foreground mb-2">
-            Drag and drop images here, or click to browse
+            Kéo và thả sản phẩm vào đây, nhấn vào để mở bộ sưu tập
           </p>
           <p className="text-xs text-muted-foreground">
-            Supports: JPG, PNG, WEBP (max 32MB each)
+            Định dạng hỗ trợ: JPG, PNG, WEBP (max 32MB mỗi ảnh)
           </p>
         </label>
 
@@ -375,7 +375,7 @@ export function ProductForm({
       {/* Form Actions */}
       <div className="flex justify-end gap-2 pt-4 border-t">
         <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
+          Đóng
         </Button>
         <Button
           type="submit"
@@ -384,7 +384,7 @@ export function ProductForm({
           {(isSubmitting || imageUpload.isUploading) && (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           )}
-          {editingProduct ? "Update" : "Create"} Product
+          {editingProduct ? "Cập nhật" : "Tạo"} Sản Phẩm
         </Button>
       </div>
     </form>
