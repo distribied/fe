@@ -25,5 +25,8 @@ dist-ssr
 *.sln
 *.sw?
 
+# Yarn
+.yarn/
+
 # Temp files
 /plans
