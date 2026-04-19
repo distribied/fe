@@ -5,18 +5,23 @@ import { useState, useEffect, useRef } from "react";
 const slides = [
   {
     image: "/slides/slide-1.png",
-    title: "Mây Tre Lá Kiều Sâm",
-    subtitle: "Sản phẩm thủ công truyền thống Việt Nam",
+    title: "Bộ Nón Lá & Túi Hoa Hồng",
+    subtitle: "Tinh tế từng đường thêu thủ công",
   },
   {
     image: "/slides/slide-2.png",
-    title: "Túi Lục Bình Thêu Hoa",
-    subtitle: "Thiết kế độc đáo, thân thiện môi trường",
+    title: "Túi Cói Hoa Cúc Trắng",
+    subtitle: "Vẻ đẹp thanh khiết của làng nghề Việt",
   },
   {
     image: "/slides/slide-3.png",
-    title: "Túi Cỏ Bàng Đeo Chéo",
-    subtitle: "Sản phẩm thủ công cao cấp",
+    title: "Bộ Nón & Túi Hoa Vàng",
+    subtitle: "Sắc nắng quê hương trong từng sợi đan",
+  },
+  {
+    image: "/slides/slide-4.png",
+    title: "Bộ Nón Lá & Túi Mây Hoa Hồng",
+    subtitle: "Quà tặng thủ công độc bản từ Kiều Sâm",
   },
 ];
 
@@ -203,12 +208,12 @@ const HeroCarousel = () => {
       </div>
 
       {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
         {slides.map((slide, index) => (
           <button
             key={slide.title}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-colors ${
+            className={`w-1.5 h-1.5 rounded-full transition-colors ${
               index === currentSlide ? "bg-primary" : "bg-background/60"
             }`}
           />
