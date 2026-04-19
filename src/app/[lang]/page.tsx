@@ -1,7 +1,7 @@
 "use client";
 
 import HeroCarousel from "@/components/features/home/HeroCarousel";
-import SideBanners from "@/components/features/home/SideBanners";
+import VideoCarousel from "@/components/features/home/VideoCarousel";
 import CategorySectionHeader from "@/components/features/home/CategorySectionHeader";
 import ProductCard from "@/components/shared/ProductCard";
 import Reveal from "@/components/ui/Reveal";
@@ -20,6 +20,7 @@ const transformProductToCardData = (product: Product) => {
       product.images?.find((img) => img.isThumbnail)?.url || "/placeholder.jpg",
     title: product.name || "",
     price: product.price || 0,
+    showContactLabel: true,
   };
 };
 
@@ -82,17 +83,17 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col bg-muted">
       <main className="flex-1">
         <div className="container mx-auto px-4 py-6">
-          {/* Hero section with sidebar */}
+          {/* Hero section with video carousel on the right */}
           <Reveal>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
               {/* Main carousel */}
-              <div className="lg:col-span-9">
+              <div className="lg:col-span-8">
                 <HeroCarousel />
               </div>
 
-              {/* Side products - bestsellers */}
-              <div className="lg:col-span-3 hidden lg:block">
-                <SideBanners />
+              {/* Video carousel */}
+              <div className="lg:col-span-4">
+                <VideoCarousel />
               </div>
             </div>
           </Reveal>
