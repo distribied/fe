@@ -13,8 +13,6 @@ interface ProductsToolbarProps {
 const sortOptions: readonly SortOption[] = [
   "newest",
   "oldest",
-  "price-low",
-  "price-high",
   "name-az",
   "name-za",
 ];

@@ -75,9 +75,6 @@ export default function AdminDashboard() {
   const inactiveProducts =
     products?.filter((p) => !p.isActive).slice(0, 4) || [];
 
-  const lowPriceProducts =
-    products?.filter((p) => (p.price || 0) < 100000).slice(0, 4) || [];
-
   const isLoading = productsLoading || categoriesLoading;
 
   /* =========================
@@ -120,11 +117,8 @@ export default function AdminDashboard() {
               </div>
               <div className="min-w-0">
                 <p className="font-medium text-sm truncate">{product.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  {new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(product.price || 0)}
+                <p className="text-xs font-medium text-primary uppercase">
+                  Liên Hệ
                 </p>
               </div>
             </div>
@@ -138,50 +132,6 @@ export default function AdminDashboard() {
       </div>
     );
   };
-
-  const renderLowPriceProducts = () => {
-    if (isLoading) return renderLoading();
-
-    if (lowPriceProducts.length === 0) {
-      return renderEmptyState(
-        <TrendingUp className="h-8 w-8 mx-auto opacity-50" />,
-        "Không có sản phẩm giá thấp",
-      );
-    }
-
-    return (
-      <div className="space-y-2">
-        {lowPriceProducts.map((product) => (
-          <div
-            key={product.id}
-            className="flex items-center justify-between p-2.5 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
-          >
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
-                <Package className="h-5 w-5 text-muted-foreground" />
-              </div>
-              <div className="min-w-0">
-                <p className="font-medium text-sm truncate">{product.name}</p>
-                <p className="text-xs text-green-600 font-medium">
-                  {new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(product.price || 0)}
-                </p>
-              </div>
-            </div>
-            <Link href="/admin/products">
-              <Badge variant="secondary" className="text-xs">
-                Xem
-              </Badge>
-            </Link>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  /* ========================= */
 
   return (
     <div className="container mx-auto py-6 px-4 space-y-6">
@@ -207,7 +157,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Alerts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         <Card>
           <CardHeader className="pb-3 bg-muted/30">
             <CardTitle className="text-base flex items-center gap-2">
@@ -216,16 +166,6 @@ export default function AdminDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-3">{renderInactiveProducts()}</CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-3 bg-muted/30">
-            <CardTitle className="text-base flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-orange-500" />
-              Sản phẩm giá thấp
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-3">{renderLowPriceProducts()}</CardContent>
         </Card>
       </div>
     </div>

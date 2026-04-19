@@ -21,6 +21,7 @@ const transformToProductCard = (product: any) => {
       image: thumbnail,
       title: product.name || "",
       price: product.price || 0,
+      showContactLabel: true,
     };
   }
   // If it's MockProductCard
@@ -29,6 +30,7 @@ const transformToProductCard = (product: any) => {
     image: product.image || product.images?.[0]?.url || "/placeholder.png",
     title: product.title || product.name || "",
     price: product.price || 0,
+    showContactLabel: true,
   };
 };
 

@@ -12,7 +12,7 @@ interface ProductCardData {
   title: string;
   price: number;
   oldPrice?: number;
-  showContact?: boolean;
+  showContactLabel?: boolean;
 }
 
 interface ProductSectionProps {
@@ -32,7 +32,7 @@ const transformProductToCardData = (product: Product): ProductCardData => {
       product.images?.find((img) => img.isThumbnail)?.url || "/placeholder.jpg",
     title: product.name || "",
     price: product.price || 0,
-    showContact: product.price === 0,
+    showContactLabel: true,
   };
 };
 

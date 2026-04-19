@@ -261,11 +261,8 @@ const Header = () => {
                             <p className="text-sm font-medium text-gray-900 truncate">
                               {product.name}
                             </p>
-                            <p className="text-xs text-gray-500">
-                              {new Intl.NumberFormat("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              }).format(product.price)}
+                            <p className="text-xs font-semibold uppercase text-primary">
+                              {t("products.contact")}
                             </p>
                           </div>
                         </button>

@@ -114,6 +114,7 @@ const FeaturedProducts = () => {
               image={thumbnail}
               title={product.name || ""}
               price={product.price || 0}
+              showContactLabel
             />
           );
         })}

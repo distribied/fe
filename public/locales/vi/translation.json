@@ -68,6 +68,7 @@
     "view_all": "Xem Tất Cả",
     "description": "Mô Tả Sản Phẩm",
     "consult": "Liên Hệ Tư Vấn",
+    "contact_description": "Vui lòng liên hệ để biết giá và tư vấn chi tiết",
     "save": "Tiết kiệm",
     "hotline_label": "Hotline",
     "address_label": "Địa chỉ",
@@ -101,8 +102,6 @@
   "sort": {
     "newest": "Mới nhất",
     "oldest": "Cũ nhất",
-    "price-low": "Giá thấp → cao",
-    "price-high": "Giá cao → thấp",
     "name-az": "Tên A → Z",
     "name-za": "Tên Z → A"
   },
@@ -259,6 +258,8 @@
     "subtotal": "Tạm tính",
     "summary": "Tổng quan đơn hàng",
     "items": "Sản phẩm",
+    "contact_for_quote": "Liên hệ để báo giá",
+    "contact_note": "Chúng tôi sẽ tư vấn và báo giá sau khi nhận được yêu cầu của bạn.",
     "shipping": "Phí vận chuyển",
     "free": "Miễn phí",
     "total": "Tổng cộng",

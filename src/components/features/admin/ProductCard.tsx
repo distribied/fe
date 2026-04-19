@@ -29,13 +29,6 @@ export function ProductCard({
   const thumbnailImage =
     product.images?.find((img) => img.isThumbnail) || product.images?.[0];
 
-  const formatCurrency = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
-
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-shadow">
       <div className="aspect-square relative overflow-hidden bg-muted">
@@ -103,9 +96,9 @@ export function ProductCard({
       <CardContent className="pt-0">
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">Price:</span>
-            <span className="font-bold text-lg">
-              {formatCurrency(product.price || 0)}
+            <span className="text-sm text-muted-foreground">Liên hệ:</span>
+            <span className="font-bold text-lg text-primary uppercase">
+              Liên Hệ
             </span>
           </div>
 

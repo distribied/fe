@@ -17,8 +17,6 @@ import { useLocale } from "@/hooks/useLocale";
 export type SortOption =
   | "newest"
   | "oldest"
-  | "price-low"
-  | "price-high"
   | "name-az"
   | "name-za";
 
@@ -90,8 +88,13 @@ export default function ProductsPageClient() {
 
   // Sync sort from URL
   useEffect(() => {
-    if (sortQuery && ["newest", "oldest", "price-low", "price-high", "name-az", "name-za"].includes(sortQuery)) {
+    if (
+      sortQuery &&
+      ["newest", "oldest", "name-az", "name-za"].includes(sortQuery)
+    ) {
       setSortBy(sortQuery);
+    } else {
+      setSortBy("newest");
     }
   }, [sortQuery]);
 
@@ -152,10 +155,6 @@ export default function ProductsPageClient() {
           return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
         case "oldest":
           return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
-        case "price-low":
-          return a.price - b.price;
-        case "price-high":
-          return b.price - a.price;
         case "name-az":
           return a.name.localeCompare(b.name);
         case "name-za":
@@ -166,7 +165,7 @@ export default function ProductsPageClient() {
     });
 
     return filtered;
-  }, [products, selectedCategory, categoryQuery, sortBy, categories]);
+  }, [products, selectedCategory, categoryQuery, sortBy]);
 
   // Reset page when filters change (but not when just changing page)
   useEffect(() => {

@@ -15,6 +15,7 @@ interface ProductCardProps {
   price: number;
   oldPrice?: number;
   showContact?: boolean;
+  showContactLabel?: boolean;
 }
 
 const ProductCard = ({
@@ -24,11 +25,13 @@ const ProductCard = ({
   price,
   oldPrice,
   showContact = false,
+  showContactLabel = false,
 }: ProductCardProps) => {
   const { t, i18n } = useTranslation();
   const { href } = useLocale();
-  const { addItem, items } = useCart();
+  const { addItem } = useCart();
   const [added, setAdded] = useState(false);
+  const shouldShowContactLabel = showContact || showContactLabel;
 
   const formatPrice = (value: number) => {
     return (
@@ -70,7 +73,7 @@ const ProductCard = ({
 
         {/* Price - Fixed height */}
         <div className="mb-2 sm:mb-3 min-h-[2.5rem] sm:min-h-[3rem] flex items-start">
-          {showContact ? (
+          {shouldShowContactLabel ? (
             <span className="text-destructive font-bold uppercase text-xs sm:text-sm">
               {t("products.contact")}
             </span>
@@ -89,20 +92,23 @@ const ProductCard = ({
         </div>
 
         {/* Buttons - Push to bottom */}
-        <div className="flex gap-1 sm:gap-2 mt-auto">
+        <div className="flex gap-2 mt-auto">
           <Button
             variant="outline"
             size="sm"
-            className="flex-1 text-[10px] sm:text-xs px-1 sm:px-2 h-7 sm:h-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            className="flex-1 text-xs sm:text-sm font-medium h-8 sm:h-9 px-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
             asChild
           >
-            <Link href={href(`/products/${id}`)}>
+            <Link
+              href={href(`/products/${id}`)}
+              className="flex items-center justify-center whitespace-nowrap"
+            >
               {t("products.view_details")}
             </Link>
           </Button>
           <Button
             size="sm"
-            className={`flex-1 text-[10px] sm:text-xs px-1 sm:px-2 h-7 sm:h-8 ${
+            className={`flex-1 inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-xs sm:text-sm font-medium h-8 sm:h-9 px-2 ${
               added
                 ? "bg-green-500 hover:bg-green-600 text-white"
                 : "bg-accent text-accent-foreground hover:opacity-90"
@@ -110,11 +116,11 @@ const ProductCard = ({
             onClick={handleAddToCart}
           >
             {added ? (
-              <Check className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+              <Check className="w-4 h-4 shrink-0" />
             ) : (
               <>
-                <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-                {t("products.buy_now")}
+                <ShoppingCart className="w-4 h-4 shrink-0" />
+                <span>{t("products.buy_now")}</span>
               </>
             )}
           </Button>

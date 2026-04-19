@@ -30,6 +30,21 @@ import {
 } from "@/const/constants";
 import { generateSearchKeywords } from "@/utils/search.utils";
 
+const normalizePrice = (value: unknown): number => {
+  if (typeof value === "number" && Number.isFinite(value) && value >= 0) {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed) && parsed >= 0) {
+      return parsed;
+    }
+  }
+
+  return 0;
+};
+
 // Helper to convert Firestore doc to Product with validation
 const docToProduct = (docData: DocumentData, docId: string): Product => {
   const rawData = {
@@ -39,7 +54,7 @@ const docToProduct = (docData: DocumentData, docId: string): Product => {
     slug: docData.slug,
     description: docData.description,
     metadata: docData.metadata,
-    price: docData.price,
+    price: normalizePrice(docData.price),
     isActive: docData.isActive ?? docData.is_active ?? true,
     ratingAverage: docData.ratingAverage ?? docData.rating_average ?? 0,
     createdAt:
@@ -158,7 +173,7 @@ export const createProduct = async (
     slug: validatedProduct.slug,
     description: validatedProduct.description,
     metadata: validatedProduct.metadata,
-    price: validatedProduct.price,
+    price: normalizePrice(validatedProduct.price),
     isActive: validatedProduct.isActive ?? true,
     ratingAverage: validatedProduct.ratingAverage ?? 0,
     searchKeywords,
@@ -215,6 +230,10 @@ export const updateProduct = async (
     ...validatedUpdates,
     updatedAt: new Date(),
   };
+
+  if (validatedUpdates.price !== undefined) {
+    updateData.price = normalizePrice(validatedUpdates.price);
+  }
 
   if (validatedUpdates.name) {
     updateData.searchKeywords = generateSearchKeywords(validatedUpdates.name);

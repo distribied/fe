@@ -5,10 +5,6 @@ import { useLocale } from "@/hooks/useLocale";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
-const formatPrice = (value: number) => {
-  return new Intl.NumberFormat("vi-VN").format(value) + "Đ";
-};
-
 const SideBanners = () => {
   const { t } = useTranslation();
   const { href } = useLocale();
@@ -44,16 +40,9 @@ const SideBanners = () => {
               <h4 className="text-sm font-medium text-foreground line-clamp-2 group-hover:text-primary transition-colors">
                 {product.title}
               </h4>
-              <div className="mt-1 flex items-center gap-2">
-                {product.oldPrice && (
-                  <span className="text-xs text-muted-foreground line-through">
-                    {formatPrice(product.oldPrice)}
-                  </span>
-                )}
-                <span className="text-sm font-bold text-destructive">
-                  {formatPrice(product.price)}
-                </span>
-              </div>
+              <span className="mt-1 text-sm font-bold uppercase text-destructive">
+                {t("products.contact")}
+              </span>
             </div>
           </div>
         </Link>

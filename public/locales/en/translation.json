@@ -68,6 +68,7 @@
     "view_all": "View All",
     "description": "Product Description",
     "consult": "Contact for Consultation",
+    "contact_description": "Please contact us for pricing and detailed consultation",
     "save": "Save",
     "hotline_label": "Hotline",
     "address_label": "Address",
@@ -100,8 +101,6 @@
   "sort": {
     "newest": "Newest",
     "oldest": "Oldest",
-    "price-low": "Price low → high",
-    "price-high": "Price high → low",
     "name-az": "Name A → Z",
     "name-za": "Name Z → A"
   },
@@ -258,6 +257,8 @@
     "subtotal": "Subtotal",
     "summary": "Order Summary",
     "items": "Products",
+    "contact_for_quote": "Contact for pricing",
+    "contact_note": "We will confirm pricing and consultation details after receiving your inquiry.",
     "shipping": "Shipping",
     "free": "Free",
     "total": "Total",

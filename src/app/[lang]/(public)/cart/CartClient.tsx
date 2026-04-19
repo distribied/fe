@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, MessageCircle } from "lucide-react";
-import { useCart, useCartProductIds } from "@/hooks/useCart";
+import { useCart } from "@/hooks/useCart";
 import { useProduct } from "@/hooks/useProducts";
 import { useLocale } from "@/hooks/useLocale";
 import { Button } from "@/components/ui/button";
@@ -23,18 +23,10 @@ function CartItemCard({
   onUpdateQuantity: (productId: string, quantity: number) => void;
   onRemove: (productId: string) => void;
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { href } = useLocale();
 
   const { data: product, isLoading } = useProduct(item.productId);
-
-  const formatPrice = (value: number) => {
-    return (
-      new Intl.NumberFormat(i18n.language === "en" ? "en-US" : "vi-VN").format(
-        value,
-      ) + (i18n.language === "en" ? " VND" : " Đ")
-    );
-  };
 
   if (isLoading) {
     return (
@@ -79,8 +71,8 @@ function CartItemCard({
           </h3>
         </Link>
         
-        <p className="text-primary font-bold mt-1">
-          {formatPrice(product.price || 0)}
+        <p className="text-primary font-bold mt-1 uppercase">
+          {t("products.contact")}
         </p>
 
         {/* Quantity Controls */}
@@ -118,9 +110,11 @@ function CartItemCard({
 
       {/* Item Total */}
       <div className="hidden sm:block text-right">
-        <p className="text-sm text-muted-foreground">{t("cart.subtotal")}</p>
-        <p className="font-bold text-primary">
-          {formatPrice((product.price || 0) * item.quantity)}
+        <p className="text-sm text-muted-foreground">
+          {t("cart.contact_for_quote")}
+        </p>
+        <p className="font-bold text-primary uppercase">
+          {t("products.contact")}
         </p>
       </div>
     </div>
@@ -131,25 +125,13 @@ export default function CartClient() {
   const { t, i18n } = useTranslation();
   const { href } = useLocale();
   const { items, updateQuantity, removeItem, clearCart } = useCart();
-
-  const formatPrice = (value: number) => {
-    return (
-      new Intl.NumberFormat(i18n.language === "en" ? "en-US" : "vi-VN").format(
-        value,
-      ) + (i18n.language === "en" ? " VND" : " Đ")
-    );
-  };
-
-  // Calculate total price by fetching products
-  const [totalPrice, setTotalPrice] = useState(0);
   const [cartProducts, setCartProducts] = useState<{product: Product | null; quantity: number}[]>([]);
 
-  // Fetch all products in cart and calculate total
+  // Fetch all products in cart
   useEffect(() => {
-    const fetchProductsAndCalculate = async () => {
+    const fetchProducts = async () => {
       const productPromises = items.map(async (item) => {
         try {
-          const { getProductById } = await import("@/service/product.service");
           const product = await getProductById(item.productId);
           return { product, quantity: item.quantity };
         } catch (error) {
@@ -160,47 +142,40 @@ export default function CartClient() {
 
       const results = await Promise.all(productPromises);
       setCartProducts(results);
-
-      // Calculate total
-      const total = results.reduce((sum, item) => {
-        if (item.product) {
-          return sum + (item.product.price || 0) * item.quantity;
-        }
-        return sum;
-      }, 0);
-      setTotalPrice(total);
     };
 
     if (items.length > 0) {
-      fetchProductsAndCalculate();
+      fetchProducts();
     } else {
       setCartProducts([]);
-      setTotalPrice(0);
     }
   }, [items]);
 
-  // Generate Zalo message and handle checkout - Always use Vietnamese
-  const handleCheckout = () => {
-    const phoneNumber = "0907882878"; // Zalo phone number
-
-    // Always use Vietnamese format
-    let message = "Xin chào Kiều Sâm! Tôi muốn đặt hàng:\n\n";
+  const buildInquiryMessage = () => {
+    const isEnglish = i18n.language === "en";
+    let message = isEnglish
+      ? "Hello Kieu Sam! I would like to ask about these products:\n\n"
+      : "Xin chào Kiều Sâm! Tôi muốn liên hệ về các sản phẩm sau:\n\n";
 
     cartProducts.forEach(({ product, quantity }) => {
       if (product) {
-        const itemTotal = (product.price || 0) * quantity;
-        message += `• ${product.name}\n`;
-        message += `  Số lượng: ${quantity} x ${formatPrice(product.price || 0)} = ${formatPrice(itemTotal)}\n\n`;
+        message += isEnglish
+          ? `• ${product.name}\n  Quantity: ${quantity}\n  Please share pricing and consultation details.\n\n`
+          : `• ${product.name}\n  Số lượng: ${quantity}\n  Vui lòng tư vấn và báo giá giúp tôi.\n\n`;
       }
     });
 
-    message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-    message += `TỔNG CỘNG: ${formatPrice(totalPrice)}\n`;
-    message += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-    message += `Vui lòng xác nhận đơn hàng. Cảm ơn!`;
+    message += isEnglish
+      ? "Please confirm and contact me. Thank you!"
+      : "Vui lòng xác nhận và liên hệ lại giúp tôi. Cảm ơn!";
 
-    // Encode message for Zalo
-    const encodedMessage = encodeURIComponent(message);
+    return message;
+  };
+
+  // Generate an inquiry message without pricing details
+  const handleCheckout = () => {
+    const phoneNumber = "0907882878"; // Zalo phone number
+    const encodedMessage = encodeURIComponent(buildInquiryMessage());
 
     // Open Zalo chat
     window.open(`https://zalo.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
@@ -209,23 +184,7 @@ export default function CartClient() {
   // Handle Facebook Messenger checkout
   const handleFacebookCheckout = () => {
     const facebookPageId = "100083182335829"; // Facebook Page ID
-
-    let message = "Xin chào Kiều Sâm! Tôi muốn đặt hàng:\n\n";
-
-    cartProducts.forEach(({ product, quantity }) => {
-      if (product) {
-        const itemTotal = (product.price || 0) * quantity;
-        message += `• ${product.name}\n`;
-        message += `  Số lượng: ${quantity} x ${formatPrice(product.price || 0)} = ${formatPrice(itemTotal)}\n\n`;
-      }
-    });
-
-    message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-    message += `TỔNG CỘNG: ${formatPrice(totalPrice)}\n`;
-    message += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-    message += `Vui lòng xác nhận đơn hàng. Cảm ơn!`;
-
-    const encodedMessage = encodeURIComponent(message);
+    const encodedMessage = encodeURIComponent(buildInquiryMessage());
     window.open(`https://m.me/${facebookPageId}?text=${encodedMessage}`, "_blank");
   };
 
@@ -274,19 +233,16 @@ export default function CartClient() {
                 <span className="text-muted-foreground">
                   {t("cart.items")} ({items.reduce((sum, item) => sum + item.quantity, 0)})
                 </span>
-                <span>{formatPrice(totalPrice)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">{t("cart.shipping")}</span>
-                <span>{t("cart.free")}</span>
+                <span className="font-medium uppercase text-primary">
+                  {t("products.contact")}
+                </span>
               </div>
             </div>
 
             <div className="border-t pt-4 mb-6">
-              <div className="flex justify-between text-lg font-bold">
-                <span>{t("cart.total")}</span>
-                <span className="text-primary">{formatPrice(totalPrice)}</span>
-              </div>
+              <p className="text-sm text-muted-foreground">
+                {t("cart.contact_note")}
+              </p>
             </div>
 
             {/* Checkout Button - Zalo */}
@@ -296,7 +252,7 @@ export default function CartClient() {
               onClick={handleCheckout}
             >
               <MessageCircle className="w-5 h-5 mr-2" />
-              {t("cart.checkout")} (Zalo)
+              {t("common.contact")} (Zalo)
             </Button>
 
             {/* Checkout Button - Facebook */}
@@ -308,7 +264,7 @@ export default function CartClient() {
               <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
-              {t("cart.checkout")} (Facebook)
+              {t("common.contact")} (Facebook)
             </Button>
 
             {/* Continue Shopping */}
@@ -332,4 +288,3 @@ export default function CartClient() {
     </div>
   );
 }
-

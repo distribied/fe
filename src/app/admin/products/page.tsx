@@ -124,11 +124,16 @@ export default function AdminProductPage() {
 
   const handleSubmit = async (imageUrls: string[], thumbnailIndex: number) => {
     try {
+      const productPayload = {
+        ...formData,
+        price: 0,
+      };
+
       if (editingProduct) {
         // Update existing product with images using the hook
         await updateWithImagesMutation.mutateAsync({
           id: editingProduct.id.toString(),
-          updates: formData,
+          updates: productPayload,
           imageUrls,
           thumbnailIndex,
         });
@@ -136,9 +141,13 @@ export default function AdminProductPage() {
       } else {
         // Create new product with images
         if (imageUrls.length > 0) {
-          await createProductWithImages(formData, imageUrls, thumbnailIndex);
+          await createProductWithImages(
+            productPayload,
+            imageUrls,
+            thumbnailIndex,
+          );
         } else {
-          await createMutation.mutateAsync(formData);
+          await createMutation.mutateAsync(productPayload);
         }
         toast.success("Product created successfully!");
         // Refetch to get new product with images
@@ -163,7 +172,7 @@ export default function AdminProductPage() {
       name: product.name,
       slug: product.slug || "",
       description: product.description || "",
-      price: product.price,
+      price: 0,
       isActive: product.isActive ?? true,
       ratingAverage: product.ratingAverage ?? 0,
     });
@@ -185,13 +194,6 @@ export default function AdminProductPage() {
     if (!product.images || product.images.length === 0) return null;
     const thumbnail = product.images.find((img) => img.isThumbnail);
     return thumbnail?.url || product.images[0]?.url || null;
-  };
-
-  const formatCurrency = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
   };
 
   return (
@@ -354,8 +356,8 @@ export default function AdminProductPage() {
 
                 <CardContent className="p-2.5 pt-0">
                   <div className="flex justify-between items-center">
-                    <span className="font-bold text-sm text-green-600">
-                      {formatCurrency(product.price || 0)}
+                    <span className="font-bold text-sm text-primary uppercase">
+                      Liên Hệ
                     </span>
                     <div className="flex items-center gap-0.5">
                       <Star className="h-3.5 w-3.5 fill-current text-yellow-500" />
