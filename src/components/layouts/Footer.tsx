@@ -158,11 +158,43 @@ const Footer = () => {
             <p className="text-sm opacity-90 mb-4">{t("footer.follow_us")}</p>
           </div>
         </div>
+        {/* Embedded Google Maps */}
+        <div className="mt-10 pt-8 border-t border-primary-foreground/20">
+          <h3 className="font-bold text-lg mb-4 uppercase flex items-center gap-2">
+            <MapPin className="h-5 w-5" />
+            {t("footer.find_us") || "Tìm Chúng Tôi"}
+          </h3>
+          <div className="rounded-xl overflow-hidden shadow-lg ring-1 ring-primary-foreground/20">
+            <iframe
+              src="https://www.google.com/maps?q=500%2F3+%C4%90o%C3%A0n+V%C4%83n+B%C6%A1%2C+Ph%C6%B0%E1%BB%9Dng+15%2C+Qu%E1%BA%ADn+4%2C+TP.HCM&output=embed"
+              width="100%"
+              height="320"
+              style={{ border: 0 }}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Kiều Sâm - 500/3 Đoàn Văn Bơ, Phường 15, Quận 4, TP.HCM"
+              className="block w-full"
+            />
+          </div>
+        </div>
       </div>
       {/* Copyright */}
       <div className="border-t border-primary-foreground/20 py-4">
-        <div className="container mx-auto px-4 text-center text-sm opacity-80">
-          {t("footer.copyright")}
+        <div className="container mx-auto px-4 text-center text-sm opacity-80 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3">
+          <span>{t("footer.copyright")}</span>
+          <span className="hidden sm:inline opacity-50">·</span>
+          <span>
+            Designed by{" "}
+            <a
+              href="https://github.com/winnguyen1905"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold hover:underline"
+            >
+              winnguyen1905
+            </a>
+          </span>
         </div>
       </div>
     </footer>
