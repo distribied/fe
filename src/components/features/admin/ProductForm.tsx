@@ -56,6 +56,14 @@ export function ProductForm({
     }
   }, [editingProduct]);
 
+  // Always force ratingAverage to 5 (field is hidden from users)
+  useEffect(() => {
+    if (formData.ratingAverage !== 5) {
+      onFormDataChange({ ...formData, ratingAverage: 5 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editingProduct]);
+
   // Auto-generate slug from name
   const handleNameChange = (name: string) => {
     onFormDataChange({
@@ -140,53 +148,33 @@ export function ProductForm({
           <Input
             id="slug"
             value={formData.slug}
-            onChange={(e) =>
-              onFormDataChange({ ...formData, slug: e.target.value })
-            }
             placeholder="auto-generated"
+            disabled
+            readOnly
+            className="bg-muted cursor-not-allowed"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="categoryId">Danh mục</Label>
-          <Select
-            value={formData.categoryId?.toString() || ""}
-            onValueChange={(value) =>
-              onFormDataChange({ ...formData, categoryId: value })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Chọn danh mục" />
-            </SelectTrigger>
-            <SelectContent>
-              {categories.map((category) => (
-                <SelectItem key={category.id} value={category.id.toString()}>
-                  {category.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="price">Giá (VNĐ) *</Label>
-          <Input
-            id="price"
-            type="number"
-            value={formData.price || ""}
-            onChange={(e) =>
-              onFormDataChange({
-                ...formData,
-                price: e.target.value === "" ? 0 : Number(e.target.value),
-              })
-            }
-            placeholder="0"
-            min="0"
-            required
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="categoryId">Danh mục</Label>
+        <Select
+          value={formData.categoryId?.toString() || ""}
+          onValueChange={(value) =>
+            onFormDataChange({ ...formData, categoryId: value })
+          }
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Chọn danh mục" />
+          </SelectTrigger>
+          <SelectContent>
+            {categories.map((category) => (
+              <SelectItem key={category.id} value={category.id.toString()}>
+                {category.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="space-y-2">
@@ -202,44 +190,22 @@ export function ProductForm({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="ratingAverage">Đánh giá (0-5)</Label>
-          <Input
-            id="ratingAverage"
-            type="number"
-            value={formData.ratingAverage || ""}
-            onChange={(e) =>
-              onFormDataChange({
-                ...formData,
-                ratingAverage:
-                  e.target.value === "" ? 0 : Number(e.target.value),
-              })
-            }
-            placeholder="0"
-            min="0"
-            max="5"
-            step="0.1"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="isActive">Trạng thái</Label>
-          <Select
-            value={formData.isActive ? "true" : "false"}
-            onValueChange={(value) =>
-              onFormDataChange({ ...formData, isActive: value === "true" })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="true">Hiện sản phẩm</SelectItem>
-              <SelectItem value="false">Ẩn sản phẩm</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="isActive">Trạng thái</Label>
+        <Select
+          value={formData.isActive ? "true" : "false"}
+          onValueChange={(value) =>
+            onFormDataChange({ ...formData, isActive: value === "true" })
+          }
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="true">Hiện sản phẩm</SelectItem>
+            <SelectItem value="false">Ẩn sản phẩm</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Image Upload Section - At Bottom */}
